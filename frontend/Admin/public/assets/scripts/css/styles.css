@@ -1,0 +1,181 @@
+* {
+    padding: 0;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+html {
+    background-color: #f6f6f6;
+    color: #555;
+    font-family: sans-serif;
+    font-weight: 300;
+    font-size: 120%;
+    text-rendering: optimizeLegibility;
+}
+
+body {
+    margin: 0%;
+    width: 100vw;
+    height: 100vh;
+    overflow: scroll;
+    color: rgba(0,0,0,0.87);
+    background-color: #f2f2f2;
+    line-height: 1.75;
+}
+
+div { 
+    display: block;
+}
+
+article, aside, footer, header, nav, section {
+    display: block;
+}
+
+ul, menu, dir {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+
+/* ------ */
+/* Webkit */
+/* ------ */
+
+.mainLoginInput::-webkit-input-placeholder {
+    font-family: 'myFont', Arial, Helvetica, sans-serif;
+}
+  
+.mainLoginInput:-ms-input-placeholder {
+    font-family: 'myFont', Arial, Helvetica, sans-serif;
+}
+
+.mainLoginInput:-moz-placeholder {
+    font-family: 'myFont', Arial, Helvetica, sans-serif;
+}
+
+.mainLoginInput::-moz-placeholder {
+    font-family: 'myFont', Arial, Helvetica, sans-serif;
+}
+
+
+/* ------------------------- */
+/* Reuseable Components */
+/* ------------------------- */
+
+.row {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.box p {
+    margin: 7% 10%;
+    line-height: 150%;
+    font-weight: 100;
+}
+
+
+.right {
+    float: right !important;
+}
+
+.beta-nav {
+    background-color: #000;
+    position: fixed;
+    z-index: 100;
+}
+
+.z-depth-5 {
+    box-shadow: 
+    0 24px 38px 3px rgba(0,0,0,.14), 
+    0 9px 46px 8px rgba(0,0,0,.12), 
+    0 11px 15px -7px rgba(0,0,0,.2)
+}
+
+.pinned {
+    position: fixed !important;
+}
+
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+
+/* -------------------------- */
+/* NAVIGATION BAR */
+/* -------------------------- */
+nav .nav-wrapper {
+    position: relative;
+    height: 100%;
+}
+
+nav .brand-logo {
+    position: absolute;
+    cursor: pointer;
+    padding: 0 30px;
+    font-size: 1.25rem;
+    display: flex;
+}
+
+nav ul li {
+    float: left;
+    padding: 0;
+
+    transition: background-color .3s;
+}
+
+nav ul a {
+    font-size: 1rem;
+    color: #fff;
+    display: block;
+    padding: 0 15px;
+    cursor: pointer;
+
+    transition: background-color .3s;
+}
+
+nav ul a:hover {
+    color: #febc11;
+}
+
+nav ul {
+    display: inline;
+    margin: 0;
+}
+
+nav a {
+    color: #fff;
+}
+
+nav {
+    color: #fff;
+    width: 100%;
+    height: 56px;
+    line-height: 56px;
+}
+
+ul:not(.browser-default) {
+    padding-left: 0;
+    list-style-type: none;
+}
+
+a {
+    outline: 0;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+li {
+    display: list-item;
+}
+
+.nav-link {
+    padding: 0 30px;
+}
