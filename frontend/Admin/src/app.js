@@ -6,7 +6,7 @@ class AscendersApp extends React.Component{
         return (
             <div>
                 <HeaderNav/>
-                <HeaderHome/>
+                <HeaderBanner/>
             </div>
         );
     }
@@ -33,16 +33,18 @@ class HeaderNav extends React.Component{
     }
 }
 
-class HeaderHome extends React.Component{
+class HeaderBanner extends React.Component{
     constructor(props){
         super(props);
     }
     render(){
         return (
             <div>
-                <header>
-                    <img></img>
-                </header>
+                <section className="heroimage">
+                    <div className="bg-overlay">
+                      <LoginPage/>
+                    </div>
+                </section>
             </div>
         );
     }
@@ -54,14 +56,19 @@ class LoginPage extends React.Component{
     }
     render(){
         return(
-            <div>
-                <label>Username</label>
-                <input type="text" name="username" placeholder="Enter Username" required></input>
-
-                <label>Password</label>
-                <input type="text" name="password" placeholder="Enter Password" required></input>
-
-                <button type="submit">Login</button>
+            <div className="container-login">
+                <form className="container-form">
+                    <label className="container-form-title">Ascenders login</label>
+                    <div className="wrap-input">
+                        <input className="input" type="text" name="email" placeholder="Email" required></input>
+                    </div>
+                    <div className="wrap-input">
+                        <input className="input" type="text" name="password" placeholder="Password" required></input>
+                    </div>
+                     <div className="wrap-input">                   
+                        <button className="input-button" type="submit">Login</button>
+                    </div>
+                </form>               
             </div>
         )
     }
