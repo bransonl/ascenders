@@ -8,7 +8,7 @@ export default class LoginPage extends React.Component{
         return(
             <div className="container-login">
                 <form className="container-form">
-                    <label className="container-form-title">Ascenders login</label>
+                    <label className="container-form-title">Welcome to Ascenders</label>
                     <div className="wrap-input">
                         <input className="input" type="text" name="email" placeholder="Email" required></input>
                     </div>
