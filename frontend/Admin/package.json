@@ -5,6 +5,8 @@
   "author": "Andre Hadianto",
   "license": "MIT",
   "scripts": {
+    "server": "live-server public/",
+    "build": "webpack --watch",
     "start": "node app.js"
   },
   "dependencies": {
