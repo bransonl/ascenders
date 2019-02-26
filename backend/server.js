@@ -1,10 +1,12 @@
-let express = require('express');
-let app = express();
-let port = process.env.PORT || 3000;
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const port = process.env.PORT || 3000;
 
-app.listen(port);
+app.use(bodyParser.json());
 
-let userRoutes = require('./user/user.route.js').routes;
+const userRoutes = require('./user/user.route.js').routes;
 userRoutes(app);
 
+app.listen(port);
 console.log('hello celine');
