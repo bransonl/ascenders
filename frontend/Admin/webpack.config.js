@@ -12,7 +12,10 @@ module.exports = {
             loader: 'babel-loader',
             test: /\.js$/,
             exclude: /node_modules/
-        }]
+        },
+     {
+        test: /\.(png|jpg)$/,
+        loader: 'url-loader?limit=8192' }]
     },
     devtool: 'cheap-module-eval-source-map'
 };
