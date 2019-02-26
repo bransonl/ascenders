@@ -7,8 +7,8 @@ export default class HeaderAdmin extends React.Component{
     render(){
         return (
             <div>
-                <nav className="pinned z-depth-5 beta-nav">
-                    <div className="nav-wrapper row">
+                <nav className="admin-nav">
+                    <div className="nav-wrapper-admin">
                         <a className="brand-logo">ascenders</a>
                         <ul className="right">
                             <li><a className="nav-link-admin" id="messages">Messages</a></li>
