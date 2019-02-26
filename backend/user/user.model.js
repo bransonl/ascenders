@@ -2,7 +2,7 @@ const request = require('request-promise-native');
 
 const env = require('../env.js');
 
-const {apiEndpoint, sharedHeaders} = env;
+const {apiEndpoint, sharedHeaders} = require('../env.js');
 
 async function login(username, password) {
   const options = {

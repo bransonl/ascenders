@@ -7,6 +7,7 @@ const {jwtSecret} = env;
 
 async function login(req, res) {
   const {username, password} = req.body;
+  console.log('login', username, password);
   try {
     const loginResult = await userModel.login(username, password);
     const token = jwt.sign(loginResult, jwtSecret);
