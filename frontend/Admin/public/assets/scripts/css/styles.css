@@ -292,11 +292,12 @@ li {
 }
 
 .container-ticketSubmission {
+    border-radius: 4px;
     position: fixed;
     bottom: 10vh;
     right: 25vw;
     width: 1000px;
-    background-color: #47474750;
+    background-color: #f0f0f0;
 }
 
 .container-form-ticketSubmission,
@@ -320,6 +321,7 @@ li {
     margin-bottom: 20px;
 }
 
+.input-ticketSubmission-textarea,
 .input-ticketSubmission,
 .input {
     font-size: 16px;
@@ -337,10 +339,18 @@ li {
     cursor: text;
 }
 
+.input-ticketSubmission-textarea,
 .input-ticketSubmission {
     border-radius: 2px;
     background: #fff;
-    
+}
+
+.input-ticketSubmission-textarea {
+    height: 100px;
+}
+.input-ticketSubmission-attachment {
+    width: 20%;
+
 }
 
 .input-button-ticketSubmission, 
@@ -362,6 +372,11 @@ li {
     line-height: 1.5;
 
     transition: background-color 0.3s;
+}
+
+.input-button-ticketSubmission {
+    width: 30%;
+    float: right;
 }
 
 .input-button:hover{
