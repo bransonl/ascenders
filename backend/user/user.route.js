@@ -1,3 +1,4 @@
+const auth = require('../auth.js');
 const userController = require('./user.controller.js');
 
 function routes(app) {
@@ -5,7 +6,7 @@ function routes(app) {
     .post(userController.login);
 
   app.route('/logout')
-    .post(userController.logout);
+    .post(auth.validateToken, userController.logout);
 };
 
 module.exports = {

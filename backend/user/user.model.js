@@ -1,11 +1,10 @@
 const request = require('request-promise-native');
+
 const env = require('../env.js');
 
 const {apiEndpoint, sharedHeaders} = env;
 
 async function login(username, password) {
-  console.log(`login: ${username}, ${password}`);
-  console.log(sharedHeaders);
   const options = {
     method: 'GET',
     uri: `${apiEndpoint}/login`,
@@ -19,8 +18,17 @@ async function login(username, password) {
   return await request(options);
 }
 
-async function logout(usename, sessionToken) {
-
+async function logout(sessionToken) {
+  const options = {
+    method: 'POST',
+    uri: `${apiEndpoint}/logout`,
+    headers: {
+      'X-Parse-Session-Token': sessionToken,
+      ...sharedHeaders,
+    },
+    json: true,
+  };
+  return await request(options);
 }
 
 module.exports = {
