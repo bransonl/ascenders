@@ -26,6 +26,25 @@ function validateToken(req, res, next) {
   }
 }
 
+// Assumes JWT token validated using validateToken
+function createRoleCheck(role) {
+  return function checkRole(req, res, next) {
+    const user = req.user;
+    if (!user) {
+      return res.status(401).json({
+        message: 'Unauthenticated',
+      });
+    } else if (user.role !== role) {
+      return res.status(401).json({
+        message: 'Unauthorized',
+      });
+    }
+    next();
+  }
+}
+
+
 module.exports = {
   validateToken,
+  createRoleCheck,
 }

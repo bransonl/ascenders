@@ -7,6 +7,13 @@ function routes(app) {
 
   app.route('/logout')
     .post(auth.validateToken, userController.logout);
+
+  app.route('/users')
+    .post( // Register a user
+      auth.validateToken,
+      auth.createRoleCheck('admin'),
+      userController.register
+    );
 };
 
 module.exports = {

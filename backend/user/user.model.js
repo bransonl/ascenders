@@ -14,7 +14,7 @@ async function login(username, password) {
     },
     headers: sharedHeaders,
     json: true,
-  }
+  };
   return await request(options);
 }
 
@@ -31,7 +31,19 @@ async function logout(sessionToken) {
   return await request(options);
 }
 
+async function register(data) {
+  const options = {
+    method: 'POST',
+    uri: `${apiEndpoint}/users`,
+    headers: sharedHeaders,
+    body: data,
+    json: true,
+  };
+  return await request(options);
+}
+
 module.exports = {
   login,
   logout,
+  register,
 }
