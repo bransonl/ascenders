@@ -5,7 +5,8 @@
   "author": "Andre Hadianto",
   "license": "MIT",
   "scripts": {
-    "server": "live-server public/",
+    "login": "live-server public",
+    "admin": "live-server --open=./public/admin-ticket.html",
     "build": "webpack --watch",
     "start": "node app.js"
   },

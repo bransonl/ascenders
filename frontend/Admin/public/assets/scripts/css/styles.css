@@ -6,6 +6,8 @@
     src: url("./fonts/khyayregular.ttf");
 }
 
+/* ---------------------- */
+
 ::-webkit-scrollbar {
     display: none;
 }
@@ -34,14 +36,6 @@ body {
     color: rgba(0,0,0,0.87);
     background-color: #f2f2f2;
     line-height: 1.75;
-}
-
-div { 
-    display: block;
-}
-
-article, aside, footer, header, nav, section {
-    display: block;
 }
 
 ul, menu, dir {
@@ -95,12 +89,6 @@ ul, menu, dir {
     float: right !important;
 }
 
-.beta-nav {
-    background-color: #000;
-    position: fixed;
-    z-index: 100;
-}
-
 .z-depth-5 {
     box-shadow: 
     0 24px 38px 3px rgba(0,0,0,.14), 
@@ -119,14 +107,41 @@ ul, menu, dir {
     height: 100%;
 }
 
+.under-nav-admin {
+    margin-top: 60px;
+}
+
+.row {
+    width: 1440px;
+}
+
+@media only screen and (max-width: 1280px) {
+    .row {
+        width: 960px;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    .row {
+        width: 480px;
+    }
+}
 
 /* -------------------------- */
 /* NAVIGATION BAR */
 /* -------------------------- */
-nav .nav-wrapper {
+nav .nav-wrapper,
+nav .nav-wrapper-admin {
     position: relative;
     height: 100%;
     font-weight: 100;
+}
+
+nav .nav-wrapper-admin {
+    border-bottom-width: 8px;
+    border-bottom-color: #febc11;
+    border-bottom-style: solid;
+    
 }
 
 nav .brand-logo {
@@ -144,20 +159,6 @@ nav ul li {
     transition: background-color .3s;
 }
 
-nav ul a {
-    font-size: 1rem;
-    color: #fff;
-    display: block;
-    padding: 0 15px;
-    cursor: pointer;
-
-    transition: background-color .3s;
-}
-
-nav ul a:hover {
-    color: #febc11;
-}
-
 nav ul {
     display: inline;
     margin: 0;
@@ -165,6 +166,17 @@ nav ul {
 
 nav a {
     color: #fff;
+}
+
+.beta-nav,
+.admin-nav {
+    background-color: #000;
+    position: fixed;
+    z-index: 100;
+}
+
+.admin-nav {
+    height: 64px;
 }
 
 nav {
@@ -190,9 +202,34 @@ li {
 }
 
 .nav-link {
+    font-size: 1rem;
+    color: #fff;
+    display: block;
+    cursor: pointer;
+
+    transition: background-color .3s;
     padding: 0 30px;
 }
 
+.nav-link:hover {
+    color: #febc11;
+}
+
+.nav-link-admin {
+    font-size: 1rem;
+    color: #fff;
+    display: block;
+    padding: 0 15px;
+    cursor: pointer;
+
+    transition: background-color .3s;
+    transition: color .3s;
+}
+
+.nav-link-admin:hover {
+    color: #000;            /* REPLACE WITH ICONS */
+    background: #febc11;
+}
 
 /* ---------------------- */
 /* BANNER */
@@ -231,7 +268,7 @@ li {
 }
 
 /* -------------------------------- */
-/* LOGIN CONTAINER */
+/* LOGIN CONTAINER - Add Ticket CONTAINER */
 /* -------------------------------- */
 .container-form-title {
     font-size: 24px;
@@ -242,6 +279,7 @@ li {
     padding-bottom: 30px;
 }
 
+.container-ticketSubmission,
 .container-login {
     width: 480px;
     background: #fff;
@@ -251,20 +289,38 @@ li {
     flex-wrap: wrap;
     justify-content: center;
     padding: 20px 40px 40px 40px;
-
 }
 
+.container-ticketSubmission {
+    position: fixed;
+    bottom: 10vh;
+    right: 25vw;
+    width: 1000px;
+    background-color: #47474750;
+}
+
+.container-form-ticketSubmission,
 .container-form {
     width: 480px;
     display: block;
 }
 
+.container-form-ticketSubmission {
+    width: 1000px;
+}
+
+.wrap-input-ticketSubmission,
 .wrap-input {
     position: relative;
     width: 100%;
     margin-bottom: 8px;
 }
 
+.wrap-input-ticketSubmission {
+    margin-bottom: 20px;
+}
+
+.input-ticketSubmission,
 .input {
     font-size: 16px;
     line-height: 1.5;
@@ -281,6 +337,13 @@ li {
     cursor: text;
 }
 
+.input-ticketSubmission {
+    border-radius: 2px;
+    background: #fff;
+    
+}
+
+.input-button-ticketSubmission, 
 .input-button {
     width: 100%;
     border-style: solid;
@@ -289,6 +352,7 @@ li {
     height: 50px;
     margin-top: 20px;
     padding: 0 20px 0 20px;
+    cursor: pointer;
 
     background-color: #febc11;
 
@@ -296,4 +360,40 @@ li {
     font-weight: 400;
     text-transform: uppercase;
     line-height: 1.5;
+
+    transition: background-color 0.3s;
 }
+
+.input-button:hover{
+    background-color: rgb(202, 149, 15);
+}
+
+/* ----------------------- */
+/* ADMIN MANAGEMENTS */
+/* ----------------------- */
+.col {
+    margin: auto;
+}
+
+.ticket-wrapper,
+.preview-wrapper,
+.history-wrapper {
+    height: 100vh;
+
+    background-color: #fff;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #ebebeb;
+
+    padding: 1%;
+
+}
+
+.ticket-wrapper {
+    border-left-width: 0px;
+}
+
+.history-wrapper {
+    border-right-width: 0px;
+}
+

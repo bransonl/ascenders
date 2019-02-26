@@ -1,12 +1,12 @@
 import React from 'react';
-import HeaderNav from './HeaderNav.js'
-import HeaderBanner from './HeaderBanner.js'
+import HeaderLogin from './HeaderLogin.js';
+import HeaderBanner from './HeaderBanner.js';
 
 export default class AscendersApp extends React.Component{
     render(){
         return (
             <div>
-                <HeaderNav/>
+                <HeaderLogin/>
                 <HeaderBanner/>
             </div>
         );
