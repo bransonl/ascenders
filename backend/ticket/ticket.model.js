@@ -8,7 +8,7 @@ async function createTicket(title, body, creator, attachments) {
         method: 'POST',
         uri: `${apiEndpoint}/classes/ticket`,
         headers: sharedHeaders,
-        qs: {
+        body: {
             title,
             body,
             creator,
