@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class HeaderNav extends React.Component{
+export default class HeaderLogin extends React.Component{
     constructor(props){
         super(props);
     }
@@ -9,7 +9,7 @@ export default class HeaderNav extends React.Component{
             <div>
                 <nav className="pinned z-depth-5 beta-nav">
                     <div className="nav-wrapper row">
-                        <a className="brand-logo">ASCENDERS</a>
+                        <a className="brand-logo">ascenders</a>
                         <ul className="right">
                             <li><a className="nav-link">Login</a></li>
                             <li><a className="nav-link">Settings</a></li>
