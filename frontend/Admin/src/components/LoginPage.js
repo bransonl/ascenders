@@ -10,10 +10,10 @@ export default class LoginPage extends React.Component{
                 <form className="container-form">
                     <label className="container-form-title">Welcome to Ascenders</label>
                     <div className="wrap-input">
-                        <input className="input" type="text" name="email" placeholder="Email" required></input>
+                        <input className="input" type="email" name="email" placeholder="Email" required></input>
                     </div>
                     <div className="wrap-input">
-                        <input className="input" type="text" name="password" placeholder="Password" required></input>
+                        <input className="input" type="password" name="password" placeholder="Password" required></input>
                     </div>
                      <div className="wrap-input">                   
                         <button className="input-button" type="submit">Login</button>
