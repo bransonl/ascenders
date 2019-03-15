@@ -10,10 +10,19 @@ export default class HeaderBanner extends React.Component{
             <div>
                 <section className="heroimage">
                     <div className="bg-overlay">
-                      <LoginPage/>
+                        <div className="modern-system">
+                            <p className="bg-title">Modern System</p>
+                            <p>Cool things here</p>
+                        </div>
+                        <div className="ticket-support">
+                            <p className="bg-title">Ticket Support</p>
+                            <p>More cool stuffs here!</p>                        
+                        </div>
+                        <LoginPage/>
                     </div>
                 </section>
             </div>
         );
     }
 }
+

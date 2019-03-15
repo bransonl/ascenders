@@ -16,5 +16,9 @@ module.exports = {
         test: /\.(png|jpg)$/,
         loader: 'url-loader?limit=8192' }]
     },
-    devtool: 'cheap-module-eval-source-map'
+    devtool: 'cheap-module-eval-source-map',
+    devServer: {
+        contentBase: path.join(__dirname, 'public'),
+        historyApiFallback: true
+    }
 };
