@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AscendersApp from './components/AscendersApp.js';
+import AscendersAdminLogin from './components/AscendersAdminLogin.js';
 
-ReactDOM.render(<AscendersApp/>,document.getElementById('app'));
-
+ReactDOM.render(<AscendersAdminLogin/> ,document.getElementById('app'));
