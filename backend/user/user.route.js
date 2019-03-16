@@ -1,8 +1,11 @@
-let userController = require('./user.controller.js');
+const userController = require('./user.controller.js');
 
 function routes(app) {
-  app.route('/hello/:id')
-    .get(userController.hello);
+  app.route('/login')
+    .post(userController.login);
+
+  app.route('/logout')
+    .post(userController.logout);
 };
 
 module.exports = {

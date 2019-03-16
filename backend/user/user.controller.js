@@ -1,10 +1,15 @@
 const userModel = require('./user.model.js');
 
-function hello(req, res) {
-  const user = userModel.getUserById(req.params.id);
-  res.send(`hello ${user.name} with id ${user.id}`);
+async function login(req, res) {
+  const {username, password} = req.body;
+  const loginResult = await userModel.login(username, password);
+  res.send(loginResult);
+}
+
+function logout(req, res) {
 }
 
 module.exports = {
-  hello,
+  login,
+  logout,
 }

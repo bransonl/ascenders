@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AscendersApp from './components/AscendersApp.js';
+import AppRouter from './routers/AppRouter.js'
 
-ReactDOM.render(<AscendersApp/>,document.getElementById('app'));
-
+ReactDOM.render(<AppRouter/> ,document.getElementById('app'));

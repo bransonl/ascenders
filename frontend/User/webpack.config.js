@@ -2,6 +2,7 @@ const path = require('path');
 
 module.exports = {
     entry: './src/app.js',
+//    entry: './src/admin-ticket.js',
     output: {
         path: path.join(__dirname,'public'),
         filename: 'bundle.js'
@@ -16,9 +17,5 @@ module.exports = {
         test: /\.(png|jpg)$/,
         loader: 'url-loader?limit=8192' }]
     },
-    devtool: 'cheap-module-eval-source-map',
-    devServer: {
-        contentBase: path.join(__dirname, 'public'),
-        historyApiFallback: true
-    }
+    devtool: 'cheap-module-eval-source-map'
 };
