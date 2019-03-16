@@ -17,7 +17,8 @@
 /* ------------ */
 :root {
 --background-color: #242426;
---midground-color: #353535;
+/* --midground-color: #353535; */
+--midground-color: #30353e;
 
 --primary-color: #febc11;
 --secondary-color: #000000;
@@ -143,8 +144,11 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 15px;
     height: 100vh;
+    background-image: url('../../img/mojave-night.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    
 }
 
 .container-login {
@@ -154,7 +158,7 @@ p {
     justify-content: flex-start;
     border-radius: 10px;
     display: flex;
-    box-shadow: 0 10px 20px -6px rgba(8, 8, 8, 0.301);
+    box-shadow: 0 0 20px 6px rgba(8, 8, 8, 0.301);
 }
 
 .container-splash {
