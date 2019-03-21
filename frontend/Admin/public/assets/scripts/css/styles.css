@@ -23,6 +23,11 @@
 --primary-color: #febc11;
 --secondary-color: #000000;
 --text-on-black: #e2e2e2;
+
+--success-green: #4dbd74;
+--danger-red: #f86c6b;
+--warning-yellow: #ffc107;
+--info-blue: #63c2de;
 }
 
 
@@ -41,8 +46,8 @@
 html {
     background-color: #f6f6f6;
     color: #555;
-    font-family: "Khyay-Regular", Arial, Helvetica, sans-serif;
-    font-weight: 300;
+    font-family: Helvetica,"Khyay-Regular", Arial, sans-serif;
+    font-weight: 100;
     font-size: 120%;
     text-rendering: optimizeLegibility;
 }
@@ -55,16 +60,6 @@ body {
     color: rgba(0,0,0,0.87);
     background-color: #242426;
     line-height: 1.75;
-}
-
-ul, menu, dir {
-    display: block;
-    list-style-type: disc;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    padding-inline-start: 40px;
 }
 
 p {
@@ -185,6 +180,11 @@ p {
     padding: 0 30px 0 30px;
     color: white;
 }
+.login-splash-text-h3 {
+    margin-top: 0;
+    text-transform: uppercase;
+    font-weight: bold;
+}
 
 .container-form-title {
     font-size: 24px;
@@ -265,3 +265,113 @@ p {
     color: #f8ca57;
 }
 
+
+/* -------------- */
+/* NAVIGATION BAR */
+/* -------------- */
+.nav {
+    position: fixed;
+    z-index: 100;
+    background-color: var(--secondary-color);
+    height: 64px;
+    line-height: 56px;
+    width: 100%;
+    border-bottom-style: solid;
+    border-bottom-color: var(--primary-color);
+    border-bottom-width: 8px;
+}
+nav .nav-wrapper {
+    position: relative;
+    height: 56px;
+}
+
+nav .nav-logo {
+    position: absolute;
+    cursor: pointer;
+    padding: 0 30px;
+    width: auto;
+    height: 40px;
+    margin-top: 8px;
+}
+
+nav .nav-link {
+    margin: 0;
+    height: 56px;
+}
+
+.nav-link-list {
+    width: 130px;
+    display: inline-block;
+    justify-content: center;
+    text-align: center;
+}
+.nav-link-list:hover,
+.nav-link-list a:hover,
+.nav-link-list a:focus {
+    background-color: var(--primary-color);
+    color: white;
+    cursor: pointer;
+}
+.nav-link-list a {
+    display: block;
+    color: var(--primary-color);
+    text-decoration: none;
+    padding-right: 8px;
+}
+
+/* --------------- */
+/* ADMIN BASE PAGE */
+/* --------------- */
+.base-row {
+    margin-top: 64px;
+    background-color: var(--background-color);
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+/* ------- */
+/* SIDEBAR */
+/* ------- */
+.sidebar {
+    flex: 0 0 200px;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    background-color: var(--midground-color);
+}
+
+.sidebar-nav-link {
+    margin: 0;
+    color: var(--text-on-black);
+}
+
+.sidebar-nav-link-list {
+    margin: 0;
+    position: relative;
+}
+.sidebar-nav-link-list a {
+    padding: 0.75rem 1rem;
+    font-size: 80%;
+    display: block;
+    color: var(--text-on-black);
+    text-decoration: none;
+    cursor: pointer;
+}
+.sidebar-nav-link-list a:hover,
+.sidebar-nav-link-list a:focus {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+/* ------------- */
+/* MAIN APP BODY */
+/* ------------- */
+.main-app {
+    display: flex;
+    width: 100vw;
+}
+
+/* --------- */
+/* DASHBOARD */
+/* --------- */

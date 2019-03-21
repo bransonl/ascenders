@@ -6,8 +6,8 @@
   "license": "MIT",
   "scripts": {
     "login": "live-server public",
-    "admin": "live-server --open=./public/admin-ticket.html",
-    "build": "webpack --watch",
+    "build": "webpack-dev-server --watch",
+    "build-prod": "webpack --watch",
     "start": "node app.js"
   },
   "dependencies": {
@@ -24,6 +24,7 @@
     "react-router-dom": "^4.3.1",
     "url-loader": "^1.1.2",
     "validator": "8.0.0",
-    "webpack": "3.1.0"
+    "webpack": "3.1.0",
+    "webpack-dev-server": "2.5.1"
   }
 }
