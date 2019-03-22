@@ -98,6 +98,6 @@ module.exports = {
     getTickets,
     getTicket,
     modifyTicket,
-    // deleteTicket,
+    closeTicket,
 }
 

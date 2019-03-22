@@ -23,11 +23,12 @@ function routes(app) {
         auth.validateToken,
         ticketController.modifyTicket);
 
-    // app.route('ticket/:ticketId')
-    // .delete(ticketController.deleteTicket);
+    app.route('ticket/close/:ticketId')
+    .put(ticketController.closeTicket);
 
     app.route('/ticket/uploadFile')
     .post(
+        // auth.validateToken,
         awsController.uploadFile);
 };
 
