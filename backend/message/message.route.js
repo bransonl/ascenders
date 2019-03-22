@@ -3,9 +3,13 @@ const messageController = require('./message.controller');
 
 function routes(app) {
     app.route('/tickets/:ticketId/comments')
+        .get(
+            auth.validateToken,
+            messageController.getCommentsByTicket,
+        )
         .post(
             auth.validateToken,
-            messageController.addCommentToTicket
+            messageController.addCommentToTicket,
         );
 }
     

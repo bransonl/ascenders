@@ -2,10 +2,11 @@ const request = require('request-promise-native');
 
 const {apiEndpoint, sharedHeaders} = require('../env.js');
 const messageClassPath = `${apiEndpoint}/classes/message`;
+const ticketMessagesClassPath = `${apiEndpoint}/classes/ticketMessages`;
 
 const MessageTypes = Object.freeze({
-    COMMENT: Symbol('comment'),
-    CHAT: Symbol('chat'),
+    COMMENT: 'comment',
+    CHAT: 'chat',
 });
 
 // Stores a message
@@ -24,19 +25,15 @@ async function createMessage(ticketId, sender, message) {
     return await request(options);
 }
 
-async function getTicketMessages(ticketId, type) {
-    const getTicketMessagesOptions = {
+async function getMessageIdsByTicketAndType(ticketId, type) {
+    const options = {
         method: 'GET',
-        uri: `${apiEndpoint}/classes/ticketMessages`,
+        uri: ticketMessagesClassPath,
         headers: sharedHeaders,
-        qs: {
-            where: encodeURIComponent(JSON.stringify({
-                ticketId,
-                type,
-            })),
-        },
+        qs: {where: {ticketId, type}},
+        json: true,
     }
-    const {results} = await request(getTicketMessagesOptions);
+    const {results} = await request(options);
     if (results.length > 1) { // Should only be one of any type for a ticket
         throw `More than one set of messages of type ${type} for ticket ${ticketId}`;
     } else if (results.length === 0) {
@@ -47,31 +44,35 @@ async function getTicketMessages(ticketId, type) {
 }
 
 async function createTicketMessages(ticketId, type, messageIds = []) {
-    const createTicketMessagesOptions = {
+    const existingMessages = await getMessageIdsByTicketAndType(ticketId, type);
+    if (existingMessages !== null) {
+        throw `Existing ticket messages object for type ${type} for ticket ${ticketId}`;
+    }
+    const options = {
         method: 'POST',
-        uri: `${apiEndpoint}/classes/ticketMessages`,
+        uri: ticketMessagesClassPath,
         headers: sharedHeaders,
         body: {ticketId, type, messageIds},
         json: true,
     }
-    return await request(createTicketMessagesOptions);
+    return await request(options);
 }
 
 async function addToTicketMessageIds(objectId, messageIds, messageId) {
-    const updateTicketMessagesOptions = {
+    const options = {
         method: 'PUT',
-        uri: `${apiEndpoint}/classes/ticketMessages/${objectId}`,
+        uri: `${ticketMessagesClassPath}/${objectId}`,
         headers: sharedHeaders,
         body: {messageIds: messageIds.concat(messageId)},
         json: true,
     }
-    return await request(updateTicketMessagesOptions);
+    return await request(options);
 }
 
 module.exports = {
     MessageTypes,
-    createMessage,
-    getTicketMessages,
-    createTicketMessages,
     addToTicketMessageIds,
+    createMessage,
+    createTicketMessages,
+    getMessageIdsByTicketAndType,
 }
