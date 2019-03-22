@@ -26,7 +26,7 @@ export default class AddTicket extends React.Component {
             <div className="col span-1-of-2">
                 <div className="addticket-card">
                     <div className="addticket-card-header">
-                            Add Ticket
+                            <label>Add Ticket</label>
                     </div>
                     <div className="addticket-card-body">
                     <form onSubmit={this.submitTicket}>
