@@ -28,7 +28,7 @@ function routes(app) {
 
     app.route('/ticket/uploadFile')
     .post(
-        // auth.validateToken,
+        auth.validateToken,
         awsController.uploadFile);
 };
 
