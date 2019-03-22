@@ -1,13 +1,11 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 import logo from './resources/accenture-purple-logo.png';
 import IosMail from 'react-ionicons/lib/IosMail';
 import IosLock from 'react-ionicons/lib/IosLock';
 
 export default class AdminLogin extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     login(e) {
         e.preventDefault();
         const username = e.target.elements.username.value;
@@ -34,7 +32,7 @@ export default class AdminLogin extends React.Component {
                         <div className="login-splash-1">
                             <img className="login-splash-logo" src={logo} alt="accenture-purple-logo"></img>
                             <div className="login-splash-text">
-                                <h3>ASCENDERS</h3>
+                                <label className="login-splash-text-h3">Ascenders</label>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec neque tortor. Proin efficitur leo vel ex aliquarn.</p>
                             </div>
                         </div> 
@@ -55,7 +53,7 @@ export default class AdminLogin extends React.Component {
                         <div className="container-form-wrap-input-button">                   
                             <button className="input-button" type="submit">Login</button>
                         </div>
-                        <label className="container-form-label">Forgot your password? <span className="forgot-password">Click Here</span></label>
+                        <label className="container-form-label">Forgot your password? <Link to="/admin"><span className="forgot-password">Click Here</span></Link></label>
                     </form>               
                 </div>
             </div>
