@@ -1,11 +1,14 @@
 const jwt = require('jsonwebtoken');
+
 const env = require('./env.js');
 
 const {jwtSecret} = env;
 
 function validateToken(req, res, next) {
+  console.log('validating token')
   const tokenHeader = req.headers.authorization;
   if (!tokenHeader) {
+    console.log('no token, why no token??')
     return res.status(401).json({
       message: 'Missing token',
     });
@@ -19,6 +22,7 @@ function validateToken(req, res, next) {
           message: 'Invalid token',
         })
       }
+      console.log(`req.user is ${decoded}`);
       req.user = decoded;
       next();
     })
@@ -42,12 +46,6 @@ function createRoleCheck(role) {
   }
 }
 
-// function viewTicketCheck(creator) {
-//     return function checkCreator(req, res, next) {
-//         const creator = req.creator;
-//         // where does user.role come from
-//     }
-// }
 
 module.exports = {
   validateToken,

@@ -3,28 +3,39 @@ const env = require('../env.js');
 
 const {apiEndpoint, sharedHeaders} = env;
 
-async function createTicket(data) {
+async function createTicket(title,body,creator,attachments) {
     const options = { // header of API request to ACNAPI
         method: 'POST',
         uri: `${apiEndpoint}/classes/ticket`,
         headers: sharedHeaders,
-        body: data,
+        body: {
+            title,
+            body,
+            creator,
+            attachments,
+            status: 'open',
+        },
         json: true,
     }
     return await request(options);
 }
 
 async function getTickets(userId) {
-    const options = {
-        method: 'GET',
-        uri: `${apiEndpoint}/classes/ticket/`,
-        qs: {
-            creator: userId,
-            // how to check for admin
-        },
-        headers: sharedHeaders,
-    };
-    return await request(options);
+    console.log(`qs: {"creator":${userId}}`);
+    try {
+        const options = {
+            method: 'GET',
+            uri: `${apiEndpoint}/classes/ticket`,
+            qs: {
+                where: `{"creator":"${userId}"}`,
+                // how to check for admin
+            },
+            headers: sharedHeaders,
+        };
+        return await request(options);
+    } catch (err) {
+        console.log("model error");
+    }
 }
 
 async function getTicket(ticketId) {
@@ -37,6 +48,7 @@ async function getTicket(ticketId) {
 }
 
 async function modifyTicket(ticketId,data) {
+    console.log(data);
     const options = {
         method: 'PUT', 
         uri: `${apiEndpoint}/classes/ticket/${ticketId}`,
@@ -47,16 +59,16 @@ async function modifyTicket(ticketId,data) {
     return await request(options);
 }
 
-// // changes ticket status to 'closed'
-// async function deleteTicket(ticketId) {
-//     const options = {
-//         method: 'PUT',
-//         uri: `${apiEndpoint}/classes/ticket/${ticketId}`,
-//         headers: sharedHeaders,
-//         body: {status: closed}
-//     };
-//     return await request(options);
-// }
+// changes ticket status to 'closed'
+async function closeTicket(ticketId) {
+    const options = {
+        method: 'PUT',
+        uri: `${apiEndpoint}/classes/ticket/${ticketId}`,
+        headers: sharedHeaders,
+        body: {status: closed}
+    };
+    return await request(options);
+}
 
 
 // async function getTags() {
@@ -130,18 +142,17 @@ async function modifyTicket(ticketId,data) {
 //     return await request(options);
 // }
 
-
 module.exports = {
     createTicket,
     getTickets,
     getTicket,
     modifyTicket,
-    // deleteTicket,
+    closeTicket,
 
     // getTags,
     // createTag,
     // getPriorities,
     // createPriority,
     // getStatuses,
-    // createStatus
+    // createStatus,
 }

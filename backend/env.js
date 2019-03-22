@@ -5,10 +5,14 @@ const sharedHeaders = {
   'Server-Token': serverToken,
 };
 const jwtSecret = process.env.JWT_SECRET;
+const secretAccessKey = process.env.ACN_SECRET_ACCESS_KEY;
+const accessKeyId = process.env.ACN_ACCESS_KEY_ID;
 
 module.exports = {
     apiEndpoint,
     jwtSecret,
     serverToken,
     sharedHeaders,
+    secretAccessKey,
+    accessKeyId,
 }
