@@ -1,12 +1,15 @@
 const request = require('request-promise-native');
 
-const env = require('../env.js');
-
 const {apiEndpoint, sharedHeaders} = require('../env.js');
 const messageClassPath = `${apiEndpoint}/classes/message`;
 
+const MessageTypes = Object.freeze({
+    COMMENT: Symbol('comment'),
+    CHAT: Symbol('chat'),
+});
+
 // Stores a message
-async function createMessage(ticketId, type, sender, message) {
+async function createMessage(ticketId, sender, message) {
     const options = {
         method: 'POST',
         uri: messageClassPath,
@@ -66,6 +69,7 @@ async function addToTicketMessageIds(objectId, messageIds, messageId) {
 }
 
 module.exports = {
+    MessageTypes,
     createMessage,
     getTicketMessages,
     createTicketMessages,
