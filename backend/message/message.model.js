@@ -11,6 +11,9 @@ const MessageTypes = Object.freeze({
 
 // Stores a message
 async function createMessage(ticketId, sender, message) {
+    if (!ticketId || !sender || !message) {
+        throw new Error('Missing fields');
+    }
     const options = {
         method: 'POST',
         uri: messageClassPath,
@@ -26,6 +29,9 @@ async function createMessage(ticketId, sender, message) {
 }
 
 async function getMessageIdsByTicketAndType(ticketId, type) {
+    if (!ticketId || !type) {
+        throw new Error('Missing fields');
+    }
     const options = {
         method: 'GET',
         uri: ticketMessagesClassPath,
@@ -44,6 +50,9 @@ async function getMessageIdsByTicketAndType(ticketId, type) {
 }
 
 async function createTicketMessages(ticketId, type, messageIds = []) {
+    if (!ticketId || !type) {
+        throw new Error('Missing fields');
+    }
     const existingMessages = await getMessageIdsByTicketAndType(ticketId, type);
     if (existingMessages !== null) {
         throw `Existing ticket messages object for type ${type} for ticket ${ticketId}`;
@@ -59,6 +68,9 @@ async function createTicketMessages(ticketId, type, messageIds = []) {
 }
 
 async function addToTicketMessageIds(objectId, messageIds, messageId) {
+    if (!objectId || messageIds === undefined || !messageId) {
+        throw new Error('Missing fields');
+    }
     const options = {
         method: 'PUT',
         uri: `${ticketMessagesClassPath}/${objectId}`,

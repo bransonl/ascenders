@@ -3,6 +3,9 @@ const request = require('request-promise-native');
 const {apiEndpoint, sharedHeaders} = require('../env.js');
 
 async function login(username, password) {
+    if (!username || !password) {
+        throw new Error('Missing fields');
+    }
     const options = {
         method: 'GET',
         uri: `${apiEndpoint}/login`,
@@ -17,6 +20,9 @@ async function login(username, password) {
 }
 
 async function logout(sessionToken) {
+    if (!sessionToken) {
+        throw new Error('Missing session token');
+    }
     const options = {
         method: 'POST',
         uri: `${apiEndpoint}/logout`,
@@ -29,7 +35,10 @@ async function logout(sessionToken) {
     return await request(options);
 }
 
-async function register(data) {
+async function register(username, password, role) {
+    if (!username || !password || !role) {
+        throw  new Error('Missing fields');
+    }
     const options = {
         method: 'POST',
         uri: `${apiEndpoint}/users`,
