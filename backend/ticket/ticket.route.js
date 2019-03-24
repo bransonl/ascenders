@@ -23,8 +23,10 @@ function routes(app) {
         auth.validateToken,
         ticketController.modifyTicket);
 
-    app.route('tickets/close/:ticketId')
-    .put(ticketController.closeTicket);
+    app.route('/tickets/close/:ticketId')
+    .put(
+        auth.validateToken,
+        ticketController.closeTicket);
 
     app.route('/tickets/uploadFile')
     .post(

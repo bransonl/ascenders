@@ -2,11 +2,15 @@ const request = require('request-promise-native');
 const env = require('../env.js');
 
 const {apiEndpoint, sharedHeaders} = env;
+const ticketsClassPath = `${apiEndpoint}/classes/tickets`;
 
 async function createTicket(title,body,creator,attachments) {
+    if (!title || !body || !creator || !attachments) {
+        throw new Error('Missing fields');
+    }
     const options = { // header of API request to ACNAPI
         method: 'POST',
-        uri: `${apiEndpoint}/classes/ticket`,
+        uri: ticketsClassPath,
         headers: sharedHeaders,
         body: {
             title,
@@ -21,11 +25,13 @@ async function createTicket(title,body,creator,attachments) {
 }
 
 async function getTickets(userId) {
-    console.log(`qs: {"creator":${userId}}`);
+    if (!userId) {
+        throw new Error('Missing fields');
+    }
     try {
         const options = {
             method: 'GET',
-            uri: `${apiEndpoint}/classes/ticket`,
+            uri: ticketsClassPath,
             qs: {
                 where: `{"creator":"${userId}"}`,
                 // how to check for admin
@@ -39,19 +45,24 @@ async function getTickets(userId) {
 }
 
 async function getTicket(ticketId) {
+    if (!ticketId) {
+        throw new Error('Missing fields');
+    }
     const options = {
         method: 'GET',
-        uri: `${apiEndpoint}/classes/ticket/${ticketId}`,
+        uri: `${ticketsClassPath}/${ticketId}`,
         headers: sharedHeaders,
     }
     return await request(options);
 }
 
 async function modifyTicket(ticketId,data) {
-    console.log(data);
+    if (!ticketId || !data) {
+        throw new Error('Missing fields');
+    }
     const options = {
         method: 'PUT', 
-        uri: `${apiEndpoint}/classes/ticket/${ticketId}`,
+        uri: `${ticketsClassPath}/${ticketId}`,
         headers: sharedHeaders,
         json: true,
         body: data,
@@ -61,11 +72,15 @@ async function modifyTicket(ticketId,data) {
 
 // changes ticket status to 'closed'
 async function closeTicket(ticketId) {
+    if (!ticketId) {
+        throw new Error('Missing fields');
+    }
     const options = {
         method: 'PUT',
-        uri: `${apiEndpoint}/classes/ticket/${ticketId}`,
+        uri: `${ticketsClassPath}/${ticketId}`,
         headers: sharedHeaders,
-        body: {status: closed}
+        json: true,
+        body: {status: 'closed'}
     };
     return await request(options);
 }

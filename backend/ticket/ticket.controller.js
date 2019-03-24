@@ -2,7 +2,7 @@ const ticketModel = require('./ticket.model.js');
 
 async function createTicket(req, res) {
     const user = req.user;
-    const {title, body} = req.body;
+    const {title, body, attachments} = req.body;
     // ensures required fields a filled hurhur
     if (!title || !body) {
         const fieldsMissing = [];
@@ -17,6 +17,7 @@ async function createTicket(req, res) {
         })
     }
     const creator = user.objectId;
+    console.log(user.objectId);
     try { 
         // if conditions met then create ticket
         const createTicketResult = await ticketModel.createTicket(title, body, creator, attachments);
