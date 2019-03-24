@@ -1,11 +1,21 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 
 import logo from './resources/accenture-purple-logo.png';
 import IosMail from 'react-ionicons/lib/IosMail';
 import IosLock from 'react-ionicons/lib/IosLock';
 
 export default class AdminLogin extends React.Component {
+    constructor(props) {
+        super (props);
+        this.login = this.login.bind(this);
+        this.state = {
+            token: null,
+            isAuthenticated: false,
+            // redirectToReferrer: false
+        };
+    }
+
     login(e) {
         e.preventDefault();
         const username = e.target.elements.username.value;
@@ -18,9 +28,18 @@ export default class AdminLogin extends React.Component {
             },
             body: JSON.stringify({username, password}),
         }).then(res => res.json())
-        .then(res => console.log(res))
+        .then(res => {
+            console.log(res);
+            if (res.token !== null) {
+                this.state.token = res.token;
+                this.state.isAuthenticated = true;
+                console.log("Success...");
+                return (
+                    <Redirect to={{pathname: "/admin"}}/>    
+                    );
+            }
+        })
         .catch(err => console.log(err));  
-        e.target.elements.username.value = "";
         e.target.elements.password.value = "";
     }
 

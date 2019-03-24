@@ -23,43 +23,45 @@ export default class AddTicket extends React.Component {
 
     render() {
         return (
-            <div className="col span-1-of-2">
-                <div className="addticket-card">
-                    <div className="addticket-card-header">
-                            <label>Add Ticket</label>
-                    </div>
-                    <div className="addticket-card-body">
-                    <form onSubmit={this.submitTicket}>
-                        <div className="input-wrapper">
-                            <div className="col span-1-of-3">
-                                <label>Creator</label>
-                            </div>
-                            <div className="col span-2-of-3">
-                                <input name="creator" placeholder="Author" type="text" className="addticket-input-creator"/>
-                                <small className="addticket-input-help">Enter your name</small>
-                            </div>
+            <div className="main-app">
+                <div className="col span-1-of-2">
+                    <div className="addticket-card">
+                        <div className="addticket-card-header">
+                                <label>Add Ticket</label>
                         </div>
-                        <div className="input-wrapper">
-                            <div className="col span-1-of-3">
-                                    <label>Title</label>
+                        <div className="addticket-card-body">
+                        <form onSubmit={this.submitTicket}>
+                            <div className="input-wrapper">
+                                <div className="col span-1-of-4">
+                                    <label>Creator</label>
+                                </div>
+                                <div className="col span-3-of-4">
+                                    <input name="creator" placeholder="Author" type="text" className="addticket-input-creator"/>
+                                    <small className="addticket-input-help">Enter your name</small>
+                                </div>
                             </div>
-                            <div className="col span-2-of-3">
-                                <input name="title" placeholder="Title" type="text" className="addticket-input-title"/>
-                                <small className="addticket-input-help">Describe your issue in a short sentence</small>
+                            <div className="input-wrapper">
+                                <div className="col span-1-of-4">
+                                        <label>Title</label>
+                                </div>
+                                <div className="col span-3-of-4">
+                                    <input name="title" placeholder="Title" type="text" className="addticket-input-title"/>
+                                    <small className="addticket-input-help">Describe your issue in a short sentence</small>
+                                </div>
                             </div>
+                            <div className="input-wrapper">
+                                <div className="col span-1-of-4">
+                                        <label>Description</label>
+                                </div>
+                                <div className="col span-3-of-4">
+                                    <textarea name="description" placeholder="Content..." type="text" className="addticket-input-description"/>
+                                </div>
+                            </div>
+                            <div className="input-wrapper">
+                                <button className="addticket-input-button right" type="submit">Submit</button>
+                            </div>
+                        </form>
                         </div>
-                        <div className="input-wrapper">
-                            <div className="col span-1-of-3">
-                                    <label>Description</label>
-                            </div>
-                            <div className="col span-2-of-3">
-                                <textarea name="description" placeholder="Content..." type="text" className="addticket-input-description"/>
-                            </div>
-                        </div>
-                        <div className="input-wrapper">
-                            <button className="addticket-input-button right" type="submit">Submit</button>
-                        </div>
-                    </form>
                     </div>
                 </div>
             </div>
