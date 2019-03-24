@@ -87,11 +87,14 @@ async function getMessageIdsByTicketAndType(ticketId, type) {
 
 async function createTicketMessages(ticketId, type, messageIds = []) {
     if (!ticketId || !type) {
-        throw new Error('Missing fields');
+        throw new ModelError(400, 'Missing fields');
     }
     const existingMessages = await getMessageIdsByTicketAndType(ticketId, type);
     if (existingMessages !== null) {
-        throw `Existing ticket messages object for type ${type} for ticket ${ticketId}`;
+        throw new ModelError(
+            500,
+            `Existing ticket messages object for type ${type} for ticket ${ticketId}`
+        );
     }
     const options = {
         method: 'POST',
@@ -113,7 +116,7 @@ async function createTicketMessages(ticketId, type, messageIds = []) {
 
 async function addToTicketMessageIds(objectId, messageIds, messageId) {
     if (!objectId || messageIds === undefined || !messageId) {
-        throw new Error('Missing fields');
+        throw new ModelError(400, 'Missing fields');
     }
     const options = {
         method: 'PUT',
