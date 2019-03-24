@@ -22,14 +22,14 @@ async function addMessageToTicket(ticketId, type, messageId) {
 async function getCommentsByTicket(req, res) {
     const {ticketId} = req.params;
     try {
-        const result = await messageModel.getMessageIdsByTicketAndType(
+        const result = await messageModel.getMessagesByTicketAndType(
             ticketId,
             messageModel.MessageTypes.COMMENT
         );
         if (result === null) {
-            return res.json({messageIds: []})
+            return res.json({messages: []})
         }
-        return res.json({messageIds: result.messageIds});
+        return res.json(result);
     } catch (err) {
         console.error(err.error);
         return res.status(500).send();
