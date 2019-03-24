@@ -1,6 +1,8 @@
 const request = require('request-promise-native');
 
-const {apiEndpoint, sharedHeaders} = require('../env.js');
+const {apiEndpoint, sharedHeaders} = require('../env');
+const {ModelError} = require('../error');
+
 const messageClassPath = `${apiEndpoint}/classes/message`;
 const ticketMessagesClassPath = `${apiEndpoint}/classes/ticketMessages`;
 
@@ -12,7 +14,7 @@ const MessageTypes = Object.freeze({
 // Stores a message
 async function createMessage(ticketId, sender, message) {
     if (!ticketId || !sender || !message) {
-        throw new Error('Missing fields');
+        throw new ModelError(400, 'Missing fields');
     }
     const options = {
         method: 'POST',
@@ -24,13 +26,17 @@ async function createMessage(ticketId, sender, message) {
             message,
         },
         json: true,
-      };
-    return await request(options);
+    };
+    try {
+        return await request(options);
+    } catch (err) {
+        return new ModelError(err.statusCode, err.error.error);
+    }
 }
 
 async function getMessagesByTicketAndType(ticketId, type) {
     if (!ticketId || !type) {
-        throw new Error('Missing fields');
+        throw new ModelError(400, 'Missing fields');
     }
     const options = {
         method: 'GET',
@@ -41,7 +47,10 @@ async function getMessagesByTicketAndType(ticketId, type) {
     }
     const {results} = await request(options);
     if (results.length > 1) { // Should only be one of any type for a ticket
-        throw `More than one set of messages of type ${type} for ticket ${ticketId}`;
+        throw new ModelError(
+            500,
+            `More than one set of messages of type ${type} for ticket ${ticketId}`
+        );
     } else if (results.length === 0) {
         return null;
     } else {
@@ -54,7 +63,7 @@ async function getMessagesByTicketAndType(ticketId, type) {
 
 async function getMessageIdsByTicketAndType(ticketId, type) {
     if (!ticketId || !type) {
-        throw new Error('Missing fields');
+        throw new ModelError(400, 'Missing fields');
     }
     const options = {
         method: 'GET',
@@ -65,7 +74,10 @@ async function getMessageIdsByTicketAndType(ticketId, type) {
     }
     const {results} = await request(options);
     if (results.length > 1) { // Should only be one of any type for a ticket
-        throw `More than one set of messages of type ${type} for ticket ${ticketId}`;
+        throw new ModelError(
+            500,
+            `More than one set of messages of type ${type} for ticket ${ticketId}`
+        );
     } else if (results.length === 0) {
         return null;
     } else {
