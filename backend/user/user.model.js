@@ -1,7 +1,7 @@
 const request = require('request-promise-native');
 
 const {apiEndpoint, sharedHeaders} = require('../env.js');
-const ModelError = require('../error');
+const {ModelError} = require('../error');
 
 async function login(username, password) {
     if (!username || !password) {

@@ -13,4 +13,6 @@ class ModelError extends Error {
     }
 }
 
-module.exports = ModelError;
+module.exports = {
+    ModelError
+};
