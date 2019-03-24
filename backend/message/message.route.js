@@ -1,15 +1,18 @@
 const auth = require('../auth.js');
-const messageController = require('./message.controller');
+const {MessageController} = require('./message.controller');
+const messageModel = require('./message.model');
+
+const controller = new MessageController(messageModel);
 
 function routes(app) {
     app.route('/tickets/:ticketId/comments')
         .get(
             auth.validateToken,
-            messageController.getCommentsByTicket,
+            controller.getCommentsByTicket,
         )
         .post(
             auth.validateToken,
-            messageController.addCommentToTicket,
+            controller.addCommentToTicket,
         );
 }
     
