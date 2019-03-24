@@ -100,4 +100,28 @@ class AddTicket extends React.Component{
     }
 }
 
+
+// Box for each message / ticket received
+class MessageTemplate extends React.Component{
+    render() {
+        return (
+            <div className="admin-message-container">
+                <div className="admin-message-wrap">
+                    <a className="admin-message-avatar"><img src="" alt="avatar"></img></a>
+                    <div className="admin-message-texts">
+                        <span className="admin-message-sender">Andre Hadianto</span>
+                        <span className="admin-message-sMessage">How do you do?</span>
+                        
+                    </div>
+                    <div className="admin-message-widgets">
+                        <span className="admin-messages-widget-lastRead"></span>
+                    </div>
+
+                </div>
+
+            </div>
+        );
+    }
+}
+
 ReactDOM.render(<AscendersTicket/>,document.getElementById('admin-ticket'));
