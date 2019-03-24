@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 import logo from './resources/accenture-purple-logo.png';
 import IosMail from 'react-ionicons/lib/IosMail';
@@ -12,7 +12,6 @@ export default class AdminLogin extends React.Component {
         this.state = {
             token: null,
             isAuthenticated: false,
-            // redirectToReferrer: false
         };
     }
 
@@ -34,9 +33,6 @@ export default class AdminLogin extends React.Component {
                 this.state.token = res.token;
                 this.state.isAuthenticated = true;
                 console.log("Success...");
-                return (
-                    <Redirect to={{pathname: "/admin"}}/>    
-                    );
             }
         })
         .catch(err => console.log(err));  
@@ -49,7 +45,7 @@ export default class AdminLogin extends React.Component {
                 <div className="container-login">
                     <div className="container-splash">
                         <div className="login-splash-1">
-                            <img className="login-splash-logo" src={logo} alt="accenture-purple-logo"></img>
+                            <img className="login-splash-logo" src={logo} alt="accenture-purple-logo"/>
                             <div className="login-splash-text">
                                 <label className="login-splash-text-h3">Ascenders</label>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec neque tortor. Proin efficitur leo vel ex aliquarn.</p>

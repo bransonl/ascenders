@@ -346,6 +346,8 @@ nav .nav-link {
 /* Main App Body */
 .main-app {
     display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100vw;
     padding: 1rem;
 }
@@ -419,7 +421,8 @@ nav .nav-link {
 
 .addticket-input-creator,
 .addticket-input-title,
-.addticket-input-description {
+.addticket-input-description,
+.addticket-input-attach {
     display: block;
     width: 100%;
     padding: 0.25rem 0.5rem;
@@ -442,6 +445,24 @@ nav .nav-link {
     margin-top: 0.05rem;
     display: block;
     color: #73818f;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.addticket-input-attach{
+    width: 50%;
+    font-size: 0.875rem;
+    color: #5c6873;
+    border: 1px solid #e4e7ea;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    text-align: center;
+}
+.addticket-input-attach:hover {
+    background-color: var(--primary-color);
+    color: black;
 }
 
 .addticket-input-button {
@@ -469,6 +490,26 @@ form .input-wrapper .col {
 /* --------- */
 /* Dashboard */
 /* --------- */
+/* Temp */
+.container-login-tmp {
+    width: 480px;
+    height: 300px;
+    background: var(--midground-color);
+    justify-content: flex-start;
+    border-radius: 10px;
+    display: flex;
+    box-shadow: 0 0 20px 6px rgba(8, 8, 8, 0.301);
+}
+
+.container-splash-tmp {
+    background: var(--secondary-color);
+    text-align: center;
+    width:100%;
+
+    padding-top : 10%;
+}
+
+
 
 /* ------- */
 /* Tickets */

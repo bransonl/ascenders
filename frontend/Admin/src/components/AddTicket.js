@@ -1,14 +1,32 @@
 import React from 'react';
 
 export default class AddTicket extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            creator: null,
+            objectId: null,
+            title: null,
+            text: null,
+            file: null
+        }
+        this.onChange = this.onChange.bind(this);
+        this.fileUpload = this.fileUpload.bind(this);
+    }
+
     submitTicket(e) {
         e.preventDefault();
         const creator = e.target.elements.creator.value;
         const title = e.target.elements.title.value;
         const text = e.target.elements.description.value;
         console.log(creator, "\n", title, "\n", text);
-        fetch('http://127.0.0.1:3000/tickets/:objectId', {
-            method: 'PUT',
+
+        this.fileUpload(this.state.file)
+        .then(res => console.log(res.data))
+        .catch(res => console.log(err));
+
+        fetch('http://127.0.0.1:3000/tickets', {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -20,6 +38,28 @@ export default class AddTicket extends React.Component {
         e.target.elements.title.value = "";
         e.target.elements.description.value = "";
     }
+
+    onChange(e) {
+        this.setState(
+            {
+                file:e.target.files[0]
+            }
+        );
+    }
+
+    fileUpload(file) {
+        const url = ""; //url to upload file to
+        const formData = new FormData();
+        formData.append('file',file);
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        }
+        return postMessage(url, formData, config);
+    }
+
+    
 
     render() {
         return (
@@ -55,6 +95,15 @@ export default class AddTicket extends React.Component {
                                 </div>
                                 <div className="col span-3-of-4">
                                     <textarea name="description" placeholder="Content..." type="text" className="addticket-input-description"/>
+                                </div>
+                            </div>
+                            <div className="input-wrapper">
+                                <div className="col span-1-of-4">
+                                        <label>Attach</label>
+                                </div>
+                                <div className="col span-3-of-4">
+                                    <label for="fileupload" className="addticket-input-attach">Choose File</label>
+                                    <input onChange={this.onChange} name="attach" type="file" id="fileupload"/>
                                 </div>
                             </div>
                             <div className="input-wrapper">
