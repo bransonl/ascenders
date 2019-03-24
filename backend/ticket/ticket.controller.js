@@ -1,9 +1,10 @@
 const ticketModel = require('./ticket.model.js');
 
 async function createTicket(req, res) {
-    const {title, body, creator, attachments} = req.body;
+    const user = req.user;
+    const {title, body, attachments} = req.body;
     // ensures required fields a filled hurhur
-    if (!title || !body || !creator) {
+    if (!title || !body) {
         const fieldsMissing = [];
         if (!title) {
             fieldsMissing.push('title');
@@ -11,13 +12,12 @@ async function createTicket(req, res) {
         if (!body) {
             fieldsMissing.push('body');
         }
-        if (!creator) {
-            fieldsMissing.push('creator');
-        }
         return res.status(400).json({
             message: `Missing ${fieldsMissing.join(`, `)}`,
         })
     }
+    const creator = user.objectId;
+    console.log(user.objectId);
     try { 
         // if conditions met then create ticket
         const createTicketResult = await ticketModel.createTicket(title, body, creator, attachments);
@@ -32,9 +32,10 @@ async function createTicket(req, res) {
 
 async function getTickets(req, res) {
     const user = req.user;
+    console.log(`getting tickets created by user ${user.username}, ${user.objectId}`)
     try {
-        const getTicketsResult = await ticketModelModel.getTickets(user.objectId);
-        return res.json(getTicketsResult);
+        const getTicketsResult = await ticketModel.getTickets(user.objectId);
+        return res.send(getTicketsResult);
     } catch (err) {
         return res.status(err.statusCode).json({
             message: err.error.error,
@@ -56,11 +57,15 @@ async function getTicket(req, res) {
 
 async function modifyTicket(req, res) {
     const ticketId = req.params.ticketId;
-    const {data} = req.body;
+    const data = req.body;
+    console.log(`controller req.body ${req.body}`);
+    console.log(`controller data ${data}`);
     try {
         const modifyTicketResult = await ticketModel.modifyTicket(ticketId,data);
+        const getTicketResult = await ticketModel.getTicket(ticketId);
         return res.status(200).json({
             message: 'Updated',
+            getTicketResult,
         });
     } catch (err) {
         return res.status(err.statusCode).json({
@@ -69,20 +74,19 @@ async function modifyTicket(req, res) {
     }
 }
 
-// // close ticket instead of deleting
-// async function deleteTicket(req, res) {
-//     const ticketId = req.params.ticketId;
-//     try {
-//         const deleteTicketResult = await ticketModel.deleteTicket(ticketId);
-//         return res.status(200).json({
-//             message: 'Deleted',
-//         });
-//     } catch (err) {
-//         return res.status(err.statusCode).json({
-//             message: err.error.error,
-//         });
-//     }
-// }
+async function closeTicket(req, res) {
+    const ticketId = req.params.ticketId;
+    try {
+        const closeTicketResult = await ticketModel.closeTicket(ticketId);
+        return res.status(200).json({
+            message: 'Closed',
+        });
+    } catch (err) {
+        return res.status(err.statusCode).json({
+            message: err.error.error,
+        });
+    }
+}
 
 // async function createTag(req, res) {
 //     // should tags be stored as string[] in backend? or just classes/tag
@@ -95,6 +99,6 @@ module.exports = {
     getTickets,
     getTicket,
     modifyTicket,
-    // deleteTicket,
+    closeTicket,
 }
 
