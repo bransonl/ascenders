@@ -22,7 +22,7 @@ export default class Ticket extends React.Component {
                             <Link to="/admin/tickets/#/all" className="ticket-summary-all">
 
                                 <div className="ticket-summary-all-number">
-                                    <span className="ticket-summary-number">0</span>
+                                    <span className="ticket-summary-number">1</span>
                                 </div>
 
                                 <div className="ticket-summary-all-label">
@@ -32,9 +32,17 @@ export default class Ticket extends React.Component {
                             </Link>
                         </div>
                         <div className="ticket-list-container">
-        
-                            <div className="ticket-list">
-                            
+                        
+                            <div className="ticket-card">
+                                <div className="col span-2-of-3">
+                                    <div className="ticket-card-author"><label>branson_admin</label></div>
+                                    <div className="ticket-card-title"><small>Feature Demo for PM3</small></div>
+                                </div>
+                                <div className="col span-1-of-3">
+                                    <div className="ticket-card-status">
+                                        <a className="badge" data-badge="1">.</a>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>

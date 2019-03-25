@@ -13,27 +13,28 @@ export default class AddTicket extends React.Component {
         this.onChange = this.onChange.bind(this);
         this.fileUpload = this.fileUpload.bind(this);
     }
+    // static userToken = UserToken.token;
 
     submitTicket(e) {
         e.preventDefault();
-        const creator = e.target.elements.creator.value;
         const title = e.target.elements.title.value;
-        const text = e.target.elements.description.value;
+        const body = e.target.elements.description.value;
         console.log(creator, "\n", title, "\n", text);
+
+        // fetch('http://127.0.0.1:3000/tickets/uploadFile', {
+        //     method: 'POST',
+        //     headers: {
+        //         Authorization: 'Bearer' + userToken
+        //     },
+        //     body: JSON.stringify({title, body})
+        // }).then(res => res.json())
+        // .then(res => console.log(res))
+        // .catch(res => console.log(err));
 
         this.fileUpload(this.state.file)
         .then(res => console.log(res.data))
         .catch(res => console.log(err));
 
-        fetch('http://127.0.0.1:3000/tickets', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({creator, title, text}),
-        }).then(res => res.json())
-        .then(res => console.log(res))
-        .catch(res => console.log(err));
         e.target.elements.creator.value = "";
         e.target.elements.title.value = "";
         e.target.elements.description.value = "";
