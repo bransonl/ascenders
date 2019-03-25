@@ -1,29 +1,69 @@
 const request = require('request-promise-native');
-const env = require('../env.js');
 
-const {apiEndpoint, sharedHeaders} = env;
+const {apiEndpoint, sharedHeaders} = require('../env.js');
+const {ModelError} = require('../error');
 
 async function login(username, password) {
-  console.log(`login: ${username}, ${password}`);
-  console.log(sharedHeaders);
-  const options = {
-    method: 'GET',
-    uri: `${apiEndpoint}/login`,
-    qs: {
-      username,
-      password,
-    },
-    headers: sharedHeaders,
-    json: true,
-  }
-  return await request(options);
+    if (!username || !password) {
+        throw new ModelError(400, 'Missing fields');
+    }
+    const options = {
+        method: 'GET',
+        uri: `${apiEndpoint}/login`,
+        qs: {
+            username,
+            password,
+        },
+        headers: sharedHeaders,
+        json: true,
+    };
+    try {
+        return await request(options);
+    } catch (err) {
+        throw new ModelError(err.statusCode, err.error.error);
+    }
 }
 
-async function logout(usename, sessionToken) {
+async function logout(sessionToken) {
+    if (!sessionToken) {
+        throw new ModelError(400, 'Missing session token');
+    }
+    const options = {
+        method: 'POST',
+        uri: `${apiEndpoint}/logout`,
+        headers: {
+            'X-Parse-Session-Token': sessionToken,
+            ...sharedHeaders,
+        },
+        json: true,
+    };
+    try {
+        return await request(options);
+    } catch (err) {
+        throw new ModelError(err.statusCode, err.error.error);
+    }
+}
 
+async function register(username, password, role) {
+    if (!username || !password || !role) {
+        throw new ModelError(400, 'Missing fields');
+    }
+    const options = {
+        method: 'POST',
+        uri: `${apiEndpoint}/users`,
+        headers: sharedHeaders,
+        body: data,
+        json: true,
+    };
+    try {
+        return await request(options);
+    } catch (err) {
+        throw new ModelError(err.statusCode, err.error.error);
+    }
 }
 
 module.exports = {
-  login,
-  logout,
+    login,
+    logout,
+    register,
 }
