@@ -15,12 +15,12 @@ export default class AscendersAdminHome extends React.Component {
                     <NavigationBar/>
                         <div className="base-row">
                             <Sidebar/>
-                                <Switch>
-                                    <Route path="/admin/dashboard" component={Dashboard}/>
-                                    <Route path="/admin/tickets" component={Ticket}/>
-                                    <Route path="/admin/messages" component={Dashboard}/>
-                                    <Route path="/admin/addticket" component={AddTicket}/>
-                                </Switch>
+                            <Switch>
+                                <Route path="/admin/dashboard" component={Dashboard}/>
+                                <Route path="/admin/tickets" component={Ticket}/>
+                                <Route path="/admin/messages" component={Dashboard}/>
+                                <Route path="/admin/addticket" component={AddTicket}/>
+                            </Switch>
                         </div>
                 </div>
             </BrowserRouter>

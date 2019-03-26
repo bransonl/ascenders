@@ -5,15 +5,14 @@ import logo from './resources/accenture-purple-logo.png';
 import IosMail from 'react-ionicons/lib/IosMail';
 import IosLock from 'react-ionicons/lib/IosLock';
 
+import {AppContext} from './AppContext.js';
 
-export default class AdminLogin extends React.Component {
+class AdminLogin extends React.Component {
     constructor(props) {
         super (props);
         this.login = this.login.bind(this);
         this.state = {
             redirectToHome: false,
-            token: undefined,
-            isAuthenticated: false,
         };
     }
 
@@ -29,12 +28,12 @@ export default class AdminLogin extends React.Component {
             body: JSON.stringify({username, password}),
         }).then(res => res.json())
         .then(res => {
-            console.log(res);
-            console.log(this.state);
-            console.log(res.token);
+            // console.log(res);
+            // console.log(this.state);
             if (res.token !== undefined) {
-                this.setState({token: res.token});
-                this.setState({isAuthenticated: true});
+                this.context.isAuthenticated = true;
+                this.context.token = res.token;
+                console.log("Context state: ", this.context);
                 console.log("Authentication success...");
                 this.setState({redirectToHome: true});
             } else {
@@ -49,7 +48,7 @@ export default class AdminLogin extends React.Component {
     render() {
         if (this.state.redirectToHome === true) {
             return (<Redirect to={'/admin'}/>);
-        }
+        } else {
         return (
             <div className="adminLogin">
                 <div className="container-login">
@@ -92,6 +91,9 @@ export default class AdminLogin extends React.Component {
                     </form>               
                 </div>
             </div>
-        );
+        );}
     }
 }
+
+AdminLogin.contextType = AppContext;
+export default AdminLogin;
