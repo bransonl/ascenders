@@ -1,37 +1,33 @@
-const auth = require('../auth.js');
-const ticketController = require('./ticket.controller.js');
-const awsController = require('../aws/aws.controller.js');
+const auth = require('../auth');
+const ticketModel = require('./ticket.model');
+const {TicketController} = require('./ticket.controller');
+
+const ticketController = new TicketController(ticketModel)
 
 function routes(app) {
     app.route('/tickets') // define endpoint of backend
     .post( // to make this API call
         auth.validateToken,
-        ticketController.createTicket); 
-
-    app.route('/tickets')
+        ticketController.createTicket
+        )
     .get(
         auth.validateToken,
-        ticketController.getTickets);
-    
+        ticketController.getTickets
+        );
     app.route('/tickets/:ticketId')
     .get(
         auth.validateToken,
-        ticketController.getTicket);
-
-    app.route('/tickets/:ticketId')
+        ticketController.getTicket
+        )
     .put(
         auth.validateToken,
-        ticketController.modifyTicket);
-
+        ticketController.modifyTicket
+        );
     app.route('/tickets/close/:ticketId')
     .put(
         auth.validateToken,
-        ticketController.closeTicket);
-
-    app.route('/tickets/uploadFile')
-    .post(
-        auth.validateToken,
-        awsController.uploadFile);
+        ticketController.closeTicket
+        );
 };
 
 module.exports = {
