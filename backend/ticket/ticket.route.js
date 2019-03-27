@@ -1,30 +1,33 @@
-const auth = require('../auth.js');
-const ticketController = require('./ticket.controller.js');
+const auth = require('../auth');
+const ticketModel = require('./ticket.model');
+const {TicketController} = require('./ticket.controller');
+
+const ticketController = new TicketController(ticketModel)
 
 function routes(app) {
-    app.route('/ticket') // define endpoint of backend
+    app.route('/tickets') // define endpoint of backend
     .post( // to make this API call
-        auth.validateToken,        
+        auth.validateToken,
         ticketController.createTicket
-        ); 
-
-    app.route('/user/tickets')
+        )
     .get(
         auth.validateToken,
-        ticketController.getTickets);
-    
-    app.route('/ticket/:ticketId')
+        ticketController.getTickets
+        );
+    app.route('/tickets/:ticketId')
     .get(
         auth.validateToken,
-        ticketController.getTicket);
-
-    app.route('/ticket/:ticketId')
+        ticketController.getTicket
+        )
     .put(
         auth.validateToken,
-        ticketController.modifyTicket);
-
-    // app.route('ticket/:ticketId')
-    // .delete(ticketController.deleteTicket);
+        ticketController.modifyTicket
+        );
+    app.route('/tickets/close/:ticketId')
+    .put(
+        auth.validateToken,
+        ticketController.closeTicket
+        );
 };
 
 module.exports = {

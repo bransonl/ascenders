@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+
 const env = require('./env.js');
 
 const {jwtSecret} = env;
@@ -42,12 +43,6 @@ function createRoleCheck(role) {
     }
 }
 
-// function viewTicketCheck(creator) {
-//     return function checkCreator(req, res, next) {
-//         const creator = req.creator;
-//         // where does user.role come from
-//     }
-// }
 
 module.exports = {
     validateToken,

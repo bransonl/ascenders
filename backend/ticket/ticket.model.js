@@ -1,147 +1,110 @@
 const request = require('request-promise-native');
-const env = require('../env.js');
 
-const {apiEndpoint, sharedHeaders} = env;
+const {apiEndpoint, sharedHeaders} = require('../env.js');
+const {ModelError} = require('../error');
+const ticketsClassPath = `${apiEndpoint}/classes/tickets`;
 
-async function createTicket(data) {
+async function createTicket(title,body,creator,attachments) {
+    if (!title || !body || !creator || !attachments) {
+        throw new ModelError(400, 'Missing fields');
+    }
     const options = { // header of API request to ACNAPI
         method: 'POST',
-        uri: `${apiEndpoint}/classes/ticket`,
+        uri: ticketsClassPath,
         headers: sharedHeaders,
-        body: data,
+        body: {
+            title,
+            body,
+            creator,
+            attachments,
+            status: 'open',
+        },
         json: true,
     }
-    return await request(options);
+    try {
+        return await request(options);
+    } catch (err) {
+        throw new ModelError(err.statusCode, err.error.error);
+    }
 }
 
 async function getTickets(userId) {
+    if (!userId) {
+        throw new Error(400, 'Missing fields');
+    }
     const options = {
         method: 'GET',
-        uri: `${apiEndpoint}/classes/ticket/`,
+        uri: ticketsClassPath,
         qs: {
-            creator: userId,
+            where: `{"creator":"${userId}"}`,
             // how to check for admin
         },
         headers: sharedHeaders,
     };
-    return await request(options);
+    try {
+        return await request(options);
+    } catch (err) {
+        return new ModelError(err.statusCode, err.error.error);
+    }
 }
 
 async function getTicket(ticketId) {
+    if (!ticketId) {
+        throw new ModelError(400, 'Missing fields');
+    }
     const options = {
         method: 'GET',
-        uri: `${apiEndpoint}/classes/ticket/${ticketId}`,
+        uri: `${ticketsClassPath}/${ticketId}`,
         headers: sharedHeaders,
     }
-    return await request(options);
+    try {
+        return await request(options);
+    } catch(err) {
+        return new ModelError(err.statusCode, err.error.error);
+    }
 }
 
 async function modifyTicket(ticketId,data) {
+    if (!ticketId || !data) {
+        throw new ModelError(400,'Missing fields');
+    }
     const options = {
         method: 'PUT', 
-        uri: `${apiEndpoint}/classes/ticket/${ticketId}`,
+        uri: `${ticketsClassPath}/${ticketId}`,
         headers: sharedHeaders,
         json: true,
         body: data,
     };
-    return await request(options);
+    try {
+        return await request(options);
+    } catch(err) {
+        return new ModelError(err.statusCode, err.error.error);
+    }
 }
 
-// // changes ticket status to 'closed'
-// async function deleteTicket(ticketId) {
-//     const options = {
-//         method: 'PUT',
-//         uri: `${apiEndpoint}/classes/ticket/${ticketId}`,
-//         headers: sharedHeaders,
-//         body: {status: closed}
-//     };
-//     return await request(options);
-// }
-
-
-// async function getTags() {
-//     const options = {
-//         method = 'GET',
-//         uri: `${apiEndpoint}/classes/tag`,
-//         headers: sharedHeaders,
-//     };
-//     return await request(options);
-// }
-
-// //create new type of tag for ticket
-// async function createTag(name) {
-//     const options = {
-//         method = 'POST',
-//         uri: `${apiEndpoint}/classes/tag`,
-//         headers: sharedHeaders,
-//         json: true,
-//         body: {
-//             name,
-//         }
-//     };
-//     return await request(options);
-// }
-
-// async function getPriorities() {
-//     const options = {
-//         method = 'GET',
-//         uri: `${apiEndpoint}/classes/priority`,
-//         headers: sharedHeaders,
-//     };
-//     return await request(options);
-// }
-
-// //create new type of priority for ticket
-// async function createPriority(name,colour) {
-//     const options = {
-//         method = 'POST',
-//         uri: `${apiEndpoint}/classes/priority`,
-//         headers: sharedHeaders,
-//         json: true,
-//         body: {
-//             name,
-//             colour,
-//         },
-//     };
-//     return await request(options);
-// }
-
-// async function getStatuses() {
-//     const options = {
-//         method = 'GET',
-//         uri: `${apiEndpoint}/classes/status`,
-//         headers: sharedHeaders,
-//     };
-//     return await request(options);
-// }
-
-// //create new type of status for ticket
-// async function createStatus(name,colour) {
-//     const options = {
-//         method = 'POST',
-//         uri: `${apiEndpoint}/classes/status`,
-//         headers: sharedHeaders,
-//         json: true,
-//         body: {
-//             name,
-//             colour,
-//         },
-//     };
-//     return await request(options);
-// }
-
+// changes ticket status to 'closed'
+async function closeTicket(ticketId) {
+    if (!ticketId) {
+        throw new ModelError(400,'Missing fields');
+    }
+    const options = {
+        method: 'PUT',
+        uri: `${ticketsClassPath}/${ticketId}`,
+        headers: sharedHeaders,
+        json: true,
+        body: {status: 'closed'}
+    };
+    try {
+        return await request(options);
+    } catch(err) {
+        return new ModelError(err.statusCode, err.error.error);
+    }
+}
 
 module.exports = {
     createTicket,
     getTickets,
     getTicket,
     modifyTicket,
-    // deleteTicket,
-
-    // getTags,
-    // createTag,
-    // getPriorities,
-    // createPriority,
-    // getStatuses,
-    // createStatus
+    closeTicket,
 }

@@ -70,6 +70,33 @@ class UserController {
     }
 }
 
+async function register(req, res) {
+    const {username, password, role, ...rest} = req.body;
+    if (!username || !password || !role) {
+        const fieldsMissing = [];
+        if (!username) {
+        fieldsMissing.push('username');
+        }
+        if (!password) {
+        fieldsMissing.push('password');
+        }
+        if (!role) {
+        fieldsMissing.push('role');
+        }
+        return res.status(400).json({
+        message: `Missing ${fieldsMissing.join(', ')}`,
+        });
+    }
+    try {
+        const registerResult = await userModel.register(req.body);
+        return res.json(registerResult);
+    } catch (err) {
+        return res.status(err.statusCode).json({
+            message: err.error.error,
+        });
+    }
+}
+
 module.exports = {
     UserController
 }
