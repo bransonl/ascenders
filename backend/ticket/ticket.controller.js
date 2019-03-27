@@ -1,104 +1,91 @@
-const ticketModel = require('./ticket.model.js');
+class TicketController {
+    constructor(model) {
+        this._model = model;
 
-async function createTicket(req, res) {
-    const user = req.user;
-    const {title, body, attachments} = req.body;
-    // ensures required fields a filled hurhur
-    if (!title || !body) {
-        const fieldsMissing = [];
-        if (!title) {
-            fieldsMissing.push('title');
+        this.createTicket = this.createTicket.bind(this);
+        this.getTickets = this.getTickets.bind(this);
+        this.getTicket = this.getTicket.bind(this);
+        this.modifyTicket = this.modifyTicket.bind(this);
+        this.closeTicket = this.closeTicket.bind(this);
+    }
+
+    async createTicket(req, res) {
+        req.body.creator = req.user.objectId;
+        const {title, body, creator, attachments} = req.body;
+        if (!title || !body) {
+            const fieldsMissing = [];
+            if (!title) {
+                fieldsMissing.push('title');
+            }
+            if (!body) {
+                fieldsMissing.push('body');
+            }
+            if (!creator) {
+                fieldsMissing.push('creator');
+            }
+            return res.status(400).json({
+                message: `Missing ${fieldsMissing.join(`, `)}`,
+            });
         }
-        if (!body) {
-            fieldsMissing.push('body');
+        try { 
+            const createTicketResult = await this._model.createTicket(title, body, creator, attachments);
+            return res.status(200).json(createTicketResult);
+        } catch (err) {
+            return res.status(500).send();
         }
-        return res.status(400).json({
-            message: `Missing ${fieldsMissing.join(`, `)}`,
-        })
     }
-    const creator = user.objectId;
-    console.log(user.objectId);
-    try { 
-        // if conditions met then create ticket
-        const createTicketResult = await ticketModel.createTicket(title, body, creator, attachments);
-        return res.json(createTicketResult);
-    } catch (err) {
-        // if error then send error message
-        return res.status(err.statusCode).json({
-            message: err.error.error,
-        });
-    }
-}
 
-async function getTickets(req, res) {
-    const user = req.user;
-    console.log(`getting tickets created by user ${user.username}, ${user.objectId}`)
-    try {
-        const getTicketsResult = await ticketModel.getTickets(user.objectId);
-        return res.send(getTicketsResult);
-    } catch (err) {
-        return res.status(err.statusCode).json({
-            message: err.error.error,
-        });
+    async getTickets(req, res) {
+        const userId = req.user.objectId;
+        try {
+            const getTicketsResult = await this._model.getTickets(userId);
+            return res.status(200).json(getTicketsResult);
+        } catch (err) {
+            return res.status(500).send();
+        }
     }
-}
 
-async function getTicket(req, res) {
-    const ticketId = req.params.ticketId;
-    try {
-        const getTicketResult = await ticketModel.getTicket(ticketId);
-        return res.json(getTicketResult);
-    } catch (err) {
-        return res.status(err.statusCode).json({
-            message: err.error.error,
-        });
+    async getTicket(req, res) {
+        const ticketId = req.params.ticketId;
+        try {
+            const getTicketResult = await this._model.getTicket(ticketId);
+            return res.status(200).json(getTicketResult);
+        } catch (err) {
+            return res.status(500).send();
+        }
     }
-}
 
-async function modifyTicket(req, res) {
-    const ticketId = req.params.ticketId;
-    const data = req.body;
-    console.log(`controller req.body ${req.body}`);
-    console.log(`controller data ${data}`);
-    try {
-        const modifyTicketResult = await ticketModel.modifyTicket(ticketId,data);
-        const getTicketResult = await ticketModel.getTicket(ticketId);
-        return res.status(200).json({
-            message: 'Updated',
-            getTicketResult,
-        });
-    } catch (err) {
-        return res.status(err.statusCode).json({
-            message: err.error.error,
-        });
+    async modifyTicket(req, res) {
+        const ticketId = req.params.ticketId;
+        const data = req.body;
+        try {
+            const modifyTicketResult = await this._model.modifyTicket(ticketId,data);
+            return res.status(200).json({modifyTicketResult});
+        } catch (err) {
+            return res.status(500).send();
+        }
     }
-}
 
-async function closeTicket(req, res) {
-    const ticketId = req.params.ticketId;
-    try {
-        const closeTicketResult = await ticketModel.closeTicket(ticketId);
-        return res.status(200).json({
-            message: 'Closed',
-        });
-    } catch (err) {
-        return res.status(err.statusCode).json({
-            message: err.error.error,
-        });
+    async closeTicket(req, res) {
+        const ticketId = req.params.ticketId;
+        try {
+            const closeTicketResult = await this._model.closeTicket(ticketId);
+            return res.status(200).json({
+                message: 'Closed',
+            });
+        } catch (err) {
+            return res.status(500).send();
+        }
     }
-}
 
-// async function createTag(req, res) {
-//     // should tags be stored as string[] in backend? or just classes/tag
-//     // ditto priority and status
-//     // check if tag with same name already exists
-// }
+    // async createTag(req, res) {
+    //     // should tags be stored as string[] in backend? or just classes/tag
+    //     // ditto priority and status
+    //     // check if tag with same name already exists
+    // }
+}
 
 module.exports = {
-    createTicket,
-    getTickets,
-    getTicket,
-    modifyTicket,
-    closeTicket,
+    TicketController,
 }
 

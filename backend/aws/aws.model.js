@@ -11,8 +11,6 @@ aws.config.update({
     accessKeyId,
     region: 'us-east-1',
 });
-console.log(secretAccessKey);
-console.log(accessKeyId);
 
 const s3 = new aws.S3();
 
@@ -41,7 +39,6 @@ const uploadFile = multer({
         cb(null, {fieldName: 'TESTING_METADATA'});
     },
     key: function (req, file, cb) {
-        console.log(file);
         try {
             const suffix = fileFilter(file);
             const fileName = Date.now().toString() + suffix;
