@@ -1,16 +1,38 @@
 import React from 'react';
-import {BrowserRouter, Route, Switch, Link} from 'react-router-dom';
-import NotFoundPage from '../components/NotFoundPage.js';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import AscendersAdminLogin from '../components/AscendersAdminLogin.js';
+import AscendersAdminHome from '../components/AscendersAdminHome.js';
+import NotFoundPage from '../components/NotFoundPage.js';
 
+import {AppContext} from '../components/AppContext.js';
 
-const AppRouter = () => (
-    <BrowserRouter>
-        <Switch>
-            <Route path="/" component={AscendersAdminLogin} exact={true}/>
-            <Route component={NotFoundPage}/>
-        </Switch>
-    </BrowserRouter>
-);
+class AppRouter extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            token: undefined,
+            isAuthenticated: false
+        }
+    }
+
+    render() {
+        return (
+            <AppContext.Provider
+                value={this.state}
+            >
+                <BrowserRouter>
+                <div>
+                    <Switch>
+                        <Route exact path="/" component={AscendersAdminLogin}/>
+                        <Route path="/admin" component={AscendersAdminHome}/>
+                        <Route component={NotFoundPage}/>
+                    </Switch>
+                </div>
+                </BrowserRouter>
+            </AppContext.Provider>
+        );
+    }
+};
+
 
 export default AppRouter;
