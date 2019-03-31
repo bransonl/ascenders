@@ -5,8 +5,11 @@ const {ModelError} = require('../error');
 const ticketsClassPath = `${apiEndpoint}/classes/tickets`;
 
 async function createTicket(title,body,creator,attachments) {
-    if (!title || !body || !creator || !attachments) {
+    if (!title || !body || !creator) {
         throw new ModelError(400, 'Missing fields');
+    }
+    if (!attachments) {
+        attachments = '';
     }
     const options = { // header of API request to ACNAPI
         method: 'POST',
@@ -28,7 +31,7 @@ async function createTicket(title,body,creator,attachments) {
     }
 }
 
-async function getTickets(userId) {
+async function getUserTickets(userId) {
     if (!userId) {
         throw new Error(400, 'Missing fields');
     }
@@ -37,8 +40,20 @@ async function getTickets(userId) {
         uri: ticketsClassPath,
         qs: {
             where: `{"creator":"${userId}"}`,
-            // how to check for admin
         },
+        headers: sharedHeaders,
+    };
+    try {
+        return await request(options);
+    } catch (err) {
+        return new ModelError(err.statusCode, err.error.error);
+    }
+}
+
+async function getAllTickets() {
+    const options = {
+        method: 'GET',
+        uri: ticketsClassPath,
         headers: sharedHeaders,
     };
     try {
@@ -58,7 +73,7 @@ async function getTicket(ticketId) {
         headers: sharedHeaders,
     }
     try {
-        return await request(options);
+        return JSON.parse(await request(options));
     } catch(err) {
         return new ModelError(err.statusCode, err.error.error);
     }
@@ -76,7 +91,7 @@ async function modifyTicket(ticketId,data) {
         body: data,
     };
     try {
-        return await request(options);
+        return request(options);
     } catch(err) {
         return new ModelError(err.statusCode, err.error.error);
     }
@@ -103,7 +118,8 @@ async function closeTicket(ticketId) {
 
 module.exports = {
     createTicket,
-    getTickets,
+    getUserTickets,
+    getAllTickets,
     getTicket,
     modifyTicket,
     closeTicket,
