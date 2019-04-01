@@ -5,7 +5,7 @@ import Sidebar from './Sidebar.js';
 import Dashboard from './Dashboard.js';
 import Ticket from './Ticket.js';
 import AddTicket from './AddTicket.js';
-
+import Messages from './Messages.js';
 
 export default class AscendersAdminHome extends React.Component {
     render() {
@@ -18,7 +18,7 @@ export default class AscendersAdminHome extends React.Component {
                             <Switch>
                                 <Route path="/admin/dashboard" component={Dashboard}/>
                                 <Route path="/admin/tickets" component={Ticket}/>
-                                <Route path="/admin/messages" component={Dashboard}/>
+                                <Route path="/admin/messages" component={Messages}/>
                                 <Route path="/admin/addticket" component={AddTicket}/>
                             </Switch>
                         </div>
