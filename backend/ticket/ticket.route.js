@@ -3,9 +3,12 @@ const ticketModel = require('./ticket.model');
 const {TicketController} = require('./ticket.controller');
 const awsModel = require('../aws/aws.model');
 const {AwsController} = require('../aws/aws.controller');
+const userModel = require('../user/user.model');
+const {UserController} = require('../user/user.controller');
 
 const ticketController = new TicketController(ticketModel);
 const awsController = new AwsController(awsModel);
+const userController = new UserController(userModel);
 
 function routes(app) {
     app.route('/tickets') // define endpoint of backend
@@ -39,6 +42,12 @@ function routes(app) {
     .put(
         auth.validateToken,
         ticketController.closeTicket
+    );
+    app.route('/tickets/assign/:ticketId')
+    .put(
+        // auth.validateToken,
+        userController.getUser,
+        ticketController.addAdmin
     );
 };
 

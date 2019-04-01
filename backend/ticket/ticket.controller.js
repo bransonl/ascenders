@@ -9,6 +9,7 @@ class TicketController {
         this.modifyTicket = this.modifyTicket.bind(this);
         this.addAttachment = this.addAttachment.bind(this);
         this.closeTicket = this.closeTicket.bind(this);
+        this.addAdmin = this.addAdmin.bind(this);
     }
 
     async createTicket(req, res) {
@@ -84,6 +85,29 @@ class TicketController {
         }
         try {
             const modifyTicketResult = await this._model.modifyTicket(ticketId,{attachments:attachments});
+            return res.status(200).send(modifyTicketResult);
+        } catch (err) {
+            return res.status(500).send();
+        }
+    }
+
+    async addAdmin(req, res) {
+        const ticketId = req.params.ticketId;
+        const newAdmin = req.user;
+        const newAdminId = newAdmin.objectId;
+        if (newAdmin.role != 'admin') {
+            return res.status(400).send('This user has insufficient permissions');
+        }
+        const ticket = await this._model.getTicket(ticketId);
+        let assigned = ticket.assigned;
+        if (!assigned) {
+            assigned = newAdminId;
+        }
+        else {
+            assigned = `${assigned}, ${newAdminId}`;
+        }
+        try {
+            const modifyTicketResult = await this._model.modifyTicket(ticketId,{assigned:assigned});
             return res.status(200).send(modifyTicketResult);
         } catch (err) {
             return res.status(500).send();

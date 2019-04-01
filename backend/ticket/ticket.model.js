@@ -73,6 +73,8 @@ async function getTicket(ticketId) {
         headers: sharedHeaders,
     }
     try {
+        console.log('getTicket');
+        console.log(JSON.parse(await request(options)));
         return JSON.parse(await request(options));
     } catch(err) {
         return new ModelError(err.statusCode, err.error.error);
