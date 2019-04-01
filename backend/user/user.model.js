@@ -3,6 +3,14 @@ const request = require('request-promise-native');
 const {apiEndpoint, sharedHeaders} = require('../env.js');
 const {ModelError} = require('../error');
 
+function createUserObject({username, role, phone}) {
+    return {
+        username,
+        role,
+        phone,
+    };
+}
+
 async function login(username, password) {
     if (!username || !password) {
         throw new ModelError(400, 'Missing fields');
@@ -100,6 +108,7 @@ async function getAdmins() {
 }
 
 module.exports = {
+    createUserObject,
     login,
     logout,
     register,

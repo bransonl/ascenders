@@ -6,6 +6,9 @@ const {UserController} = require('./user.controller');
 const controller = new UserController(userModel, jwtSecret);
 
 function routes(app) {
+    app.route('/checkToken')
+        .get(auth.validateToken, controller.checkToken);
+
     app.route('/login')
         .post(controller.login);
 

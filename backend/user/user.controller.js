@@ -12,13 +12,22 @@ class UserController {
         this.getAdmins = this.getAdmins.bind(this);
     }
 
+    async checkToken(req, res) {
+        if (req.user) {
+            return res.json(this._model.createUserObject(req.user));
+        }
+        return res.status(401).json({
+            message: 'Invalid token',
+        });
+    }
+
     async login(req, res) {
         const {username, password} = req.body;
         try {
             const loginResult = await this._model.login(username, password);
             try {
                 const token = jwt.sign(loginResult, this._jwtSecret);
-                return res.json({token});
+                return res.json({token, ...this._model.createUserObject(loginResult)});
             } catch (err) { // Catch possible JWT errors
                 return res.status(500).send();
             }
