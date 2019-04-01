@@ -44,7 +44,6 @@ const uploadFile = multer({
             const fileName = Date.now().toString() + suffix;
             cb(null, fileName);
         } catch (err) {
-            console.log('haha');
             cb(err, false);
         }
         /*

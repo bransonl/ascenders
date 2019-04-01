@@ -70,9 +70,48 @@ async function register(username, password, role) {
     }
 }
 
+async function getUser(userId) {
+    if (!userId) {
+        throw new ModelError(400, 'Missing fields');
+    }
+    const options = {
+        method: 'GET',
+        uri: `${apiEndpoint}/users`,
+        qs: {
+            where: `{"objectId":"${userId}"}`,
+        },
+        headers: sharedHeaders,
+    };
+    try {
+        console.log('getUser');
+        console.log(JSON.parse(await request(options)).results[0]);
+        return JSON.parse(await request(options)).results[0];
+    } catch (err) {
+        throw new ModelError(err.statusCode, err.error.error);
+    }
+}
+
+async function getAdmins() {
+    const options = {
+        method: 'GET',
+        uri: `${apiEndpoint}/users`,
+        qs: {
+            where: `{"role":"admin"}`,
+        },
+        headers: sharedHeaders,
+    };
+    try {
+        return JSON.parse(await request(options)).results;
+    } catch (err) {
+        throw new ModelError(err.statusCode, err.error.error);
+    }
+}
+
 module.exports = {
     createUserObject,
     login,
     logout,
     register,
+    getUser,
+    getAdmins,
 }

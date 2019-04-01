@@ -21,6 +21,13 @@ function routes(app) {
             auth.createRoleCheck('admin'),
             controller.register,
         );
+    
+    app.route('/users/admin')
+        .get(
+            auth.validateToken,
+            auth.createRoleCheck('admin'),
+            controller.getAdmins,
+        )
 }
 
 module.exports = {

@@ -8,6 +8,8 @@ class UserController {
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
         this.register = this.register.bind(this);
+        this.getUser = this.getUser.bind(this);
+        this.getAdmins = this.getAdmins.bind(this);
     }
 
     async checkToken(req, res) {
@@ -66,6 +68,29 @@ class UserController {
             return res.json(registerResult);
         } catch (err) {
             return res.status(err.statusCode).json(err.toJSON());
+        }
+    }
+
+    async getUser(req, res, next) {
+        const {userId} = req.body;
+        try {
+            const getUserResult = await this._model.getUser(userId);
+            if (getUserResult == undefined) {
+                return res.status(400).send('This user does not exist');
+            }
+            req.user = getUserResult;
+            next();
+        } catch(err) {
+            return res.status(err.statusCode).json(err);
+        }
+    }
+
+    async getAdmins(req, res) {
+        try {
+            const getAdminsResult = await this._model.getAdmins();
+            return res.status(200).send(getAdminsResult);
+        } catch(err) {
+            return res.status(err.statusCode).json(err);
         }
     }
 }
