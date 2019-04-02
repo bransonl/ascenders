@@ -10,16 +10,17 @@ class AppRouter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            token: undefined,
-            isAuthenticated: false
-        }
+            username: "undefined",
+            role: "undefined",
+            token: "undefined",
+            isAuthenticated: true
+        };
     }
 
     render() {
         return (
             <AppContext.Provider
-                value={this.state}
-            >
+                value={this.state}>
                 <BrowserRouter>
                 <div>
                     <Switch>
@@ -33,6 +34,5 @@ class AppRouter extends React.Component {
         );
     }
 };
-
 
 export default AppRouter;

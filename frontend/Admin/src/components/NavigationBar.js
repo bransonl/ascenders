@@ -17,7 +17,10 @@ export default class NavigationBar extends React.Component {
                 <div>
                     <nav className="nav">
                         <div className="nav-wrapper">
-                            <Link exact to="/"><img className="nav-logo" src={logo} alt="logo"/></Link>
+                            <Link to="/"><img className="nav-logo" src={logo} alt="logo"/></Link>
+                            
+
+                            
                             <ul className="nav-link right">
                             {links.map((link,index) => {
                                 return (

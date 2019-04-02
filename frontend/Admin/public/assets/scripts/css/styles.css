@@ -23,6 +23,7 @@
 --primary-color: #febc11;
 --secondary-color: #000000;
 --text-on-black: #e2e2e2;
+--text-on-black2: #c8c9c4;
 
 --success-green: #4dbd74;
 --danger-red: #f86c6b;
@@ -116,6 +117,10 @@ p {
     font-weight: 100;
 }
 
+.content-center {
+    justify-content: center;
+    align-items: center;
+}
 
 .right {
     float: right !important;
@@ -336,7 +341,7 @@ nav .nav-link {
 /* Admin Base Page */
 /* --------------- */
 .base-row {
-    margin-top: 64px;
+    padding-top: 64px;
     background-color: var(--background-color);
     display: flex;
     flex-direction: row;
@@ -515,7 +520,27 @@ form .input-wrapper .col {
 /* ------- */
 .ticket-wrapper {
     display: flex;
-    width: 100vw;
+    flex-direction: column;
+    width: 100%;
+}
+
+.ticket-category {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 0.5rem 1rem;
+
+    font-size: 80%;
+    text-align: center;
+    color: var(--text-on-black2);
+
+    border-bottom: 1px solid var(--primary-color);
+}
+
+.ticket-header {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 .ticket-container {
@@ -583,6 +608,100 @@ form .input-wrapper .col {
 }
 
 .ticket-card-status {
+    justify-content: center;
+}
+.badge {
+    position: relative;
+}
+.badge[data-badge]:after {
+    content:attr(data-badge);
+    position: absolute;
+    /* top: -10px;
+    right: -10px; */
+    font-size: -7em;
+    background-color: var(--success-green);
+    color: white;
+    width: 18px;
+    height: 18px;
+    text-align: 18px;
+    border-radius: 50%;
+    box-shadow: 0 0 1px #333;
+}
+
+
+/* ------- */
+/* Messages */
+/* ------- */
+.messages-wrapper {
+    display: flex;
+    width: 100vw;
+}
+
+.messages-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    border-right: 1px solid var(--midground-color);
+}
+
+.messages-summary-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 6rem;
+    border-bottom: 4px solid var(--primary-color);
+
+    color: var(--text-on-black);
+}
+.messages-summary-unread,
+.messages-summary-all {
+    width: 50%;
+    height: 100%;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+    color: var(--text-on-black);
+    text-decoration: none;
+
+    line-height: 1.4;
+}
+.messages-summary-unread:focus,
+.messages-summary-all:focus {
+    background-color: var(--primary-color);
+    color: black;
+}
+.messages-summary-number {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.messages-list-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 0 1rem;
+}
+
+.messages-card {
+    width: 100%;
+    height: 4rem;
+    border-bottom: 1px solid var(--midground-color);
+    padding: 0.5rem 1rem;
+    align-items: center;
+    display: flex;
+    line-height: 1.2;
+
+    color: var(--text-on-black);
+}
+
+.messages-card-author {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.messages-card-status {
     justify-content: center;
 }
 .badge {
