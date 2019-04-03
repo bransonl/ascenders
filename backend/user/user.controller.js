@@ -22,6 +22,7 @@ class UserController {
     }
 
     async login(req, res) {
+        console.log('login');
         const {username, password} = req.body;
         try {
             const loginResult = await this._model.login(username, password);

@@ -14,52 +14,55 @@ class AddTicket extends React.Component {
     }
 
     submitTicket(e) {
+        console.log('submitTicket called');
         e.preventDefault();
         const title = e.target.elements.title.value;
         const body = e.target.elements.description.value;
-        const username = this.context.username;
-        console.log(username, title, body);
-        console.log(this.context);
-        console.log(this.state);
-
+        const file = this.state.file;
         fetch('http://127.0.0.1:3000/tickets', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'authorization': 'Bearer ' + this.context.token
+                'Authorization': 'Bearer ' + this.context.token,
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({title, body}),
         })
         .then(res => res.json())
         .then(res => {
+            this.setState({title, body, ticketId: res.objectId});
             console.log("Response: ", res);
-            this.setState({title: title, body: body});
-            console.log(this.state);
+            console.log("State: ", this.state);
+            this.fileUpload();
         })
         .catch(res => console.log(err));
-
-        // this.fileUpload(this.state.file)
-        // .then(res => console.log(res.data))
-        // .catch(res => console.log(err));
 
         e.target.elements.title.value = "";
         e.target.elements.description.value = "";
     }
 
-    onChange(e) {
-        this.setState({file:e.target.files[0]});
+    onChange(e) { // called when file selected
+        this.setState({file: e.target.files[0]});
     }
 
-    fileUpload(file) {
-        const url = ""; //url to upload file to
+    fileUpload() {
+        console.log('fileUpload called');
+        const {ticketId, file} = this.state;
         const formData = new FormData();
-        formData.append('file',file);
-        const config = {
+        formData.append('file', file, 'file');
+        const url = `http://127.0.0.1:3000/tickets/upload/${ticketId}`;
+        fetch(url, {
+            method: 'PUT',
             headers: {
-                'content-type': 'multipart/form-data'
-            }
-        }
-        return postMessage(url, formData, config);
+                'Authorization': 'Bearer ' + this.context.token
+            },
+            body: formData,
+        })
+        .then(res => res.json())
+        .then(res => {
+            console.log("Response: ", res);
+            console.log("State: ", this.state);
+        })
+        .catch(res => console.log(err));
     }
 
     render() {

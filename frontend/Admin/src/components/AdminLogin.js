@@ -20,6 +20,7 @@ class AdminLogin extends React.Component {
         e.preventDefault();
         const username = e.target.elements.username.value;
         const password = e.target.elements.password.value;
+        console.log(this.state);
         fetch('http://127.0.0.1:3000/login', {
             method: 'POST',
             headers: {

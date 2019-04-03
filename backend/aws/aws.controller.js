@@ -5,6 +5,7 @@ class AwsController {
         this.uploadFile = this.uploadFile.bind(this);
     }
     async uploadFile(req, res, next) {
+        console.log('uploadFile called');
         const singleUpload = this._model.uploadFile.single('file');
         const uploadFileResult = await singleUpload(req, res, function(err, some) {
         if (err) {

@@ -13,6 +13,7 @@ class TicketController {
     }
 
     async createTicket(req, res) {
+        console.log('createTicket called');
         req.body.creator = req.user.objectId;
         const {title, body, creator} = req.body;
         let attachments = req.body.attachments;
@@ -36,8 +37,10 @@ class TicketController {
         }
         try { 
             const createTicketResult = await this._model.createTicket(title, body, creator, attachments);
+            console.log(createTicketResult);
             return res.status(200).send(createTicketResult);
         } catch (err) {
+            console.log('createTicket error occured');
             return res.status(500).send();
         }
     }
@@ -72,6 +75,7 @@ class TicketController {
     }
 
     async addAttachment(req, res) {
+        console.log('addAttachment called');
         const ticketId = req.params.ticketId;
         const newAttachment = req.fileURL;
         console.log(newAttachment);
