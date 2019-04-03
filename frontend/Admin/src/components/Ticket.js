@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import TicketCard from './CardList.js';
+import TicketCard from './ChatCard.js';
 
 export default class Ticket extends React.Component {
     render() {

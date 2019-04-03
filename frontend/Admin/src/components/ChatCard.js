@@ -1,6 +1,6 @@
 import React from 'react';
 
-class CardList extends React.Component {
+class ChatCard extends React.Component {
     render() {
         return (
             <div className="messages-card">
@@ -18,4 +18,4 @@ class CardList extends React.Component {
     }
 }
 
-export default CardList;
+export default ChatCard;

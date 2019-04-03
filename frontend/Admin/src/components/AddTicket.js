@@ -26,7 +26,7 @@ class AddTicket extends React.Component {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'authorization': 'Bearer' + this.context.token
+                'authorization': 'Bearer ' + this.context.token
             },
             body: JSON.stringify({title, body}),
         })

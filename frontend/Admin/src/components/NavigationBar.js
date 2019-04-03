@@ -2,15 +2,15 @@ import React from 'react';
 import {BrowserRouter, Link} from 'react-router-dom';
 import logo from './resources/accenture-purple-logo.png'
 import IosNotifications from 'react-ionicons/lib/IosNotifications'
-import IosListBoxOutline from 'react-ionicons/lib/IosListBoxOutline'
-import IosContactOutline from 'react-ionicons/lib/IosContactOutline'
+import IosListBox from 'react-ionicons/lib/IosListBox'
+import IosContact from 'react-ionicons/lib/IosContact'
 
 export default class NavigationBar extends React.Component {
     render() {
         let links = [
-            {label: 'Notification', icon: <IosNotifications className="IosNotifications" color="#febc11"/>, link: '/admin/notification'},
-            {label: 'To-do', icon: <IosListBoxOutline className="IosListBoxOutline" color="#febc11"/>,link: '/admin/todo'},
-            {label: 'MyAccount', icon: <IosContactOutline className="IosContactOutline" color="#febc11"/>,link: '/admin/myaccount'},
+            {label: 'Notification', icon: <IosNotifications className="nav-icons" color="#febc11"/>, link: '/admin/notification'},
+            {label: 'To-do', icon: <IosListBox className="nav-icons" color="#febc11"/>,link: '/admin/todo'},
+            {label: 'MyAccount', icon: <IosContact className="nav-icons" color="#febc11"/>,link: '/admin/myaccount'},
         ];
         return (
             <BrowserRouter>

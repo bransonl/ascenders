@@ -1,13 +1,13 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import CardList from './CardList.js';
+import CardList from './ChatCard.js';
 
 
 class Messages extends React.Component {
     render() {
         return (
             <div className="messages-wrapper">
-                <div className="col span-1-of-5 no-top">
+                <div className="col messages-container-spec span-1-of-5 no-top">
                     <div className="messages-container">
                         <div className="messages-summary-container">
                             <Link to="/admin/messages/#/unread" className="messages-summary-unread">
