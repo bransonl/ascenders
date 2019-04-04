@@ -4,6 +4,7 @@ import NavigationBar from './NavigationBar.js';
 import Sidebar from './Sidebar.js';
 import Dashboard from './Dashboard.js';
 import Ticket from './Ticket.js';
+import reactAdmin from './Tickets-admin.js';
 import AddTicket from './AddTicket.js';
 import Messages from './Messages.js';
 
@@ -17,7 +18,7 @@ export default class AscendersAdminHome extends React.Component {
                             <Sidebar/>
                             <Switch>
                                 <Route path="/admin/dashboard" component={Dashboard}/>
-                                <Route path="/admin/tickets" component={Ticket}/>
+                                <Route path="/admin/tickets" component={reactAdmin}/>
                                 <Route path="/admin/messages" component={Messages}/>
                                 <Route path="/admin/addticket" component={AddTicket}/>
                             </Switch>

@@ -6306,6 +6306,14 @@ ra-core@^2.8.4:
     redux-saga "~0.16.0"
     reselect "~3.0.0"
 
+ra-data-json-server@^2.8.4:
+  version "2.8.4"
+  resolved "https://registry.yarnpkg.com/ra-data-json-server/-/ra-data-json-server-2.8.4.tgz#cd0a1585c6131edc6a7222cc0b52e8b03eef1af4"
+  integrity sha512-l3gwDHLO9yaJpCpKNtU56Ri7Z4Sd/f1CcXleysoayb1CHu9TKgYInMSwkIxBbXn1M6PzmtH1HEG+W9eemtpnbA==
+  dependencies:
+    query-string "~5.1.1"
+    ra-core "^2.8.4"
+
 ra-language-english@^2.7.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/ra-language-english/-/ra-language-english-2.7.0.tgz#84de3d67db84cccb1745257551e2f9a9a9470f13"

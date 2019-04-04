@@ -1,16 +1,17 @@
 import React from 'react';
 import { Admin, Resource } from 'react-admin';
+import jsonServerProvider from 'ra-data-json-server';
+import customLayout from './CustomLayout.js';
+import { UserList } from './UserList.js';
 
-const dataProvider = 'http://127.0.0.1:3000/';
-class TicketList extends React.Component {
-    render() {
-        return (
-            <Admin>
-                <Resource />
+const dataProvider = jsonServerProvider('http://jsonplaceholder.typicode.com');
+const TicketList = () => (
+            <div className="ticket-wrapper">
+                <Admin appLayout={customLayout} dataProvider={dataProvider}>
+                    <Resource name="users" list={UserList} />
 
-            </Admin>
-        );
-    }
-}
+                </Admin>
+            </div>
+);
 
 export default TicketList;
