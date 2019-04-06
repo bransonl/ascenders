@@ -1,0 +1,144 @@
+/* ------------- */
+/* ADMIN LOGIN */
+/* ------------- */
+.adminLogin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('../components/resources/mojave-night.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+}
+
+.container-login {
+    width: 960px;
+    height: 600px;
+    background: var(--midground-color);
+    justify-content: flex-start;
+    border-radius: 10px;
+    display: flex;
+    box-shadow: 0 0 20px 6px rgba(8, 8, 8, 0.301);
+}
+
+.container-splash {
+    background: var(--secondary-color);
+    text-align: center;
+    width:50%;
+
+    padding-top : 15%;
+}
+
+.container-form {
+    text-align: center;
+    width: 50%;
+
+    padding: 18% 5%;
+}
+
+.login-splash-logo {
+    width: 25%;
+    height: auto;
+}
+
+.login-splash-text {
+    padding: 0 30px 0 30px;
+    color: white;
+}
+.login-splash-text-h3 {
+    margin-top: 0;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.form-group {
+    margin-bottom: 0.5rem;
+}
+.form-label {
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    display: block;
+    color: var(--text-on-black)    
+}
+
+.container-form-wrap-input{
+    display: flex;
+    margin-bottom: 10px;
+    width: 100%;
+    height: 40px;
+    border-radius: 20px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--text-on-black);
+    padding: 0 20px;
+    cursor: text;
+}
+
+.form-control,
+.form-control:focus {
+    width: 100%;
+    height: 40px;
+    border-style: solid;
+    border-width: 0;
+    background-color: var(--midground-color);
+    color: var(--text-on-black);
+    padding: 0 10px;
+    cursor: text;
+    font-size: 0.8rem;
+}
+.form-control:placeholder {
+    font-weight: 100;
+    color: var(--text-on-black);
+    font-size: 0.8rem;    
+}
+
+.IosMail, 
+.IosLock {
+    margin-top: 8px;
+    color: var(--text-on-black);
+}
+
+.container-form-wrap-input-button {
+    height: 60px;
+    margin-top: 20px;
+}
+.btn {
+    font-size: 0.9rem;
+    font-weight: 600;
+    width: 100%;
+    height: 40px;
+    border-radius: 20px;
+    border-style: solid;
+    border-width: 0;
+    padding: 0 20px;
+    cursor: pointer;
+
+    text-transform: uppercase;
+    box-shadow: 0 10px 5px -6px #7c5b09b6;   
+}
+.btn:hover {
+    transform: translateY(2px);
+    box-shadow: 0 5px 5px -6px;
+}
+.btn-primary {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+.btn-primary:hover {
+    background-color: #f8ca57;    
+
+}
+
+.container-form-label {
+    font-size: 60%;
+    color: #e2e2e2;
+}
+.container-form-label .forgot-password {
+    color: var(--primary-color);
+    cursor: pointer;
+}
+.container-form-label .forgot-password:hover {
+    color: #f8ca57;
+}

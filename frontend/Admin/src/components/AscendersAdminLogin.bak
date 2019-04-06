@@ -1,12 +1,8 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import logo from './resources/accenture-purple-logo.png';
 import IosMail from 'react-ionicons/lib/IosMail';
 import IosLock from 'react-ionicons/lib/IosLock';
-import { Form, Button } from 'react-bootstrap';
-
-import '../css/reusable.css';
-import '../css/AscendersAdminLogin.css';
 
 import {AppContext} from './globalContext/AppContext.js';
 
@@ -71,38 +67,7 @@ class AscendersAdminLogin extends React.Component {
                         
                         </div> 
                     </div>
-
-                    <Form className="container-form" onSubmit={this.login}>
-                        <Form.Group>
-                            <Form.Label>Welcome to Ascenders</Form.Label>
-                        </Form.Group>
-                        <Form.Group>
-                            <div className="container-form-wrap-input">
-                            <IosMail className="IosMail" color="#e2e2e2"/>
-                            <Form.Control 
-                                type="text"
-                                name="username"
-                                placeholder="Enter username"
-                                required />
-                            </div>
-                        </Form.Group>
-                        <Form.Group>
-                            <div className="container-form-wrap-input">
-                            <IosLock className="IosLock" color="#e2e2e2"/>
-                            <Form.Control 
-                                type="password"
-                                name="password"
-                                placeholder="Enter password"
-                                required />
-                            </div>
-                        </Form.Group>
-                        <div className="container-form-wrap-input-button">
-                            <Button variant="primary" type="submit">Login</Button>
-                        </div>
-                        <label className="container-form-label">Forgot your password? <Link to="/"><span className="forgot-password">Click Here</span></Link></label>
-                    </Form>
-
-                    {/* <form className="container-form" onSubmit={this.login}>
+                    <form className="container-form" onSubmit={this.login}>
                         <label className="container-form-title">Welcome to Ascenders</label>
                         <div className="container-form-wrap-input">
                             <IosMail className="IosMail" color="#e2e2e2"/>
@@ -126,7 +91,7 @@ class AscendersAdminLogin extends React.Component {
                             <button className="input-button" type="submit">Login</button>
                         </div>
                         <label className="container-form-label">Forgot your password? <Link to="/"><span className="forgot-password">Click Here</span></Link></label>
-                    </form>                */}
+                    </form>               
                 </div>
             </div>
         );}

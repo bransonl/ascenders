@@ -1,37 +1,35 @@
 import React from 'react';
-import {BrowserRouter, Link} from 'react-router-dom';
+import {BrowserRouter, NavLink, Link} from 'react-router-dom';
+import { Nav } from 'react-bootstrap';
 import logo from './resources/accenture-purple-logo.png'
 import IosNotifications from 'react-ionicons/lib/IosNotifications'
 import IosListBox from 'react-ionicons/lib/IosListBox'
 import IosContact from 'react-ionicons/lib/IosContact'
 
+import '../css/reusable.css';
+import '../css/NavigationBar.css';
+
 export default class NavigationBar extends React.Component {
     render() {
-        let links = [
-            {label: 'Notification', icon: <IosNotifications className="nav-icons" color="#febc11"/>, link: '/admin/notification'},
-            {label: 'To-do', icon: <IosListBox className="nav-icons" color="#febc11"/>,link: '/admin/todo'},
-            {label: 'MyAccount', icon: <IosContact className="nav-icons" color="#febc11"/>,link: '/admin/myaccount'},
-        ];
         return (
             <BrowserRouter>
                 <div>
-                    <nav className="nav">
+                    <Nav 
+                        onSelect={selectedKey => console.log(`${selectedKey} is clicked`)}>
                         <div className="nav-wrapper">
-                            <Link to="/"><img className="nav-logo" src={logo} alt="logo"/></Link>
-                            
-
-                            
-                            <ul className="nav-link right">
-                            {links.map((link,index) => {
-                                return (
-                                    <li key={index} className="nav-link-list">
-                                        {<Link to={link.link}>{link.icon}</Link>}
-                                    </li>
-                                );
-                            })}
-                            </ul>
+                        <Nav.Item bsPrefix="logo">
+                            <NavLink to="/admin">
+                                <img className="nav-logo"src={logo} alt="logo"/>
+                            </NavLink>
+                        </Nav.Item>
+                        <Nav.Item className="right">
+                            <Link to='/admin/notification' className="nav-link"><IosNotifications className="nav-icons"/></Link>
+                            <Link to='/admin/todo' className="nav-link"><IosListBox className="nav-icons"/></Link>
+                            <Link to='/admin/myaccount' className="nav-link"><IosContact className="nav-icons"/></Link>
+                        </Nav.Item>
                         </div>
-                    </nav>               
+
+                    </Nav>
                 </div>
             </BrowserRouter>
         );

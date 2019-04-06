@@ -1,9 +1,13 @@
 import React from 'react';
-import {NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import IosApps from 'react-ionicons/lib/IosApps';
 import IosPaper from 'react-ionicons/lib/IosPaper';
 import IosText from 'react-ionicons/lib/IosText';
 import IosAdd from 'react-ionicons/lib/IosAdd';
+
+
+import '../css/reusable.css';
+import '../css/Sidebar.css';
 
 
 export default class Sidebar extends React.Component {
