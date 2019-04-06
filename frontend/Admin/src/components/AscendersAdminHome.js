@@ -4,7 +4,7 @@ import NavigationBar from './NavigationBar.js';
 import Sidebar from './Sidebar.js';
 import Dashboard from './Dashboard.js';
 import Ticket from './Ticket.js';
-import reactAdmin from './Tickets-admin.js';
+import reactAdmin from './ticket-admin/Tickets-admin.js';
 import AddTicket from './AddTicket.js';
 import Messages from './Messages.js';
 

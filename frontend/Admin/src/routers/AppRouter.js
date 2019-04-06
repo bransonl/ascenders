@@ -4,7 +4,7 @@ import AscendersAdminLogin from '../components/AscendersAdminLogin.js';
 import AscendersAdminHome from '../components/AscendersAdminHome.js';
 import NotFoundPage from '../components/NotFoundPage.js';
 
-import {AppContext} from '../components/AppContext.js';
+import {AppContext} from '../components/globalContext/AppContext.js';
 
 class AppRouter extends React.Component {
     constructor(props) {

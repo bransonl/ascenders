@@ -1,5 +1,5 @@
 import React from 'react';
-import {AppContext} from './AppContext.js';
+import {AppContext} from './globalContext/AppContext.js';
 
 class AddTicket extends React.Component {
     constructor(props) {
