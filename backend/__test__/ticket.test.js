@@ -1,47 +1,60 @@
-const ticketModel = require('../ticket/ticket.model');
+const ticketModel = require('../__mocks__/ticket.model');
+// jest.mock('./ticket.model');
+const {ModelError} = require('../error');
 
-describe('create ticket tests', async() => {
+describe('create ticket tests', () => {
     //createTicket(title,body,creator,attachments)
-    test('normal test case', async() => { // need to be mocked
-        const response = await ticketModel.createTicket('ticket title','ticket content','user1','[attachmenturl.com]');
+    test('NORMAL TEST CASE', async() => { // need to be mocked
+        const response = await ticketModel.createTicket('ticket title','ticket content','0p1maitmtS','[attachmenturl.com]');
         expect(response.objectId).toBeDefined();
+    });
+    test('error message if empty title', async() => {
+        await expect(ticketModel.createTicket('','ticket content','0p1maitmtS','[]'))
+        .rejects.toThrow('Missing fields');
+    });
+    test('error message if empty title and/or body', async() => {
+        await expect(ticketModel.createTicket('','','0p1maitmtS','[]'))
+        .rejects.toThrow('Missing fields');
     });
     test('error message if missing fields', async() => {
         await expect(ticketModel.createTicket())
         .rejects.toThrow('Missing fields');
     });
-    test('error message if empty title', async() => {
-        await expect(ticketModel.createTicket('','ticket content','user1','[]'))
-        .rejects.toThrow('Missing fields');
-    });
-    test('error message if empty title and/or body', async() => {
-        await expect(ticketModel.createTicket('','','user1','[]'))
-        .rejects.toThrow('Missing fields');
-    });
 });
 
-describe('get tickets of user tests', async() => {
-    //getTickets(userId)
+describe('GET TICKETS OF USER TESTS', () => {
+    //getUserTickets(userId)
     test('normal test case', async() => {
-        const response = await ticketModel.getTickets('0p1maitmtS');
-        expect(response).toContain('results');
+        const response = await ticketModel.getUserTickets('0p1maitmtS');
+        expect(response[0]).toBeDefined();
+    });
+    test('non-existent user test case', async() => {
+        const response = await ticketModel.getUserTickets('fakeId');
+        expect(response[0]).toBeUndefined();
     });
     test('error message if missing fields', async() => {
-        await expect(ticketModel.getTickets())
+        await expect(ticketModel.getUserTickets())
         .rejects.toThrow('Missing fields');
     });
 });
 
-describe('get ticket by ticketId', async() => {
+describe('GET ALL TICKETS (ADMIN) TESTS', () => {
+    //getAllTickets()
+    test('normal test case', async() => {
+        const response = await ticketModel.getAllTickets();
+        expect(response.length).toBeGreaterThan(0);
+    });
+});
+
+describe('GET TICKET BY TICKETID TESTS', () => {
     //getTicket(ticketId)
     test('normal test case', async() => {
-        const response = await ticketModel.getTicket('xebASqhYJE');
-        expect(response).toContain('"objectId":"xebASqhYJE"');
+        const response = await ticketModel.getTicket('a4fkG6138D');
+        expect(response.objectId).toBe('a4fkG6138D');
     });
-    
-    test('error message if non-existent ticketId', async() => {
-        await expect(ticketModel.getTicket('fakeId'))
-        .rejects.toThrow('404 - \"{\\\"code\\\":101,\\\"error\\\":\\\"Object not found.\\\"}\"');
+    test('return error if non-existent ticketId', async() => {
+        const response = await ticketModel.getTicket('fakeId');
+        expect(response).toEqual(new ModelError(101, 'Object not found'));
     });
     test('error message if missing fields', async() => {
         await expect(ticketModel.getTicket())
@@ -49,35 +62,39 @@ describe('get ticket by ticketId', async() => {
     });
 });
 
-describe('modify ticket tests', async() => {
+describe('MODIFY TICKET TESTS', () => {
     //modifyTicket(ticketId,data)
     test('normal test case', async() => {
         const response = await ticketModel.modifyTicket('xebASqhYJE',{'status':'closed'});
         expect(response.updatedAt).toBeDefined();
     });
-    test('error message if non-existent ticketId', async() => {
-        await expect(ticketModel.modifyTicket('fakeId',{'status':'closed'}))
-        .rejects.toThrow('404 - {\"code\":101,\"error\":\"Object not found.\"}');
-    });
-    test('error message if missing fields', async() => {
-        await expect(ticketModel.modifyTicket())
-        .rejects.toThrow('Missing fields');        
+    test('return error if non-existent ticketId', async() => {
+        const response = await ticketModel.modifyTicket('fakeId',{'status':'closed'});
+        expect(response).toEqual(new ModelError(101, 'Object not found'));
     });
     test('error message if empty data', async() => {
         await expect(ticketModel.modifyTicket('xebASqhYJE',''))
         .rejects.toThrow('Missing fields');
     });
+    test('error message if empty key', async() => {
+        await expect(ticketModel.modifyTicket('xebASqhYJE',{'':'sdf'}))
+        .rejects.toThrow('Invalid key value');
+    });
+    test('error message if missing fields', async() => {
+        await expect(ticketModel.modifyTicket())
+        .rejects.toThrow('Missing fields');        
+    });
 });
 
-describe('close ticket tests', async() => {
+describe('CLOSE TICKET TESTS', () => {
     //closeTicket(ticketId)
     test('normal test case', async() => {
         const response = await ticketModel.closeTicket('JDHZkqA6nZ');
         expect(response.updatedAt).toBeDefined();
     });
-    test('error message if non-existent ticketId', async() => {
-        await expect(ticketModel.closeTicket('fakeId2'))
-        .rejects.toThrow();
+    test('return error if non-existent ticketId', async() => {
+        const response = await ticketModel.closeTicket('fakeId');
+        expect(response).toEqual(new ModelError(101, 'Object not found'));
     });
     test('error message if missing fields', async() => {
         await expect(ticketModel.closeTicket())

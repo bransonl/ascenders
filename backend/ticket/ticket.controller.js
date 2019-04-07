@@ -3,13 +3,19 @@ class TicketController {
         this._model = model;
 
         this.createTicket = this.createTicket.bind(this);
+        this.addAttachment = this.addAttachment.bind(this);
+        this.closeTicket = this.closeTicket.bind(this);
+
         this.getUserTickets = this.getUserTickets.bind(this);
         this.getAllTickets = this.getAllTickets.bind(this);
         this.getTicket = this.getTicket.bind(this);
-        this.modifyTicket = this.modifyTicket.bind(this);
-        this.addAttachment = this.addAttachment.bind(this);
-        this.closeTicket = this.closeTicket.bind(this);
+
         this.addAdmin = this.addAdmin.bind(this);
+        this.addTag = this.addTag.bind(this);
+        this.addStatus = this.addStatus.bind(this);
+        this.addPriority = this.addPriority.bind(this);
+
+        this.modifyTicket = this.modifyTicket.bind(this);
     }
 
     async createTicket(req, res) {
@@ -45,35 +51,6 @@ class TicketController {
         }
     }
 
-    async getUserTickets(req, res) {
-        const userId = req.user.objectId;
-        try {
-            const getTicketsResult = await this._model.getUserTickets(userId);
-            return res.status(200).send(getTicketsResult);
-        } catch (err) {
-            return res.status(500).send();
-        }
-    }
-
-    async getAllTickets(req, res) {
-        try {
-            const getTicketsResult = await this._model.getUserTickets(userId);
-            return res.status(200).send(getTicketsResult);
-        } catch (err) {
-            return res.status(500).send();
-        }
-    }
-
-    async getTicket(req, res) {
-        const ticketId = req.params.ticketId;
-        try {
-            const getTicketResult = await this._model.getTicket(ticketId);
-            return res.status(200).send(getTicketResult);
-        } catch (err) {
-            return res.status(500).send();
-        }
-    }
-
     async addAttachment(req, res) {
         console.log('addAttachment called');
         const ticketId = req.params.ticketId;
@@ -95,8 +72,37 @@ class TicketController {
         }
     }
 
-    async addAdmin(req, res) {
+    async getUserTickets(req, res) {
+        const userId = req.user.objectId;
+        try {
+            const getTicketsResult = await this._model.getUserTickets(userId);
+            return res.status(200).send(getTicketsResult);
+        } catch (err) {
+            return res.status(500).send();
+        }
+    }
+
+    async getAllTickets(req, res) {
+        try {
+            const getTicketsResult = await this._model.getAllTickets();
+            return res.status(200).send(getTicketsResult);
+        } catch (err) {
+            return res.status(500).send();
+        }
+    }
+
+    async getTicket(req, res) {
         const ticketId = req.params.ticketId;
+        try {
+            const getTicketResult = await this._model.getTicket(ticketId);
+            return res.status(200).send(getTicketResult);
+        } catch (err) {
+            return res.status(500).send();
+        }
+    }
+
+    async addAdmin(req, res) {
+        const {ticketId} = req.params;
         const newAdmin = req.user;
         const newAdminId = newAdmin.objectId;
         if (newAdmin.role != 'admin') {
@@ -111,10 +117,57 @@ class TicketController {
             assigned = `${assigned}, ${newAdminId}`;
         }
         try {
-            const modifyTicketResult = await this._model.modifyTicket(ticketId,{assigned:assigned});
+            const modifyTicketResult = await this._model.modifyTicket(ticketId,{assigned});
             return res.status(200).send(modifyTicketResult);
         } catch (err) {
             return res.status(500).send();
+        }
+    }
+
+    async addTag(req, res) {
+        console.log("addTag called");
+        const {ticketId} = req.params;
+        if (req.label != false) {
+            const ticket = await this._model.getTicket(ticketId);
+            let tag = ticket.tag;
+            if (!tag) {
+                tag = req.label.objectId;
+            }
+            else {
+                tag = `${tag}, ${req.label.objectId}`;
+            }
+            try {
+                const modifyTicketResult = await this._model.modifyTicket(ticketId,{tag});
+                return res.status(200).send(modifyTicketResult);
+            } catch (err) {
+                return res.status(500).send();
+            }
+        }
+    }
+
+    async addStatus(req, res) { //only 1
+        const {ticketId} = req.params;
+        if (req.label != false) {
+            const ticket = await this._model.getTicket(ticketId);
+            try {
+                const modifyTicketResult = await this._model.modifyTicket(ticketId,{status:req.label.objectId});
+                return res.status(200).send(modifyTicketResult);
+            } catch (err) {
+                return res.status(500).send();
+            }
+        }
+    }
+
+    async addPriority(req, res) { //only 1
+        const {ticketId} = req.params;
+        if (req.label != false) {
+            const ticket = await this._model.getTicket(ticketId);
+            try {
+                const modifyTicketResult = await this._model.modifyTicket(ticketId,{priority:req.label.objectId});
+                return res.status(200).send(modifyTicketResult);
+            } catch (err) {
+                return res.status(500).send();
+            }
         }
     }
 

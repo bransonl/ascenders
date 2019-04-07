@@ -5,8 +5,11 @@ class LabelController {
         this.getLabels = this.getLabels.bind(this);
         this.getLabel = this.getLabel.bind(this);
         this.checkLabelExist = this.checkLabelExist.bind(this);
+        this.checkLabelExist_ = this.checkLabelExist_.bind(this);
         this.createLabel = this.createLabel.bind(this);
+
         this.modifyLabel = this.modifyLabel.bind(this);
+        this.modifyLabelc = this.modifyLabelc.bind(this);
     }
 
     async getLabels(req, res) {
@@ -20,24 +23,40 @@ class LabelController {
     }
 
     async getLabel(req, res) {
-        const {labelType, name} = req.params;
+        const {labelType, labelName} = req.params;
         try {
-            const getLabelResult = await this._model.getLabel(labelType, name);
+            const getLabelResult = await this._model.getLabel(labelType, labelName);
             return res.status(200).send(getLabelResult); 
         } catch(err) {
             return res.status(500).send();
         }
     }
 
-    async checkLabelExist(labelType, name) {
+    async checkLabelExist(labelType, labelName) {
         try {
-            const getLabelResult = await this._model.getLabel(labelType, name);
+            const getLabelResult = await this._model.getLabel(labelType, labelName);
             if (getLabelResult != undefined) {
                 return getLabelResult;
             }
             else {
                 return false;
             }
+        } catch(err) {
+            return res.status(500).send();
+        }
+    }
+
+    async checkLabelExist_(req, res, next) {
+        const {labelType, labelName} = req.body;
+        try {
+            const getLabelResult = await this._model.getLabel(labelType, labelName);
+            if (getLabelResult != undefined) {
+                req.label = getLabelResult;
+            }
+            else {
+                req.label = false;
+            }
+            next();
         } catch(err) {
             return res.status(500).send();
         }
@@ -73,34 +92,42 @@ class LabelController {
     }
 
     async modifyLabel(req, res) {
-        const {labelType, name} = req.params;
+        const {labelType, labelName} = req.params;
         try {
-            const checkLabelExistResult = await this.checkLabelExist(labelType, name);
+            const checkLabelExistResult = await this.checkLabelExist(labelType, labelName);
             if (checkLabelExistResult != false) {
                 const labelId = checkLabelExistResult.objectId;
-                if (labelType == 'tag') {
-                    try {
-                        const {new_name} = req.body;
-                        const modifyLabelResult = await this._model.modifyLabel(labelType, labelId, new_name);
-                        return res.status(200).send(modifyLabelResult);
-                    } catch(err) {
-                        return res.status(500).send();
-                    }
-                }
-                else if (labelType == 'status' | labelType == 'priority') {
-                    try {
-                        const new_name = req.body.name;
-                        const new_colour = req.body.colour;
-                        const modifyLabelcResult = await this._model.modifyLabelc(labelType, labelId, new_name, new_colour);
-                        return res.status(200).send(modifyLabelcResult);
-                    } catch(err) {
-                        return res.status(500).send();
-                    }
+                try {
+                    const new_name = req.body.name;
+                    const modifyLabelResult = await this._model.modifyLabel(labelType, labelId, new_name);
+                    return res.status(200).send(modifyLabelResult);
+                } catch(err) {
+                    return res.status(500).send();
                 }
             }
-        }catch(err) {
+        } catch(err) {
             return res.status(500).send();
-        }
+        }  
+    }
+
+    async modifyLabelc(req, res) {
+        const {labelType, labelName} = req.params;
+        try {
+            const checkLabelExistResult = await this.checkLabelExist(labelType, labelName);
+            if (checkLabelExistResult != false) {
+                const labelId = checkLabelExistResult.objectId;
+                try {
+                    const new_name = req.body.name;
+                    const new_colour = req.body.colour;
+                    const modifyLabelResult = await this._model.modifyLabel(labelType, labelId, new_name, new_colour);
+                    return res.status(200).send(modifyLabelResult);
+                } catch(err) {
+                    return res.status(500).send();
+                }
+            }
+        } catch(err) {
+            return res.status(500).send();
+        }  
     }
 }
 
