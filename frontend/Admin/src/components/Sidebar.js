@@ -26,7 +26,7 @@ export default class Sidebar extends React.Component {
                             {links.map((link,index) => {
                                 return (
                                     <li key={index} className="sidebar-nav-link-list">
-                                        {<NavLink to={link.link} activeClassName={link.class}>{link.icon}{link.label}</NavLink>}
+                                        <NavLink to={link.link} activeClassName={link.class}>{link.icon}{link.label}</NavLink>
                                     </li>
                                 );
                             })}
