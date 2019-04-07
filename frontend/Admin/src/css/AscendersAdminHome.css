@@ -2,7 +2,7 @@
 /* Admin Base Page */
 /* --------------- */
 .base-row {
-    padding-top: 64px;
+    padding-top: 60px;
     background-color: var(--background-color);
     display: flex;
     flex-direction: row;

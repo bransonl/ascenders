@@ -1,6 +1,6 @@
 import React from 'react';
 import {BrowserRouter, NavLink, Link} from 'react-router-dom';
-import { Nav } from 'react-bootstrap';
+import { Button, Nav, OverlayTrigger, Popover, Overlay } from 'react-bootstrap';
 import logo from './resources/accenture-purple-logo.png'
 import IosNotifications from 'react-ionicons/lib/IosNotifications'
 import IosListBox from 'react-ionicons/lib/IosListBox'
@@ -8,8 +8,17 @@ import IosContact from 'react-ionicons/lib/IosContact'
 
 import '../css/reusable.css';
 import '../css/NavigationBar.css';
+import { AppContext } from './globalContext/AppContext';
 
-export default class NavigationBar extends React.Component {
+const accountPop = (
+    <Popover
+        placement="bottom"
+    >
+        <Button>Sign Out</Button>
+    </Popover>
+);
+
+class NavigationBar extends React.Component {
     render() {
         return (
             <BrowserRouter>
@@ -25,7 +34,16 @@ export default class NavigationBar extends React.Component {
                         <Nav.Item className="right">
                             <Link to='/admin/notification' className="nav-link"><IosNotifications className="nav-icons"/></Link>
                             <Link to='/admin/todo' className="nav-link"><IosListBox className="nav-icons"/></Link>
-                            <Link to='/admin/myaccount' className="nav-link"><IosContact className="nav-icons"/></Link>
+                            
+                            <OverlayTrigger
+                                trigger="click"
+                                placement="auto"
+                                rootClose="true"
+                                overlay= {accountPop}
+                            >
+                                <Link to='/admin' className="nav-link"><IosContact className="nav-icons"/></Link>
+                            </OverlayTrigger>                           
+                                
                         </Nav.Item>
                         </div>
 
@@ -35,3 +53,6 @@ export default class NavigationBar extends React.Component {
         );
     }
 }
+
+NavigationBar.contextType = AppContext;
+export default NavigationBar;

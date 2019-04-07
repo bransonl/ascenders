@@ -54,7 +54,7 @@ class AscendersAdminLogin extends React.Component {
     render() {
         if (this.state.redirectToHome === true) {
             this.state.redirectToHome = false;
-            return (<Redirect to={'/admin'}/>);
+            return (<Redirect to={'/admin/dashboard'}/>);
         } else {
         return (
             <div className="adminLogin">
@@ -74,12 +74,13 @@ class AscendersAdminLogin extends React.Component {
 
                     <Form className="container-form" onSubmit={this.login}>
                         <Form.Group>
-                            <Form.Label>Welcome to Ascenders</Form.Label>
+                            <Form.Label bsPrefix="login-form-label">Welcome to Ascenders</Form.Label>
                         </Form.Group>
                         <Form.Group>
                             <div className="container-form-wrap-input">
                             <IosMail className="IosMail" color="#e2e2e2"/>
-                            <Form.Control 
+                            <Form.Control
+                                bsPrefix="login-form-control" 
                                 type="text"
                                 name="username"
                                 placeholder="Enter username"
@@ -90,6 +91,7 @@ class AscendersAdminLogin extends React.Component {
                             <div className="container-form-wrap-input">
                             <IosLock className="IosLock" color="#e2e2e2"/>
                             <Form.Control 
+                                bsPrefix="login-form-control"
                                 type="password"
                                 name="password"
                                 placeholder="Enter password"
@@ -97,36 +99,10 @@ class AscendersAdminLogin extends React.Component {
                             </div>
                         </Form.Group>
                         <div className="container-form-wrap-input-button">
-                            <Button variant="primary" type="submit">Login</Button>
+                            <Button bsPrefix="login-btn" type="submit">Login</Button>
                         </div>
                         <label className="container-form-label">Forgot your password? <Link to="/"><span className="forgot-password">Click Here</span></Link></label>
-                    </Form>
-
-                    {/* <form className="container-form" onSubmit={this.login}>
-                        <label className="container-form-title">Welcome to Ascenders</label>
-                        <div className="container-form-wrap-input">
-                            <IosMail className="IosMail" color="#e2e2e2"/>
-                            <input 
-                            className="input" 
-                            type="text" 
-                            name="username" 
-                            placeholder="Enter username"
-                            required/>
-                        </div>
-                        <div className="container-form-wrap-input">
-                            <IosLock className="IosLock" color="#e2e2e2"/>
-                            <input 
-                            className="input" 
-                            type="password" 
-                            name="password" 
-                            placeholder="Enter password"
-                            required/>
-                        </div>
-                        <div className="container-form-wrap-input-button">                   
-                            <button className="input-button" type="submit">Login</button>
-                        </div>
-                        <label className="container-form-label">Forgot your password? <Link to="/"><span className="forgot-password">Click Here</span></Link></label>
-                    </form>                */}
+                    </Form>            
                 </div>
             </div>
         );}

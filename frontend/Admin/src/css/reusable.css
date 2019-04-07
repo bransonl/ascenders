@@ -3,7 +3,6 @@
 /* ------------ */
 :root {
 --background-color: #242426;
-/* --midground-color: #353535; */
 --midground-color: #30353e;
 
 --primary-color: #febc11;
@@ -16,8 +15,6 @@
 --warning-yellow: #ffc107;
 --info-blue: #63c2de;
 }
-
-
 
 ::-webkit-scrollbar {
     display: none;
@@ -129,4 +126,40 @@ p {
 
 .no-left {
     margin-left: 0;
+}
+
+/* react-bootstrap */
+.form-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.form-control:placeholder-shown {
+    font-size: 0.8rem;
+}
+
+.form-control-file {
+    font-size: 0.8rem;
+} 
+
+/* btn */
+.btn {
+    font-size: 0.8rem;
+}
+.btn-primary {
+    border: none;
+    background-color: var(--primary-color);
+}
+.btn-primary:hover,
+.btn-primary:active {
+    background-color: #f8ca57;
+}
+
+/* Modal */
+.close {
+    color: #fff;
+    text-shadow: 0 1px 0 #000;
+}
+.close:hover {
+    color: rgb(105, 105, 105);
 }

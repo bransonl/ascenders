@@ -5,12 +5,12 @@
     position: fixed;
     z-index: 100;
     background-color: var(--secondary-color);
-    height: 64px;
+    height: 60px;
     line-height: 56px;
     width: 100%;
     border-bottom-style: solid;
     border-bottom-color: var(--primary-color);
-    border-bottom-width: 8px;
+    border-bottom-width: 4px;
 }
 .nav-wrapper {
     width: 100%;
@@ -39,5 +39,7 @@
 }
 .nav-icons {
     fill: #febc11;
+    width: 28px;
+    height: 28px;
 }
 

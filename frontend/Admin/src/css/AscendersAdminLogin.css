@@ -55,7 +55,7 @@
 .form-group {
     margin-bottom: 0.5rem;
 }
-.form-label {
+.login-form-label {
     font-size: 24px;
     font-weight: 600;
     text-align: center;
@@ -76,8 +76,8 @@
     cursor: text;
 }
 
-.form-control,
-.form-control:focus {
+.login-form-control,
+.login-form-control:focus {
     width: 100%;
     height: 40px;
     border-style: solid;
@@ -88,12 +88,11 @@
     cursor: text;
     font-size: 0.8rem;
 }
-.form-control:placeholder {
+.login-form-control:placeholder {
     font-weight: 100;
     color: var(--text-on-black);
     font-size: 0.8rem;    
 }
-
 .IosMail, 
 .IosLock {
     margin-top: 8px;
@@ -104,31 +103,27 @@
     height: 60px;
     margin-top: 20px;
 }
-.btn {
+.login-btn {
     font-size: 0.9rem;
     font-weight: 600;
     width: 100%;
     height: 40px;
+    
+    padding: 0 20px;
+    cursor: pointer;
     border-radius: 20px;
     border-style: solid;
     border-width: 0;
-    padding: 0 20px;
-    cursor: pointer;
-
     text-transform: uppercase;
-    box-shadow: 0 10px 5px -6px #7c5b09b6;   
-}
-.btn:hover {
-    transform: translateY(2px);
-    box-shadow: 0 5px 5px -6px;
-}
-.btn-primary {
+    box-shadow: 0 10px 5px -6px #7c5b09b6;
     background-color: var(--primary-color);
     color: #fff;
 }
-.btn-primary:hover {
+.login-btn:hover,
+.login-btn:active {
     background-color: #f8ca57;    
-
+    transform: translateY(2px);
+    box-shadow: 0 5px 5px -6px;
 }
 
 .container-form-label {
