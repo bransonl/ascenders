@@ -64,7 +64,7 @@ class AscendersAdminLogin extends React.Component {
                             <img className="login-splash-logo" src={logo} alt="accenture-purple-logo"/>
                             <div className="login-splash-text">
                                 <label className="login-splash-text-h3">Ascenders</label>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec neque tortor. Proin efficitur leo vel ex aliquarn.</p>
+                                <p>Improve your performance and productivity with seamless and efficient working experience.</p>
                             </div>
                         </div> 
                         <div className="login-splash-2">
