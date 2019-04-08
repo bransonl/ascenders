@@ -1,0 +1,50 @@
+/* Main App Body */
+.main-app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    padding: 1rem;
+}
+
+/* ------- */
+/* Sidebar */
+/* ------- */
+.sidebar {
+    flex: 0 0 200px;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    background-color: var(--midground-color);
+}
+
+.sidebar-nav-link {
+    margin: 0;
+    color: var(--text-on-black);
+}
+
+.sidebar-nav-link-list {
+    margin: 0;
+    position: relative;
+}
+.sidebar-nav-link-list a {
+    padding: 0.75rem 1rem;
+    font-size: 80%;
+    display: flex;
+    color: var(--text-on-black);
+    text-decoration: none;
+    cursor: pointer;
+    fill: var(--text-on-black);
+}
+.sidebar-nav-link-list a:hover,
+.sidebar-nav-link-list a:focus {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    fill: var(--secondary-color);
+}
+
+/* Icons */
+.sidebar-icon {
+    margin-right: 8px;
+    fill: var(--text-on-black);
+}

@@ -1,0 +1,165 @@
+/* ------------ */
+/* CUSTOM COLOR */
+/* ------------ */
+:root {
+--background-color: #242426;
+--midground-color: #30353e;
+
+--primary-color: #febc11;
+--secondary-color: #000000;
+--text-on-black: #e2e2e2;
+--text-on-black2: #c8c9c4;
+
+--success-green: #4dbd74;
+--danger-red: #f86c6b;
+--warning-yellow: #ffc107;
+--info-blue: #63c2de;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+* {
+    padding: 0;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+html {
+    background-color: #f6f6f6;
+    color: #555;
+    font-family: Helvetica,"Khyay-Regular", Arial, sans-serif;
+    font-weight: 100;
+    font-size: 120%;
+    text-rendering: optimizeLegibility;
+}
+
+body {
+    margin: 0%;
+    width: 100vw;
+    height: 100vh;
+    overflow: scroll;
+    color: rgba(0,0,0,0.87);
+    background-color: #242426;
+    line-height: 1.75;
+}
+
+p {
+    font-family: "Montserrat-Light", Arial, Helvetica, sans-serif;
+    font-size: 80%;
+    font-weight: 100;
+    line-height: 1.5;
+}
+
+/* ------ */
+/* Webkit */
+/* ------ */
+
+.mainLoginInput::-webkit-input-placeholder {
+    font-family: 'myFont', Arial, Helvetica, sans-serif;
+}
+  
+.mainLoginInput:-ms-input-placeholder {
+    font-family: 'myFont', Arial, Helvetica, sans-serif;
+}
+
+.mainLoginInput:-moz-placeholder {
+    font-family: 'myFont', Arial, Helvetica, sans-serif;
+}
+
+.mainLoginInput::-moz-placeholder {
+    font-family: 'myFont', Arial, Helvetica, sans-serif;
+}
+
+/* Main App Body */
+.main-app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    padding: 1rem;
+}
+
+/* ------------------------- */
+/* Reuseable Components */
+/* ------------------------- */
+.box p {
+    margin: 7% 10%;
+    line-height: 150%;
+    font-weight: 100;
+}
+
+.content-center {
+    justify-content: center;
+    align-items: center;
+}
+
+.right {
+    float: right !important;
+    justify-content: flex-end;
+}
+
+.z-depth-5 {
+    box-shadow: 
+    0 24px 38px 3px rgba(0,0,0,.14), 
+    0 9px 46px 8px rgba(0,0,0,.12), 
+    0 11px 15px -7px rgba(0,0,0,.2)
+}
+
+.pinned {
+    position: fixed !important;
+}
+
+.no-top {
+    margin-top: 0;
+}
+
+.no-right {
+    margin-right: 0;
+}
+
+.no-bottom {
+    margin-bottom: 0;
+}
+
+.no-left {
+    margin-left: 0;
+}
+
+/* react-bootstrap */
+.form-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.form-control:placeholder-shown {
+    font-size: 0.8rem;
+}
+
+.form-control-file {
+    font-size: 0.8rem;
+} 
+
+/* btn */
+.btn {
+    font-size: 0.8rem;
+}
+.btn-primary {
+    border: none;
+    background-color: var(--primary-color);
+}
+.btn-primary:hover,
+.btn-primary:active {
+    background-color: #f8ca57;
+}
+
+/* Modal */
+.close {
+    color: #fff;
+    text-shadow: 0 1px 0 #000;
+}
+.close:hover {
+    color: rgb(105, 105, 105);
+}
