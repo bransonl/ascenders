@@ -1,14 +1,15 @@
 {
-  "name": "ascenders-user",
+  "name": "ascenders-admin",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Andre Hadianto",
   "license": "MIT",
   "scripts": {
     "login": "live-server public",
-    "admin": "live-server --open=./public/admin-ticket.html",
-    "build": "webpack --watch",
-    "start": "node app.js"
+    "build": "webpack-dev-server --watch",
+    "build-prod": "webpack --watch",
+    "start": "node app.js",
+    "test": "jest"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
@@ -18,11 +19,21 @@
     "babel-preset-react": "^6.24.1",
     "file-loader": "^3.0.1",
     "live-server": "^1.2.1",
-    "react": "16.0.0",
-    "react-dom": "16.0.0",
-    "url-loader": "^1.1.2",
+    "npm-check-updates": "^3.1.1",
+    "prop-types": "^15.7.2",
+    "ra-data-json-server": "^2.8.4",
+    "react": "^16.8.5",
+    "react-admin": "^2.8.4",
+    "react-dom": "^16.8.5",
+    "react-ionicons": "^3.0.1",
     "react-router-dom": "^4.3.1",
+    "url-loader": "^1.1.2",
     "validator": "8.0.0",
-    "webpack": "3.1.0"
+    "webpack": "3.1.0",
+    "webpack-dev-server": "2.5.1"
+  },
+  "devDependencies": {
+    "jest": "^24.5.0",
+    "react-test-renderer": "^16.8.4"
   }
 }
