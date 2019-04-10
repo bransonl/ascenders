@@ -58,6 +58,55 @@ async function getUserTickets(userId) {
     return Promise.resolve(JSON.parse(response).results);
 }
 
+async function getLabelTickets(labelType, labelId) {
+    if (!labelType | labelId) {
+        throw new ModelError(400, 'Missing fields');
+    }
+    else if (labelType!='tag' & labelType!='status' & labelType!='priority') {
+        throw new ModelError(400, 'Invalid labelType');
+    }
+    else if (labelId.length != 10) {
+        throw new ModelError(400, 'Invalid labelId');
+    }
+    else {
+        response = `{
+            "results": [
+                {
+                    "objectId": "Ak1o4Y8F8D",
+                    "title": "try me again",
+                    "body": "are you working please",
+                    "creator": "WZkEnP8vEm",
+                    "attachments": "https://ascenders-accenture.s3.ap-southeast-1.amazonaws.com/1554201775774.jpg",
+                    "status": "e0WoclRcZV",
+                    "createdAt": "2019-04-02T10:42:56.000Z",
+                    "updatedAt": "2019-04-02T10:42:56.204Z"
+                },
+                {
+                    "objectId": "mBFmUiEFkC",
+                    "title": "help help",
+                    "body": "help help help",
+                    "creator": "WZkEnP8vEm",
+                    "attachments": "https://ascenders-accenture.s3.amazonaws.com/1554202836698.jpg",
+                    "status": "e0WoclRcZV",
+                    "createdAt": "2019-04-02T11:00:36.927Z",
+                    "updatedAt": "2019-04-02T11:00:37.544Z"
+                },
+                {
+                    "objectId": "6UmzJbhCgx",
+                    "title": "faaak",
+                    "body": "help me pls",
+                    "creator": "WZkEnP8vEm",
+                    "attachments": "https://ascenders-accenture.s3.ap-southeast-1.amazonaws.com/1554203303768.jpg",
+                    "status": "e0WoclRcZV",
+                    "createdAt": "2019-04-02T11:08:24.015Z",
+                    "updatedAt": "2019-04-02T11:08:24.287Z"
+                }
+            ]
+        }`
+    }
+    return Promise.resolve(JSON.parse(response).results);
+}
+
 async function getAllTickets() {
     const response = `{
         "results": [
@@ -162,6 +211,7 @@ async function closeTicket(ticketId) {
 module.exports = {
     createTicket,
     getUserTickets,
+    getLabelTickets,
     getAllTickets,
     getTicket,
     modifyTicket,

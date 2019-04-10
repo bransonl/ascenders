@@ -40,9 +40,7 @@ async function getLabel(labelType, name) {
         headers: sharedHeaders,
     };
     try {
-        const res = await request(options);
-        console.log(res);
-        return JSON.parse(res).results[0];
+        return JSON.parse(await request(options)).results[0];
     } catch(err) {
         return new ModelError(err.statusCode, err.error.error);
     }
