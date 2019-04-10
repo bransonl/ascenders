@@ -51,7 +51,12 @@ p {
     font-family: "Montserrat-Light", Arial, Helvetica, sans-serif;
     font-size: 80%;
     font-weight: 100;
-    line-height: 1.5;
+    margin: 0;
+    line-height: 1.1rem;
+}
+
+h5 {
+    margin: 0;
 }
 
 /* ------ */

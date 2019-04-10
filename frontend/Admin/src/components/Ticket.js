@@ -12,16 +12,16 @@ class Ticket extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tickets: [],
             modalShow: false,
+            tickets: [],
             preview: null
         };
     }
 
     componentDidMount() {
-        console.log("Component mounted...")
-        console.log("Context: ", this.context);
-        fetch('http://127.0.0.1:3000/tickets/user', {
+        console.log("Ticket component mounted...")
+        console.log("Current context: ", this.context);
+        fetch('http://127.0.0.1:3000/tickets/admin', {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + this.context.token
@@ -29,7 +29,9 @@ class Ticket extends React.Component {
         })
         .then(res => res.json()) 
         .then(res => {
-            this.setState({tickets: [...res.results]});
+            console.log("\nSetting state...");
+            this.setState({tickets: [...res]});
+            console.log("State is successfully set...\nTickets: ", this.state);
         })
         .catch(err => console.log(err));
     }
