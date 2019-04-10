@@ -56,6 +56,27 @@ async function getUserTickets(userId) {
     }
 }
 
+async function getLabelTickets(labelType, labelId) {
+    if (!labelType | !labelId) {
+        throw new ModelError(400, 'missing fields');
+    }
+    console.log(`{"${labelType}":"${labelId}"}`);
+    const options = {
+        method: 'GET',
+        uri: ticketsClassPath,
+        qs: {
+            where: `{"${labelType}":"${labelId}"}`,
+        },
+        header: sharedHeaders,
+    };
+    try {
+        console.log(JSON.parse(await request(options)));
+        return JSON.parse(await request(options)).results;
+    } catch (err) {
+        return new ModelError(err.statusCode, err.error.error);
+    }
+}
+
 async function getAllTickets() {
     const options = {
         method: 'GET',
@@ -63,7 +84,7 @@ async function getAllTickets() {
         headers: sharedHeaders,
     };
     try {
-        return await request(options);
+        return JSON.parse(await request(options)).results;
     } catch (err) {
         return new ModelError(err.statusCode, err.error.error);
     }
@@ -140,6 +161,7 @@ async function closeTicket(ticketId) {
 module.exports = {
     createTicket,
     getUserTickets,
+    getLabelTickets,
     getAllTickets,
     getTicket,
     modifyTicket,

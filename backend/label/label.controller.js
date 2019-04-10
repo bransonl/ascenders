@@ -3,7 +3,9 @@ class LabelController {
         this._model = model;
 
         this.getLabels = this.getLabels.bind(this);
+        this.getLabels_ = this.getLabels_.bind(this);
         this.getLabel = this.getLabel.bind(this);
+
         this.checkLabelExist = this.checkLabelExist.bind(this);
         this.checkLabelExist_ = this.checkLabelExist_.bind(this);
         this.createLabel = this.createLabel.bind(this);
@@ -17,6 +19,26 @@ class LabelController {
         try {
             const getLabelResult = await this._model.getLabels(labelType);
             return res.status(200).send(getLabelResult);    
+        } catch(err) {
+            return res.status(500).send();
+        }
+    }
+
+    async getLabels_(req, res, next) {
+        const {labelType} = req.params;
+        try {
+            const getLabelResult = await this._model.getLabels(labelType);
+            console.log(getLabelResult);
+            console.log(getLabelResult.length);
+            let labelIds = [];
+            var i;
+            for (i=0; i< getLabelResult.length; i++) {
+                console.log(getLabelResult[i].objectId);
+                labelIds.push(getLabelResult[i].objectId);
+            }
+            console.log(labelIds);
+            req.labelIds = labelIds;
+            next();
         } catch(err) {
             return res.status(500).send();
         }

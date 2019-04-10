@@ -36,6 +36,13 @@ function routes(app) {
         auth.validateToken,
         ticketController.getUserTickets
     );
+    // app.route('/tickets/label/:labelType')
+    // .get(
+    //     // auth.validateToken,
+    //     labelController.getLabels_,
+    //     ticketController.getLabelTickets,
+    // );
+
     app.route('/tickets/admin')
     .get(
         auth.validateToken,

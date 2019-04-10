@@ -7,6 +7,7 @@ class TicketController {
         this.closeTicket = this.closeTicket.bind(this);
 
         this.getUserTickets = this.getUserTickets.bind(this);
+        // this.getLabelTickets = this.getLabelTickets.bind(this);
         this.getAllTickets = this.getAllTickets.bind(this);
         this.getTicket = this.getTicket.bind(this);
 
@@ -81,6 +82,28 @@ class TicketController {
             return res.status(500).send();
         }
     }
+
+    // async getLabelTickets(req, res) {
+    //     const {labelType} = req.params;
+    //     const labelIds = req.labelIds;
+    //     console.log(labelType);
+    //     console.log(labelIds);
+    //     let returnTickets = [];
+    //     var i;
+    //     for (i=0; i<labelIds.length; i++) {
+    //         const labelId = labelIds[i];
+    //         console.log(labelId);
+    //         try {
+    //             const getLabelTicketsResult = await this._model.getLabelTickets(labelType, labelId);
+    //             console.log(getLabelTicketsResult);
+    //             returnTickets.push(getLabelTicketsResult);
+    //         } catch (err) {
+    //             return res.status(500).send();
+    //         }
+    //     }
+    //     console.log(returnTickets);
+    //     return res.status(200).send(returnTickets);
+    // }
 
     async getAllTickets(req, res) {
         try {
