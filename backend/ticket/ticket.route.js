@@ -1,26 +1,48 @@
 const auth = require('../auth');
 const ticketModel = require('./ticket.model');
 const {TicketController} = require('./ticket.controller');
+
 const awsModel = require('../aws/aws.model');
 const {AwsController} = require('../aws/aws.controller');
+
 const userModel = require('../user/user.model');
 const {UserController} = require('../user/user.controller');
+
+const labelModel = require('../label/label.model');
+const {LabelController} = require('../label/label.controller');
 
 const ticketController = new TicketController(ticketModel);
 const awsController = new AwsController(awsModel);
 const userController = new UserController(userModel);
+const labelController = new LabelController(labelModel);
 
 function routes(app) {
-    app.route('/tickets') // define endpoint of backend
-    .post( // to make this API call
+    //create tickets
+    app.route('/tickets')
+    .post(
         auth.validateToken,
         ticketController.createTicket
     )
+    app.route('/tickets/upload/:ticketId')
+    .put(
+        auth.validateToken,
+        awsController.uploadFile,
+        ticketController.addAttachment
+    );
+
+    //get tickets
     app.route('/tickets/user')
     .get(
         auth.validateToken,
         ticketController.getUserTickets
     );
+    // app.route('/tickets/label/:labelType')
+    // .get(
+    //     // auth.validateToken,
+    //     labelController.getLabels_,
+    //     ticketController.getLabelTickets,
+    // );
+
     app.route('/tickets/admin')
     .get(
         auth.validateToken,
@@ -32,22 +54,42 @@ function routes(app) {
         auth.validateToken,
         ticketController.getTicket
     );
-    app.route('/tickets/upload/:ticketId')
-    .put(
-        auth.validateToken,
-        awsController.uploadFile,
-        ticketController.addAttachment
-    );
+
+    //close ticket
     app.route('/tickets/close/:ticketId')
     .put(
         auth.validateToken,
         ticketController.closeTicket
     );
-    app.route('/tickets/assign/:ticketId')
+
+    //filtering
+    app.route('/tickets/assign/:ticketId') //assign ticket to admin
     .put(
-        // auth.validateToken,
+        auth.validateToken,
+        auth.createRoleCheck('admin'),
         userController.getUser,
         ticketController.addAdmin
+    );
+    app.route('/tickets/addtag/:ticketId')
+    .put(
+        // auth.validateToken,
+        // auth.createRoleCheck('admin'),
+        labelController.checkLabelExist_,
+        ticketController.addTag,
+    );
+    app.route('/tickets/addstatus/:ticketId')
+    .put(
+        // auth.validateToken,
+        // auth.createRoleCheck('admin'),
+        labelController.checkLabelExist_,
+        ticketController.addStatus,
+    );
+    app.route('/tickets/addpriority/:ticketId')
+    .put(
+        // auth.validateToken,
+        // auth.createRoleCheck('admin'),
+        labelController.checkLabelExist_,
+        ticketController.addPriority,
     );
 };
 

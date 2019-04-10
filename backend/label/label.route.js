@@ -2,27 +2,36 @@ const auth = require('../auth.js');
 const labelModel = require('./label.model');
 const {LabelController} = require('./label.controller');
 
-const controller = new LabelController(labelModel);
+const labelController = new LabelController(labelModel);
 
 function routes(app) {
     app.route('/label/:labelType') // get all labels of type
     .get(
         // auth.validateToken,
-        controller.getLabels,
+        labelController.getLabels,
         )
     .post( // post new label of type
         // auth.validateToken,
         // auth.createRoleCheck('admin'),
-        controller.createLabel,
+        labelController.createLabel,
         );
-    app.route('/label/:labelType/:name')
+    app.route('/label/:labelType/:labelName')
     .get( // get label of type and name
-        // auth.validateToken,
-        controller.getLabel,
+        auth.validateToken,
+        labelController.getLabel,
         )
-    .put( // modify label of type and name
-        // auth.validateToken,
-        controller.modifyLabel,
+    
+    app.route('/label/:labelType/:labelName')    
+    .put(
+        auth.validateToken,
+        auth.createRoleCheck('admin'),
+        labelController.modifyLabel,
+        );
+    app.route('/labelc/:labelType/:labelName')    
+    .put(
+        auth.validateToken,
+        auth.createRoleCheck('admin'),
+        labelController.modifyLabelc,
         );
 }
 
