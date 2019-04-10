@@ -2,8 +2,9 @@
 /* CUSTOM COLOR */
 /* ------------ */
 :root {
---background-color: #242426;
+--background-color: #1e1e1e;
 --midground-color: #30353e;
+--foreground-color: #242426;
 
 --primary-color: #febc11;
 --secondary-color: #000000;

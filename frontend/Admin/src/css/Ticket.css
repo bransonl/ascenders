@@ -17,12 +17,17 @@
     font-size: 80%;
     text-align: left;
     color: var(--text-on-black2);
-
 }
 .header-container {
     border-bottom: 1px solid var(--primary-color);  
     text-align: center;  
 }
+
+.ticket-container:hover {
+    text-decoration: none;
+    background-color: #2a2d2e;
+}
+
 .row {
     display: flex;
     flex-direction: row;
@@ -35,7 +40,7 @@
 }
 
 .action-bar {
-    background-color: #333438;
+    background-color: #2d2d2d;
 }
 .add-ticket {
     display: flex;

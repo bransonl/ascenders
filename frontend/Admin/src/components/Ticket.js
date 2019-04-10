@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import IosAdd from 'react-ionicons/lib/IosAdd';
 
@@ -12,7 +13,8 @@ class Ticket extends React.Component {
         super(props);
         this.state = {
             tickets: [],
-            modalShow: false
+            modalShow: false,
+            preview: null
         };
     }
 
@@ -28,7 +30,6 @@ class Ticket extends React.Component {
         .then(res => res.json()) 
         .then(res => {
             this.setState({tickets: [...res.results]});
-            console.log("state: ", this.state);
         })
         .catch(err => console.log(err));
     }
@@ -51,7 +52,6 @@ class Ticket extends React.Component {
                         </div>
                     </Row>
                 </Container>
-
                 <Container bsPrefix="header-container">
                     <Row>
                         <Col>Date Submitted</Col>
@@ -59,23 +59,29 @@ class Ticket extends React.Component {
                         <Col md={4}>Title</Col>
                         <Col>Ticket Id</Col>
                         <Col>Action</Col>
-                    </Row>                        
+                    </Row>
                 </Container>
-                {this.state.tickets.map((ticket, index) => {
-                    return (
-                        <div key={index}>
-                            <Container bsPrefix="ticket-container">
-                                <Row>
-                                    <Col>{ticket.createdAt}</Col>
-                                    <Col>{ticket.creator}</Col>
-                                    <Col md={4}>{ticket.title}</Col>
-                                    <Col>{ticket.objectId}</Col>
-                                    <Col>Options</Col>
-                                </Row>
-                            </Container>
-                        </div>
-                    );
-                })}
+                    {this.state.tickets.map((ticket, index) => {
+                        return (
+                            <div key={index}>
+                                <Link 
+                                    to={{
+                                        pathname: `/tickets/preview/${ticket.objectId}`,
+                                    }}                
+                                >
+                                    <Container bsPrefix="ticket-container">
+                                        <Row>
+                                            <Col>{ticket.createdAt}</Col>
+                                            <Col>{ticket.creator}</Col>
+                                            <Col md={4}>{ticket.title}</Col>
+                                            <Col>{ticket.objectId}</Col>
+                                            <Col>Options</Col>
+                                        </Row>
+                                    </Container>
+                                </Link>
+                            </div>
+                        );
+                    })}
             </div>    
         );
     }

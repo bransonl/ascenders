@@ -11,9 +11,9 @@ import '../css/Sidebar.css';
 export default class Sidebar extends React.Component {
     render() {
         let links = [
-            {label: 'Dashboard', icon: <IosApps className="sidebar-icon"/>, link: '/admin/dashboard'},
-            {label: 'Tickets', icon: <IosPaper className="sidebar-icon" />, link: '/admin/tickets'},
-            {label: 'Messages', icon: <IosText className="sidebar-icon" />, link: '/admin/messages'},
+            {label: 'Dashboard', icon: <IosApps className="sidebar-icon"/>, link: '/dashboard'},
+            {label: 'Tickets', icon: <IosPaper className="sidebar-icon" />, link: '/tickets'},
+            {label: 'Messages', icon: <IosText className="sidebar-icon" />, link: '/messages'},
         ];
 
         return (

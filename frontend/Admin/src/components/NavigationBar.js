@@ -1,6 +1,6 @@
 import React from 'react';
-import {BrowserRouter, NavLink, Link} from 'react-router-dom';
-import { Button, Nav, OverlayTrigger, Popover, Overlay } from 'react-bootstrap';
+import { NavLink, Link } from 'react-router-dom';
+import { Button, Nav, OverlayTrigger, Popover } from 'react-bootstrap';
 import logo from './resources/accenture-purple-logo.png'
 import IosNotifications from 'react-ionicons/lib/IosNotifications'
 import IosListBox from 'react-ionicons/lib/IosListBox'
@@ -21,19 +21,18 @@ const accountPop = (
 class NavigationBar extends React.Component {
     render() {
         return (
-            <BrowserRouter>
                 <div>
                     <Nav 
                         onSelect={selectedKey => console.log(`${selectedKey} is clicked`)}>
                         <div className="nav-wrapper">
                         <Nav.Item bsPrefix="logo">
-                            <NavLink to="/admin">
+                            <NavLink to="/dashboard">
                                 <img className="nav-logo"src={logo} alt="logo"/>
                             </NavLink>
                         </Nav.Item>
                         <Nav.Item className="right">
-                            <Link to='/admin/notification' className="nav-link"><IosNotifications className="nav-icons"/></Link>
-                            <Link to='/admin/todo' className="nav-link"><IosListBox className="nav-icons"/></Link>
+                            <Link to='/notification' className="nav-link"><IosNotifications className="nav-icons"/></Link>
+                            <Link to='/todo' className="nav-link"><IosListBox className="nav-icons"/></Link>
                             
                             <OverlayTrigger
                                 trigger="click"
@@ -41,7 +40,7 @@ class NavigationBar extends React.Component {
                                 rootClose="true"
                                 overlay= {accountPop}
                             >
-                                <Link to='/admin' className="nav-link"><IosContact className="nav-icons"/></Link>
+                                <Link to='/' className="nav-link"><IosContact className="nav-icons"/></Link>
                             </OverlayTrigger>                           
                                 
                         </Nav.Item>
@@ -49,7 +48,6 @@ class NavigationBar extends React.Component {
 
                     </Nav>
                 </div>
-            </BrowserRouter>
         );
     }
 }

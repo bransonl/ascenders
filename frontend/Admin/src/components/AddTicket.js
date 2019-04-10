@@ -10,7 +10,7 @@ class AddTicket extends React.Component {
     constructor(props) {
         super(props);
         this.submitTicket = this.submitTicket.bind(this);
-        this.onChange = this.onChange.bind(this);
+        // this.onChange = this.onChange.bind(this);
         this.fileUpload = this.fileUpload.bind(this);
         this.state = {
             title: null,
@@ -23,7 +23,7 @@ class AddTicket extends React.Component {
         e.preventDefault();
         const title = e.target.elements.title.value;
         const body = e.target.elements.description.value;
-        const file = this.state.file;
+        // const file = this.state.file;
         fetch('http://127.0.0.1:3000/tickets', {
             method: 'POST',
             headers: {
@@ -44,9 +44,9 @@ class AddTicket extends React.Component {
         e.target.elements.description.value = "";
     }
 
-    onChange(e) { // called when file selected
-        this.setState({file: e.target.files[0]});
-    }
+    // onChange(e) { // called when file selected
+    //     this.setState({file: e.target.files[0]});
+    // }
 
     fileUpload() {
         console.log('uploading file...');
