@@ -1,15 +1,16 @@
 const {validateToken} = require('../auth');
 
 class NotificationController {
-    constructor(model, socket) {
+    constructor(models, socket) {
         this._userSockets = {};
         this._ready = false;
-        this._model = model;
+        this._model = Object.assign({}, ...models);
         this._socket = socket;
         this._initNotificationSocket();
 
         this.getNotificationsForUser = this.getNotificationsForUser.bind(this);
         this.createNotificationForUsers = this.createNotificationForUsers.bind(this);
+        this.removeLaterCreateNotificationForUsers = this.removeLaterCreateNotificationForUsers.bind(this);
     }
 
     _initNotificationSocket() {
@@ -75,15 +76,17 @@ class NotificationController {
             });
         }
         try {
-            const results = await this._model.getNotificationsForUser(userId);
-            return res.json(results);
+            const notifications = await this._model.getNotificationsForUser(userId);
+            return res.json({
+                notifications,
+            });
         } catch (err) {
             return res.status(500).send();
         }
     }
 
     async createNotificationForUsers(userIds, title, body, navigateTo) {
-        await this._model.createNotificationForUsers(users, title, body, navigateTo);
+        await this._model.createNotificationForUsers(userIds, title, body, navigateTo);
         userIds.forEach((userId) => {
             if (!this._userSockets[userId]) {
                 return;
@@ -92,6 +95,34 @@ class NotificationController {
                 title, body, navigateTo,
             });
         });
+        userIds.forEach(async (userId) => {
+            try {
+                const user = await this._model.getUserById(userId);
+                console.log(user);
+                if (user.email) {
+                    console.log(`${userId} has email`);
+                    this._model.sendEmail(user.email, title, body);
+                }
+                if (user.phone) {
+                    console.log(`${userId} has phone`);
+                    this._model.sendSms(user.phone, body);
+                }
+            } catch (err) {
+                throw err;
+            }
+        });
+    }
+
+    async removeLaterCreateNotificationForUsers(req, res) {
+        const {users, title, body, navigateTo} = req.body;
+        try {
+            await this.createNotificationForUsers(users, title, body, navigateTo);
+            return res.status(200).send();
+        } catch (err) {
+            return res.status(500).json({
+                error: err,
+            });
+        }
     }
 }
 

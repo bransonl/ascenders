@@ -3,10 +3,11 @@ const request = require('request-promise-native');
 const {apiEndpoint, sharedHeaders} = require('../env.js');
 const {ModelError} = require('../error');
 
-function createUserObject({username, role, phone}) {
+function createUserObject({username, role, notificationEmail, phone}) {
     return {
         username,
         role,
+        email: notificationEmail,
         phone,
     };
 }
@@ -52,8 +53,8 @@ async function logout(sessionToken) {
     }
 }
 
-async function register(username, password, role) {
-    if (!username || !password || !role) {
+async function register(username, password, role, email) {
+    if (!username || !password || !role || !email) {
         throw new ModelError(400, 'Missing fields');
     }
     const options = {
@@ -70,9 +71,26 @@ async function register(username, password, role) {
     }
 }
 
+async function getUserById(userId) {
+    const options = {
+        method: 'GET',
+        uri: `${apiEndpoint}/users/${userId}`,
+        headers: sharedHeaders,
+        json: true,
+    };
+    try {
+        const result = await request(options);
+        console.log(result);
+        return createUserObject(result);
+    } catch (err) {
+        throw new ModelError(err.statusCode, err.error.error);
+    }
+}
+
 module.exports = {
     createUserObject,
     login,
     logout,
     register,
+    getUserById,
 }
