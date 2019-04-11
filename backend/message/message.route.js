@@ -7,15 +7,15 @@ const controller = new MessageController(messageModel);
 function routes(app) {
     app.route('/tickets/:ticketId/comments')
         .get(
-            auth.validateToken,
+            auth.validateTokenMiddleware,
             controller.getCommentsByTicket,
         )
         .post(
-            auth.validateToken,
+            auth.validateTokenMiddleware,
             controller.addCommentToTicket,
         );
 }
-    
+
 module.exports = {
     routes,
 }

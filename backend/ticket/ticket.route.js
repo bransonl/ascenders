@@ -7,25 +7,25 @@ const ticketController = new TicketController(ticketModel)
 function routes(app) {
     app.route('/tickets') // define endpoint of backend
     .post( // to make this API call
-        auth.validateToken,
+        auth.validateTokenMiddleware,
         ticketController.createTicket
         )
     .get(
-        auth.validateToken,
+        auth.validateTokenMiddleware,
         ticketController.getTickets
         );
     app.route('/tickets/:ticketId')
     .get(
-        auth.validateToken,
+        auth.validateTokenMiddleware,
         ticketController.getTicket
         )
     .put(
-        auth.validateToken,
+        auth.validateTokenMiddleware,
         ticketController.modifyTicket
         );
     app.route('/tickets/close/:ticketId')
     .put(
-        auth.validateToken,
+        auth.validateTokenMiddleware,
         ticketController.closeTicket
         );
 };

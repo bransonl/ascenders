@@ -7,12 +7,12 @@ const controller = new LabelController(labelModel);
 function routes(app) {
     app.route('/label/:labelType')
     .get(
-        auth.validateToken,
+        auth.validateTokenMiddleware,
         controller.getLabelItems,
         );
     app.route('/label/:labelType')
     .post(
-        auth.validateToken,
+        auth.validateTokenMiddleware,
         auth.createRoleCheck('admin'),
         controller.createLabel,
         );

@@ -7,17 +7,23 @@ const controller = new UserController(userModel, jwtSecret);
 
 function routes(app) {
     app.route('/checkToken')
-        .get(auth.validateToken, controller.checkToken);
+        .get(
+            auth.validateTokenMiddleware,
+            controller.checkToken,
+        );
 
     app.route('/login')
         .post(controller.login);
 
     app.route('/logout')
-        .post(auth.validateToken, controller.logout);
+        .post(
+            auth.validateTokenMiddleware,
+            controller.logout,
+        );
 
     app.route('/users')
         .post( // Register a user
-            auth.validateToken,
+            auth.validateTokenMiddleware,
             auth.createRoleCheck('admin'),
             controller.register,
         );

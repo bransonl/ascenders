@@ -7,7 +7,7 @@ const awsController = new AwsController(awsModel);
 function routes(app) {
     app.route('/tickets/upload')
     .post(
-        auth.validateToken,
+        auth.validateTokenMiddleware,
         awsController.uploadFile
         );
 }
