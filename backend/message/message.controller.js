@@ -1,6 +1,6 @@
 class MessageController {
-    constructor(model) {
-        this._model = model;
+    constructor(models = []) {
+        this._model = Object.assign({}, ...models);
         this.addMessageToTicket = this.addMessageToTicket.bind(this);
         this.getCommentsByTicket = this.getCommentsByTicket.bind(this);
         this.addCommentToTicket = this.addCommentToTicket.bind(this);
@@ -22,9 +22,9 @@ class MessageController {
             console.error(err.error);
             return res.status(500).send();
         }
-        
+
     }
-    
+
     async getCommentsByTicket(req, res) {
         const {ticketId} = req.params;
         try {
@@ -41,7 +41,7 @@ class MessageController {
             return res.status(500).send();
         }
     }
-    
+
     // TODO: add permission checking
     async addCommentToTicket(req, res) {
         const {ticketId} = req.params;

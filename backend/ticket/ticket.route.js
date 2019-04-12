@@ -6,14 +6,12 @@ const awsModel = require('../aws/aws.model');
 const {AwsController} = require('../aws/aws.controller');
 
 const userModel = require('../user/user.model');
-const {UserController} = require('../user/user.controller');
 
 const labelModel = require('../label/label.model');
 const {LabelController} = require('../label/label.controller');
 
-const ticketController = new TicketController(ticketModel);
+const ticketController = new TicketController([ticketModel, userModel]);
 const awsController = new AwsController(awsModel);
-const userController = new UserController(userModel);
 const labelController = new LabelController(labelModel);
 
 function routes(app) {
@@ -66,7 +64,6 @@ function routes(app) {
     .put(
         auth.validateToken,
         auth.createRoleCheck('admin'),
-        userController.getUser,
         ticketController.addAdmin
     );
     app.route('/tickets/addtag/:ticketId')

@@ -1,6 +1,6 @@
 class TicketController {
-    constructor(model) {
-        this._model = model;
+    constructor(models = []) {
+        this._model = Object.assign({}, ...models);
 
         this.createTicket = this.createTicket.bind(this);
         this.addAttachment = this.addAttachment.bind(this);
@@ -42,7 +42,7 @@ class TicketController {
         if (!attachments) {
             attachments = '';
         }
-        try { 
+        try {
             const createTicketResult = await this._model.createTicket(title, body, creator, attachments);
             console.log(createTicketResult);
             return res.status(200).send(createTicketResult);
@@ -116,10 +116,18 @@ class TicketController {
 
     async addAdmin(req, res) {
         const {ticketId} = req.params;
-        const newAdmin = req.user;
+        const userId = req.body.userId;
+        if (!userId) {
+            res.status(400).json({
+                message: 'Missing user id',
+            });
+        }
+        const newAdmin = await this._model.getUser(userId);
         const newAdminId = newAdmin.objectId;
-        if (newAdmin.role != 'admin') {
-            return res.status(400).send('This user has insufficient permissions');
+        if (newAdmin.role !== 'admin') {
+            return res.status(400).json({
+                message: 'This user has insufficient permissions'
+            });
         }
         const ticket = await this._model.getTicket(ticketId);
         let assigned = ticket.assigned;
@@ -214,4 +222,3 @@ class TicketController {
 module.exports = {
     TicketController,
 }
-

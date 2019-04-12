@@ -3,7 +3,7 @@ const {jwtSecret} = require('../env');
 const userModel = require('./user.model');
 const {UserController} = require('./user.controller');
 
-const controller = new UserController(userModel, jwtSecret);
+const controller = new UserController([userModel], jwtSecret);
 
 function routes(app) {
     app.route('/checkToken')
@@ -21,7 +21,7 @@ function routes(app) {
             auth.createRoleCheck('admin'),
             controller.register,
         );
-    
+
     app.route('/users/admin')
         .get(
             auth.validateToken,

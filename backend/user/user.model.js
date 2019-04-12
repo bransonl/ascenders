@@ -3,8 +3,9 @@ const request = require('request-promise-native');
 const {apiEndpoint, sharedHeaders} = require('../env.js');
 const {ModelError} = require('../error');
 
-function createUserObject({username, role, phone}) {
+function createUserObject({objectId, username, role, phone}) {
     return {
+        userId: objectId,
         username,
         role,
         phone,
@@ -48,7 +49,7 @@ async function logout(sessionToken) {
     try {
         return await request(options);
     } catch (err) {
-        throw new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(500, `Database call failed: ${err.error.error}`);
     }
 }
 
@@ -66,7 +67,7 @@ async function register(username, password, role) {
     try {
         return await request(options);
     } catch (err) {
-        throw new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(500, `Database call failed ${err.error.error}`);
     }
 }
 
@@ -76,18 +77,17 @@ async function getUser(userId) {
     }
     const options = {
         method: 'GET',
-        uri: `${apiEndpoint}/users`,
-        qs: {
-            where: `{"objectId":"${userId}"}`,
-        },
+        uri: `${apiEndpoint}/users/${userId}`,
         headers: sharedHeaders,
+        json: true,
     };
     try {
-        console.log('getUser');
-        console.log(JSON.parse(await request(options)).results[0]);
-        return JSON.parse(await request(options)).results[0];
+        return await request(options);
     } catch (err) {
-        throw new ModelError(err.statusCode, err.error.error);
+        if (err.statusCode === 404) {
+            throw new ModelError(404, `The user with id ${userId} does not exist`);
+        }
+        throw new ModelError(500, `Database call failed: ${err.error.error}`);
     }
 }
 
@@ -96,14 +96,17 @@ async function getAdmins() {
         method: 'GET',
         uri: `${apiEndpoint}/users`,
         qs: {
-            where: `{"role":"admin"}`,
+            where: {
+                role: 'admin',
+            },
         },
         headers: sharedHeaders,
+        json: true,
     };
     try {
-        return JSON.parse(await request(options)).results;
+        return (await request(options)).results;
     } catch (err) {
-        throw new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(500, `Database call failed: ${err.error.error}`);
     }
 }
 
