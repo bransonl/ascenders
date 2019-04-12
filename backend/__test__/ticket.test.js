@@ -38,6 +38,26 @@ describe('GET TICKETS OF USER TESTS', () => {
     });
 });
 
+describe('GET TICKETS BY LABELTYPE & LABELNAME', () => {
+    //getLabelTickets(labelType, labelId)
+    test('normal test case', async() => {
+        const response = await ticketModel.getLabelTickets('status', 'e0WoclRcZV');
+        expect(response.length).toBeGreaterThan(0);
+    });
+    test('error message if invalid labelType', async() => {
+        await expect(ticketModel.getLabelTickets('wrongType','e0WoclRcZV'))
+        .rejects.toThrow('Invalid labelType');
+    });
+    test('non-existent label test case', async() => {
+        await expect(ticketModel.getLabelTickets('status','fakeId'))
+        .rejects.toThrow('Invalid labelId');
+    });
+    test('error message if missing fields', async() => {
+        await expect(ticketModel.getLabelTickets())
+        .rejects.toThrow('Missing fields');
+    });
+})
+
 describe('GET ALL TICKETS (ADMIN) TESTS', () => {
     //getAllTickets()
     test('normal test case', async() => {

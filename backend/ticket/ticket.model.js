@@ -57,20 +57,24 @@ async function getUserTickets(userId) {
 }
 
 async function getLabelTickets(labelType, labelId) {
-    if (!labelType | !labelId) {
-        throw new ModelError(400, 'missing fields');
+    if (!labelType | labelId) {
+        throw new ModelError(400, 'Missing fields');
     }
-    console.log(`{"${labelType}":"${labelId}"}`);
+    else if (labelType!='tag' & labelType!='status' & labelType!='priority') {
+        throw new ModelError(400, 'Invalid labelType');
+    }
+    else if (labelId.length != 10) {
+        throw new ModelError(400, 'Invalid labelId');
+    }
     const options = {
         method: 'GET',
         uri: ticketsClassPath,
         qs: {
             where: `{"${labelType}":"${labelId}"}`,
         },
-        header: sharedHeaders,
+        headers: sharedHeaders,
     };
     try {
-        console.log(JSON.parse(await request(options)));
         return JSON.parse(await request(options)).results;
     } catch (err) {
         return new ModelError(err.statusCode, err.error.error);
