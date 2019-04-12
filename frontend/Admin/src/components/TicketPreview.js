@@ -36,19 +36,21 @@ class TicketPreview extends React.Component {
         console.log(this.state.preview);
         if (sendMessage != null) {
             console.log("Message submitted.\nFetching from API...");
+            // const token = 'Bearer ' + this.context.token
+            const token = 'Bearer ' + sessionStorage.getItem("token");
             const url = `http://127.0.0.1:3000/tickets/${this.state.preview.objectId}/comments`;
             axios.post(url, {
                 message: sendMessage
             }, {
                 headers: {
-                    Authorization: "Bearer " + this.context.token
+                    Authorization: token
                 },
             })
             .then(res => {
                 console.log("response: ", res)
                 axios.get(url, {
                     headers: {
-                        Authorization: "Bearer " + this.context.token
+                        Authorization: token
                     }
                 })
                 .then(res => {
@@ -75,24 +77,28 @@ class TicketPreview extends React.Component {
     handleFileUpload(file) {
         const ticketId = this.state.preview.objectId;
 
+        // const token = 'Bearer ' + this.context.token
+        const token = 'Bearer ' + sessionStorage.getItem("token");
         const url = `http://127.0.0.1:3000/tickets/upload/${ticketId}`;
         const formData = new FormData();
         formData.append('file',file);
         const config = {
             headers: {
-                Authorization: "Bearer " + this.context.token
+                Authorization: token
             }
         }
-        return post(url, formData, config);
+        return axios.put(url, formData, config);
     }
 
     componentDidMount() {
         console.log("\nTicket preview is mounted...")
         const{match: {params}} = this.props;
+        // const token = 'Bearer ' + this.context.token
+        const token = 'Bearer ' + sessionStorage.getItem("token");
         const url = `http://127.0.0.1:3000/tickets/${params.ticketId}`;
         axios.get(url, {
             headers: {
-                Authorization: "Bearer " + this.context.token
+                Authorization: token
             }
         })
         .then(res => {
@@ -102,10 +108,12 @@ class TicketPreview extends React.Component {
         })
         .then(res => {
             console.log("Retrieving ticket comments...");
+            // const token = 'Bearer ' + this.context.token
+            const token = 'Bearer ' + sessionStorage.getItem("token");
             const replyURL = `http://127.0.0.1:3000/tickets/${params.ticketId}/comments`;
             axios.get(replyURL, {
                 headers: {
-                    Authorization: "Bearer " + this.context.token
+                    Authorization: token
                 }
             })
             .then(res => {

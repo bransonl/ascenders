@@ -23,10 +23,13 @@ class Ticket extends React.Component {
     componentDidMount() {
         console.log("Ticket component mounted...")
         console.log("Current context: ", this.context);
+
+        // const token = 'Bearer ' + this.context.token
+        const token = 'Bearer ' + sessionStorage.getItem("token");
         fetch('http://127.0.0.1:3000/tickets/admin', {
             method: 'GET',
             headers: {
-                'Authorization': 'Bearer ' + this.context.token
+                'Authorization': token
             }, 
         })
         .then(res => res.json()) 
@@ -77,6 +80,7 @@ class Ticket extends React.Component {
                         <Col>Action</Col>
                     </Row>
                 </Container>
+                <div className="body-container">
                     {this.state.tickets.map((ticket, index) => {
                         return (
                             <div key={index}>
@@ -98,6 +102,7 @@ class Ticket extends React.Component {
                             </div>
                         );
                     })}
+                </div>
             </div>    
         );
     }

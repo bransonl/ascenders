@@ -1,32 +1,23 @@
 # Ascenders Frontend Design Development
-## A simple tutorial to get you started
+## A tutorial to get you started
 
 ### Get Started
-After downloading the webapp, use your OS terminal to the frontend directory (Admin or User) and type `npm install` to get all the dependencies required for the app to run.
-Use `yarn run build` and `yarn run login` on a separate terminal to start the developer mode.
+After cloning, use your OS terminal (I use powershell) to type `npm install` on the backend, frontend/admin and frontend/user to get all the dependencies required for the app to run.
+Use `yarn run build` on the frontend terminal and `npm start` on the backend terminal to run the app.
 For further instruction, you can refer to package.json and look for the runnable-scripts under 'scripts'
 
 ### The Directories
 Ascenders web app is built based on React.js. There are several important directories that need to be taken note of when editing the webApp.
-- public
 - src
 - package.json
-
-public<br>
-| - assets<br>
-| - | img   // contains all the backdrops used in the .css file<br>
-| - | scripts<br>
-| - | - | css    // contains all the .css file used in the webApp<br>
-| - | - | - | fonts    // contains all the fonts used in the webApp<br>
-| - | - | js<br>
-| bundle.js    // automatically generated from babel<br>
-| index.html    // all the scripts are set here<br>
 
 src<br>
 | - | components<br>
 | - | - | resources<br>
+| - | - | globalContext<br>
+| - | css<br>
 | - | routers<br>
-| - | AppRouter.js<br>
+| - | - AppRouter.js<br>
 | app.js<br>
 
 package.json

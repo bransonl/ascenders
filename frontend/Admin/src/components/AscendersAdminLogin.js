@@ -34,15 +34,21 @@ class AscendersAdminLogin extends React.Component {
             .then(res => {
                 console.log("Response: ", res);
                 if (res.token !== undefined) {
+
                     this.context.isAuthenticated = true;
                     this.context.token = res.token;
                     this.context.username = res.username;
                     this.context.role = res.role;
+
+                    sessionStorage.setItem("isAuthenticated", true);
+                    sessionStorage.setItem("token", res.token);
+                    sessionStorage.setItem("username", res.username);
+                    sessionStorage.setItem("role", res.role);
+
                     console.log("Context state: ", this.context);
                     console.log("Authentication success...");
                     this.context.redirectToHome = true;
                     this.forceUpdate();
-                    // this.setState({redirectToHome: true});
                 } else {
                     alert("Incorrect username/password!");
                 }
