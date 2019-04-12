@@ -31,7 +31,7 @@ function routes(app) {
     //get tickets
     app.route('/tickets/user')
     .get(
-        auth.validateTokenMiddlware,
+        auth.validateTokenMiddleware,
         ticketController.getUserTickets
     );
     app.route('/tickets/label')
