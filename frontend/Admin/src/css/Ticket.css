@@ -18,10 +18,10 @@
     text-align: left;
     color: var(--text-on-black2);
 }
-
 .header-container {
     border-bottom: 1px solid var(--primary-color);  
-    text-align: center;  
+    text-align: center;
+    min-height: fit-content;
 }
 
 .ticket-container:hover {
@@ -42,7 +42,8 @@
 
 .action-bar {
     background-color: #2d2d2d;
-    flex-direction: row
+    flex-direction: row;
+    min-height: fit-content;
 
 }
 .add-ticket {

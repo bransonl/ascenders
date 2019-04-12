@@ -12,11 +12,10 @@ class AppRouter extends React.Component {
         super(props);
         this.logout = this.logout.bind(this);
         this.state = {
-            username: undefined,
-            role: undefined,
-            token: undefined,
-            isAuthenticated: true,
-            redirectToHome: false,
+            username: sessionStorage.getItem("username"),
+            role: sessionStorage.getItem("role"),
+            token: sessionStorage.getItem("token"),
+            isAuthenticated: sessionStorage.getItem("isAuthenticated"),
             logout: this.logout()
         };
     }
