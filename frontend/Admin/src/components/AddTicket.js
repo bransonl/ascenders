@@ -4,6 +4,7 @@ import { Col, Row, Modal, Form, Button } from 'react-bootstrap';
 import '../css/reusable.css';
 import '../css/AddTicket.css';
 import { AppContext } from './globalContext/AppContext.js';
+import axios from 'axios';
 
 
 class AddTicket extends React.Component {
@@ -15,6 +16,9 @@ class AddTicket extends React.Component {
         this.state = {
             title: null,
             body: null,
+
+            ticketId: null,
+            file: []
         };
     }
 
@@ -24,6 +28,12 @@ class AddTicket extends React.Component {
         const title = e.target.elements.title.value;
         const body = e.target.elements.description.value;
         // const file = this.state.file;
+
+        // const url = "http://127.0.0.1:3000/tickets";
+        // axios.post(url, {
+        //     body: title, body
+        // })
+
         fetch('http://127.0.0.1:3000/tickets', {
             method: 'POST',
             headers: {
@@ -35,38 +45,42 @@ class AddTicket extends React.Component {
         .then(res => res.json())
         .then(res => {
             this.setState({title, body, ticketId: res.objectId});
+            e.target.elements.title.value = "";
+            e.target.elements.description.value = "";
 
-            this.fileUpload();
+            if (this.state.ticketId !== null) {
+                console.log("Proceed to upload file...");
+                this.fileUpload();
+            }
         })
         .catch(res => console.log(err));
-
-        e.target.elements.title.value = "";
-        e.target.elements.description.value = "";
     }
 
     // onChange(e) { // called when file selected
     //     this.setState({file: e.target.files[0]});
     // }
 
-    // fileUpload() {
-    //     console.log('uploading file...');
-    //     const {ticketId, file} = this.state;
-    //     const formData = new FormData();
-    //     formData.append('file', file, 'file');
-    //     const url = `http://127.0.0.1:3000/tickets/upload/${ticketId}`;
-    //     fetch(url, {
-    //         method: 'PUT',
-    //         headers: {
-    //             'Authorization': 'Bearer ' + this.context.token
-    //         },
-    //         body: formData,
-    //     })
-    //     .then(res => res.json())
-    //     .then(res => {
-    //         console.log("Response fileUpload: ", res);
-    //     })
-    //     .catch(res => console.log(err));
-    // }
+    fileUpload() {
+        console.log("\nAttempting to upload file...");
+        const {ticketId, file} = this.state;
+        const formData = new FormData();
+        formData.append('file', file, 'file');
+        const url = `http://127.0.0.1:3000/tickets/upload/${ticketId}`;
+        fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Authorization': 'Bearer ' + this.context.token
+            },
+            body: {
+                file: formData
+            }
+        })
+        .then(res => res.json())
+        .then(res => {
+            console.log("Response fileUpload: ", res);
+        })
+        .catch(res => console.log(err));
+    }
 
     render() {
         return (

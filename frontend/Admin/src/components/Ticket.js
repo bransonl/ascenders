@@ -39,7 +39,8 @@ class Ticket extends React.Component {
     }
 
     render() {
-        let modalClose = () => this.setState({ticketModalShow: false})
+        let ticketModalClose = () => this.setState({ticketModalShow: false})
+        let labelModalClose = () => this.setState({labelModalShow: false})
         return (
             <div className="ticket-wrapper">
                 <Container bsPrefix="action-bar">
@@ -52,7 +53,7 @@ class Ticket extends React.Component {
                         </Button>
                         <AddLabel
                             show={this.state.labelModalShow}
-                            onHide={modalClose}/>
+                            onHide={labelModalClose}/>
                     </div>
                     <div className="add-ticket right">
                         <Button 
@@ -63,7 +64,7 @@ class Ticket extends React.Component {
                         </Button>
                         <AddTicket
                             show={this.state.ticketModalShow}
-                            onHide={modalClose}/>
+                            onHide={ticketModalClose}/>
                     </div>
                     
                 </Container>
