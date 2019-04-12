@@ -36,6 +36,7 @@
     padding: 0;
     height: 56px;
     width: 60px;
+    cursor: pointer;
 }
 .nav-icons {
     fill: #febc11;

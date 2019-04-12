@@ -14,46 +14,50 @@ class AscendersAdminLogin extends React.Component {
     constructor(props) {
         super(props);
         this.login = this.login.bind(this);
-        this.state = {
-            redirectToHome: false,
-        };
     }
 
     login(e) {
+        console.log("\nAttempting to login...");
         e.preventDefault();
         const username = e.target.elements.username.value;
         const password = e.target.elements.password.value;
-        console.log("Fetching from API...");
-        fetch('http://127.0.0.1:3000/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({username, password}),
-        })
-        .then(res => res.json())
-        .then(res => {
-            console.log("Response: ", res);
-            // console.log("Login state: ", this.state);
-            if (res.token !== undefined) {
-                this.context.isAuthenticated = true;
-                this.context.token = res.token;
-                this.context.username = res.username;
-                this.context.role = res.role;
-                console.log("Context state: ", this.context);
-                console.log("Authentication success...");
-
-                this.setState({redirectToHome: true});
-            } else {
-                alert("Incorrect username/password!");
-            }
-        })
-        .catch(err => console.log(err));  
+        if (username !== null && password !== null) {
+            console.log("Fetching from API...");
+            fetch('http://127.0.0.1:3000/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({username, password}),
+            })
+            .then(res => res.json())
+            .then(res => {
+                console.log("Response: ", res);
+                if (res.token !== undefined) {
+                    this.context.isAuthenticated = true;
+                    this.context.token = res.token;
+                    this.context.username = res.username;
+                    this.context.role = res.role;
+                    console.log("Context state: ", this.context);
+                    console.log("Authentication success...");
+                    this.context.redirectToHome = true;
+                    this.forceUpdate();
+                    // this.setState({redirectToHome: true});
+                } else {
+                    alert("Incorrect username/password!");
+                }
+            })
+            .catch(err => console.log(err));
+        } else {
+            alert("Please enter username/password...");
+        }
+          
     }
 
     render() {
-        if (this.state.redirectToHome === true) {
-            this.state.redirectToHome = false;
+        console.log("\nRendering Login page...");
+        if (this.context.redirectToHome === true) {
+            this.context.redirectToHome = false;
             return (<Redirect to={'/admin/dashboard'}/>);
         } else {
         return (

@@ -11,7 +11,7 @@ class AddTicket extends React.Component {
         super(props);
         this.submitTicket = this.submitTicket.bind(this);
         // this.onChange = this.onChange.bind(this);
-        this.fileUpload = this.fileUpload.bind(this);
+        // this.fileUpload = this.fileUpload.bind(this);
         this.state = {
             title: null,
             body: null,
@@ -48,25 +48,26 @@ class AddTicket extends React.Component {
     //     this.setState({file: e.target.files[0]});
     // }
 
-    fileUpload() {
-        console.log('uploading file...');
-        const {ticketId, file} = this.state;
-        const formData = new FormData();
-        formData.append('file', file, 'file');
-        const url = `http://127.0.0.1:3000/tickets/upload/${ticketId}`;
-        fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Authorization': 'Bearer ' + this.context.token
-            },
-            body: formData,
-        })
-        .then(res => res.json())
-        .then(res => {
-            console.log("Response fileUpload: ", res);
-        })
-        .catch(res => console.log(err));
-    }
+    // fileUpload() {
+    //     console.log('uploading file...');
+    //     const {ticketId, file} = this.state;
+    //     const formData = new FormData();
+    //     formData.append('file', file, 'file');
+    //     const url = `http://127.0.0.1:3000/tickets/upload/${ticketId}`;
+    //     fetch(url, {
+    //         method: 'PUT',
+    //         headers: {
+    //             'Authorization': 'Bearer ' + this.context.token
+    //         },
+    //         body: formData,
+    //     })
+    //     .then(res => res.json())
+    //     .then(res => {
+    //         console.log("Response fileUpload: ", res);
+    //     })
+    //     .catch(res => console.log(err));
+    // }
+
     render() {
         return (
             <Modal
@@ -113,7 +114,7 @@ class AddTicket extends React.Component {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.props.onHide}>Cancel</Button>
-                        <Button variant="primary" type="submit">Submit</Button>
+                        <Button variant="primary" type="submit" onClick={this.props.onHide}>Submit</Button>
                     </Modal.Footer>
                 </Form>
             </Modal>

@@ -7,12 +7,14 @@ import '../css/reusable.css';
 import '../css/Ticket.css';
 import { AppContext } from './globalContext/AppContext';
 import AddTicket from './AddTicket';
+import AddLabel from './AddLabel';
 
 class Ticket extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            modalShow: false,
+            ticketModalShow: false,
+            labelModalShow: false,
             tickets: [],
             preview: null
         };
@@ -37,22 +39,33 @@ class Ticket extends React.Component {
     }
 
     render() {
-        let modalClose = () => this.setState({modalShow: false})
+        let modalClose = () => this.setState({ticketModalShow: false})
         return (
             <div className="ticket-wrapper">
                 <Container bsPrefix="action-bar">
-                    <Row>
-                        <div className="add-ticket right">
-                            <Button 
-                                bsPrefix="content-btn" 
-                                onClick={() => this.setState({modalShow: true})}>
-                                    <IosAdd className="IosAdd"/>Add Ticket
-                            </Button>
-                            <AddTicket
-                                show={this.state.modalShow}
-                                onHide={modalClose}/>
-                        </div>
-                    </Row>
+                    
+                    <div className="add-ticket right">
+                        <Button
+                            bsPrefix="content-btn"
+                            onClick={() => this.setState({labelModalShow: true})}>
+                                Add Label
+                        </Button>
+                        <AddLabel
+                            show={this.state.labelModalShow}
+                            onHide={modalClose}/>
+                    </div>
+                    <div className="add-ticket right">
+                        <Button 
+                            bsPrefix="content-btn" 
+                            onClick={() => this.setState({ticketModalShow: true})}>
+                                {/* <IosAdd className="IosAdd"/> */}
+                                Add Ticket
+                        </Button>
+                        <AddTicket
+                            show={this.state.ticketModalShow}
+                            onHide={modalClose}/>
+                    </div>
+                    
                 </Container>
                 <Container bsPrefix="header-container">
                     <Row>

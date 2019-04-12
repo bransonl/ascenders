@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import { Button, Nav, OverlayTrigger, Popover } from 'react-bootstrap';
 import logo from './resources/accenture-purple-logo.png'
 import IosNotifications from 'react-ionicons/lib/IosNotifications'
@@ -10,40 +10,58 @@ import '../css/reusable.css';
 import '../css/NavigationBar.css';
 import { AppContext } from './globalContext/AppContext';
 
-const accountPop = (
-    <Popover
-        placement="bottom"
-    >
-        <Button>Sign Out</Button>
-    </Popover>
-);
+const AccountPop = (props) => {
+    return (   
+        <Popover
+            title="My Account"
+        >
+            <Button onClick={props.logout}>Sign Out</Button>
+        </Popover>
+    );
+}
 
 class NavigationBar extends React.Component {
+    constructor(props) {
+        super(props);
+        this.logout = this.logout.bind(this);
+    }
+
+    logout() {
+        console.log("\nLogging out...");        
+        this.context.logout;
+        console.log("Current context: ", this.context);
+        return (
+            <Redirect to={'/'}/>
+        );
+        
+
+    }
+
     render() {
         return (
                 <div>
                     <Nav 
                         onSelect={selectedKey => console.log(`${selectedKey} is clicked`)}>
                         <div className="nav-wrapper">
-                        <Nav.Item bsPrefix="logo">
-                            <NavLink to="/dashboard">
-                                <img className="nav-logo"src={logo} alt="logo"/>
-                            </NavLink>
-                        </Nav.Item>
-                        <Nav.Item className="right">
-                            <Link to='/notification' className="nav-link"><IosNotifications className="nav-icons"/></Link>
-                            <Link to='/todo' className="nav-link"><IosListBox className="nav-icons"/></Link>
-                            
-                            <OverlayTrigger
-                                trigger="click"
-                                placement="auto"
-                                rootClose="true"
-                                overlay= {accountPop}
-                            >
-                                <Link to='/' className="nav-link"><IosContact className="nav-icons"/></Link>
-                            </OverlayTrigger>                           
+                            <Nav.Item bsPrefix="logo">
+                                <NavLink to="/dashboard">
+                                    <img className="nav-logo"src={logo} alt="logo"/>
+                                </NavLink>
+                            </Nav.Item>
+                            <Nav.Item className="right">
+                                <a className="nav-link"><IosNotifications className="nav-icons"/></a>
+                                <a className="nav-link"><IosListBox className="nav-icons"/></a>
                                 
-                        </Nav.Item>
+                                <OverlayTrigger
+                                    trigger="click"
+                                    placement="bottom"
+                                    rootClose="true"
+                                    overlay= {<AccountPop logout={this.logout}/>}
+                                >
+                                    <a className="nav-link"><IosContact className="nav-icons"/></a>
+                                </OverlayTrigger>                           
+                                    
+                            </Nav.Item>
                         </div>
 
                     </Nav>

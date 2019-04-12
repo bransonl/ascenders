@@ -157,7 +157,8 @@ h5 {
     background-color: var(--primary-color);
 }
 .btn-primary:hover,
-.btn-primary:active {
+.btn-primary:active,
+.btn-primary:focus {
     background-color: #f8ca57;
 }
 

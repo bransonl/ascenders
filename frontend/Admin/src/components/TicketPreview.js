@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, Container, Col, Row, Media, Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 
 import '../css/reusable.css';
 import '../css/TicketPreview.css';
@@ -32,8 +32,8 @@ class TicketPreview extends React.Component {
                     Authorization: "Bearer " + this.context.token
                 },
             })
-            .then(res => console.log("response: ", res))
-            .then (
+            .then(res => {
+                console.log("response: ", res)
                 axios.get(url, {
                     headers: {
                         Authorization: "Bearer " + this.context.token
@@ -42,9 +42,14 @@ class TicketPreview extends React.Component {
                 .then(res => {
                     console.log("Uploading replies...");
                     this.setState({replies: [...res.data.messages]});
+
+                    console.log("\nScrolling to latest reply...");
+                    const messagePreview = document.querySelector(".preview-ticketpreview");
+                    messagePreview.scrollTop = messagePreview.scrollHeight;
+
                     console.log("State is successfully set...\nCurrent replies: ", this.state.replies);
                 })
-            );
+            });
             e.target.elements.sendmessages.value = "";
         } else {
             console.log("No message to send...");
@@ -52,7 +57,7 @@ class TicketPreview extends React.Component {
     }
 
     componentDidMount() {
-        console.log("Ticket preview is mounted...")
+        console.log("\nTicket preview is mounted...")
         const{match: {params}} = this.props;
         const url = `http://127.0.0.1:3000/tickets/${params.ticketId}`;
         axios.get(url, {
@@ -76,7 +81,12 @@ class TicketPreview extends React.Component {
             .then(res => {
                 console.log("Uploading replies...");
                 this.setState({replies: [...res.data.messages]});
-                console.log("State is successfully set...\nCurrent replies: ", this.state.replies);
+
+                console.log("\nScrolling to latest reply...");
+                const messagePreview = document.querySelector(".preview-ticketpreview");
+                messagePreview.scrollTop = messagePreview.scrollHeight;
+
+                console.log("\nState is successfully set...\nCurrent replies: ", this.state.replies);
             });
         });
     }
@@ -102,15 +112,18 @@ class TicketPreview extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className="preview-ticketpreview">
+                <div className="body-ticketpreview">
                     <div className="body--ticketpreview">
                         <p>{this.state.preview.body}</p>
                     </div>
+                </div>
+                <div className="preview-ticketpreview">
+                    
                     {this.state.replies.map((reply, index) => {
                         return (
-                            <div key={index}>
+                            <div className="replies-container--ticketpreview" key={index}>
                                 <div className="replies--ticketpreview">
-                                    <p>{reply.message}</p>
+                                    <p><span className="sender">{reply.sender}</span><br/>{reply.message}</p>
                                 </div>
                             </div>
                         );
@@ -118,7 +131,7 @@ class TicketPreview extends React.Component {
                     
                 </div>
                 <div className="footer-ticketpreview">
-                    <Form onSubmit={this.reply} className="form sendmessage-preview">
+                    <Form ref={el => this.ref = el} onSubmit={this.reply} className="form sendmessage-preview">
                         <Form.Group bsPrefix="form-group textgroup--preview">
                             <Form.Control 
                                 bsPrefix="form-control form-control-textarea-preview"
@@ -126,6 +139,13 @@ class TicketPreview extends React.Component {
                                 type="text"
                                 name="sendmessages"
                                 placeholder="Enter your messages"
+                                onKeyPress={(e) => {
+                                    if (e.key === 'Enter' && e.shiftKey) {
+                                        console.log("Shift + Enter...");
+                                    } else if (e.key === 'Enter' && !e.shiftKey) {
+                                        console.log("Enter is pressed");
+                                    }
+                                }}
                             />
                             <Button
                                 bsPrefix="btn-primary btn--preview"

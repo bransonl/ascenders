@@ -1,13 +1,16 @@
 .preview-app {
     width: 100%;
+    height: 100%;
     display: flex;
-    flex-direction: column;
+    flex-flow: column;
 }
 
 .header-ticketpreview {
+    flex: 0 1 auto;
+    height: 13%;
     display: flex;
     flex-direction: column;
-    background-color: #2d2d2d;
+    background-color: #333333;
 }
 .title-header-ticketpreview {
     display: flex;
@@ -15,12 +18,14 @@
     
     padding: 0.5rem 1rem;
 
+    box-shadow: 0 5px 6px 0px #14141448;
     color: var(--text-on-black);
 }
 .tickettitle--ticketpreview,
 .username--ticketpreview {
     font-size: 0.8rem;
     text-align: left;
+    color: var(--primary-color);
 }
 
 .date-header-ticketpreview {
@@ -29,7 +34,7 @@
 
     padding: 0.5rem 1rem;
 
-    color: #3f3f3f;
+    color: #797979;
 }
 .datecreated--ticketpreview,
 .lastupdated--ticketpreview {
@@ -37,29 +42,64 @@
     font-size: 0.8rem;
 }
 
-.preview-ticketpreview {
+.body-ticketpreview {
+    flex: 0 1 auto;
     display: flex;
-    flex-direction: column;
-    padding: 1rem;
-
-    overflow-y: scroll;
+    flex-wrap: wrap;
+    padding: 0.5rem 1rem;
+    background-color: #2d2d2d;
+    height: 9%;
 }
-.body--ticketpreview,
-.replies--ticketpreview {
+.body--ticketpreview {
     align-content: flex-start;
     border-radius: 0.25rem;
-    background-color: #8f8f8f;
     width: 60%;
+    font-size: 1.2rem;
     padding: 0.25rem;
     margin-bottom: 0.5rem;
+    color: var(--info-blue);
+}
+
+.preview-ticketpreview {
+    flex: 1 0 62%;
+    max-height: 62%;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 1rem;
+
+    overflow: auto;
+}
+
+.replies-container--ticketpreview {
+    margin: 4px 0;
+    flex: 0 0 auto;
+    overflow: hidden;
+}
+.replies--ticketpreview {
+    flex: 0 1 auto;
+    align-content: flex-start;
+
+    word-wrap: break-word;
+    border-radius: 0.25rem;
+    background-color: #fff;
+    width: fit-content;
+    max-width: 30%;
+    padding: 0.25rem 0.25rem 0.3rem 0.25rem;
+    margin-bottom: 0.5rem;
+}
+.sender {
+    color: var(--success-green);
+    font-weight: 600;
 }
 
 .footer-ticketpreview {
+    flex: 0 0;
     background-color: #2d2d2d;
     bottom: 0;
     width: calc(100vw - 200px);
     right: 0;
-    position: fixed;
+    position: absolute;
+    height: 16%;
 }
 
 .sendmessage-preview {
@@ -72,13 +112,16 @@
 .btn--preview {
     width: 150px;
     height: 3rem;
-    border-radius: 0.3rem;
-    
+    border-radius: 0.3rem; 
+}
+.btn--preview:active {
+    background-color: #f8ca57;
+
 }
 .form-control-textarea-preview {
-    height: 3rem;
+    height: 3rem !important;
     width: calc(100% - 200);
-    border-radius: 0.5rem;
+    border-radius: 0.3rem;
     resize: none;
     margin-right: 1rem;
     font-size: 0.8rem;
