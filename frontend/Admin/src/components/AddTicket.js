@@ -1,120 +1,126 @@
 import React from 'react';
+import { Col, Row, Modal, Form, Button } from 'react-bootstrap';
 
-export default class AddTicket extends React.Component {
+import '../css/reusable.css';
+import '../css/AddTicket.css';
+import { AppContext } from './globalContext/AppContext.js';
+
+
+class AddTicket extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
+        this.submitTicket = this.submitTicket.bind(this);
+        // this.onChange = this.onChange.bind(this);
+        // this.fileUpload = this.fileUpload.bind(this);
         this.state = {
-            creator: null,
-            objectId: null,
             title: null,
-            text: null,
-            file: null
-        }
-        this.onChange = this.onChange.bind(this);
-        this.fileUpload = this.fileUpload.bind(this);
+            body: null,
+        };
     }
-    // static userToken = UserToken.token;
 
     submitTicket(e) {
+        console.log("submitting...");
         e.preventDefault();
         const title = e.target.elements.title.value;
         const body = e.target.elements.description.value;
-        console.log(creator, "\n", title, "\n", text);
+        // const file = this.state.file;
+        fetch('http://127.0.0.1:3000/tickets', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + this.context.token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({title, body}),
+        })
+        .then(res => res.json())
+        .then(res => {
+            this.setState({title, body, ticketId: res.objectId});
 
-        // fetch('http://127.0.0.1:3000/tickets/uploadFile', {
-        //     method: 'POST',
-        //     headers: {
-        //         Authorization: 'Bearer' + userToken
-        //     },
-        //     body: JSON.stringify({title, body})
-        // }).then(res => res.json())
-        // .then(res => console.log(res))
-        // .catch(res => console.log(err));
-
-        this.fileUpload(this.state.file)
-        .then(res => console.log(res.data))
+            this.fileUpload();
+        })
         .catch(res => console.log(err));
 
-        e.target.elements.creator.value = "";
         e.target.elements.title.value = "";
         e.target.elements.description.value = "";
     }
 
-    onChange(e) {
-        this.setState(
-            {
-                file:e.target.files[0]
-            }
-        );
-    }
+    // onChange(e) { // called when file selected
+    //     this.setState({file: e.target.files[0]});
+    // }
 
-    fileUpload(file) {
-        const url = ""; //url to upload file to
-        const formData = new FormData();
-        formData.append('file',file);
-        const config = {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        }
-        return postMessage(url, formData, config);
-    }
-
-    
+    // fileUpload() {
+    //     console.log('uploading file...');
+    //     const {ticketId, file} = this.state;
+    //     const formData = new FormData();
+    //     formData.append('file', file, 'file');
+    //     const url = `http://127.0.0.1:3000/tickets/upload/${ticketId}`;
+    //     fetch(url, {
+    //         method: 'PUT',
+    //         headers: {
+    //             'Authorization': 'Bearer ' + this.context.token
+    //         },
+    //         body: formData,
+    //     })
+    //     .then(res => res.json())
+    //     .then(res => {
+    //         console.log("Response fileUpload: ", res);
+    //     })
+    //     .catch(res => console.log(err));
+    // }
 
     render() {
         return (
-            <div className="main-app">
-                <div className="col span-1-of-2">
-                    <div className="addticket-card">
-                        <div className="addticket-card-header">
-                                <label>Add Ticket</label>
-                        </div>
-                        <div className="addticket-card-body">
-                        <form onSubmit={this.submitTicket}>
-                            <div className="input-wrapper">
-                                <div className="col span-1-of-4">
-                                    <label>Creator</label>
-                                </div>
-                                <div className="col span-3-of-4">
-                                    <input name="creator" placeholder="Author" type="text" className="addticket-input-creator"/>
-                                    <small className="addticket-input-help">Enter your name</small>
-                                </div>
-                            </div>
-                            <div className="input-wrapper">
-                                <div className="col span-1-of-4">
-                                        <label>Title</label>
-                                </div>
-                                <div className="col span-3-of-4">
-                                    <input name="title" placeholder="Title" type="text" className="addticket-input-title"/>
-                                    <small className="addticket-input-help">Describe your issue in a short sentence</small>
-                                </div>
-                            </div>
-                            <div className="input-wrapper">
-                                <div className="col span-1-of-4">
-                                        <label>Description</label>
-                                </div>
-                                <div className="col span-3-of-4">
-                                    <textarea name="description" placeholder="Content..." type="text" className="addticket-input-description"/>
-                                </div>
-                            </div>
-                            <div className="input-wrapper">
-                                <div className="col span-1-of-4">
-                                        <label>Attach</label>
-                                </div>
-                                <div className="col span-3-of-4">
-                                    <label for="fileupload" className="addticket-input-attach">Choose File</label>
-                                    <input onChange={this.onChange} name="attach" type="file" id="fileupload"/>
-                                </div>
-                            </div>
-                            <div className="input-wrapper">
-                                <button className="addticket-input-button right" type="submit">Submit</button>
-                            </div>
-                        </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Modal
+                {...this.props}
+                size="lg"
+                aria-labelledby="create-ticket-modal"
+                centered
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title id="create-ticket-modal">Create Ticket</Modal.Title>
+                </Modal.Header>
+                <Form onSubmit={this.submitTicket}>
+                    <Modal.Body>                   
+                        <Form.Group as={Row}>
+                            <Form.Label column sm="2">Title</Form.Label>
+                            <Col sm="10">
+                                <Form.Control
+                                    name="title" 
+                                    type="text" 
+                                    placeholder="Enter title" />
+                            </Col>
+                        </Form.Group>   
+                        <Form.Group as={Row}>
+                            <Form.Label column sm="2">Description</Form.Label>
+                            <Col sm="10">
+                                <Form.Control 
+                                    as="textarea" 
+                                    name="description"
+                                    type="text"
+                                    placeholder="Enter Description"
+                                    bsPrefix="form-control-textarea form-control"/>
+                            </Col>    
+                        </Form.Group>
+                        <Form.Group as={Row}>
+                            <Form.Label column sm="2">Upload</Form.Label>
+                            <Col sm="10">
+                                <Form.Control 
+                                    id="formControlsFile"
+                                    type="file"
+                                    multiple
+                                    label="File" />
+                            </Col>
+                        </Form.Group>                    
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.props.onHide}>Cancel</Button>
+                        <Button variant="primary" type="submit" onClick={this.props.onHide}>Submit</Button>
+                    </Modal.Footer>
+                </Form>
+            </Modal>
         );
     }
 }
+
+AddTicket.contextType = AppContext;
+export default AddTicket;

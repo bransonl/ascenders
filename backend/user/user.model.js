@@ -3,8 +3,9 @@ const request = require('request-promise-native');
 const {apiEndpoint, sharedHeaders} = require('../env.js');
 const {ModelError} = require('../error');
 
-function createUserObject({username, role, notificationEmail, phone}) {
+function createUserObject({objectId, username, role, notificationEmail, phone}) {
     return {
+        userId: objectId,
         username,
         role,
         email: notificationEmail,
@@ -49,7 +50,7 @@ async function logout(sessionToken) {
     try {
         return await request(options);
     } catch (err) {
-        throw new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(500, `Database call failed: ${err.error.error}`);
     }
 }
 
@@ -67,11 +68,14 @@ async function register(username, password, role, email) {
     try {
         return await request(options);
     } catch (err) {
-        throw new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(500, `Database call failed ${err.error.error}`);
     }
 }
 
-async function getUserById(userId) {
+async function getUser(userId) {
+    if (!userId) {
+        throw new ModelError(400, 'Missing fields');
+    }
     const options = {
         method: 'GET',
         uri: `${apiEndpoint}/users/${userId}`,
@@ -79,11 +83,32 @@ async function getUserById(userId) {
         json: true,
     };
     try {
-        const result = await request(options);
-        console.log(result);
-        return createUserObject(result);
+        const user = await request(options);
+        return createUserObject(user);
     } catch (err) {
-        throw new ModelError(err.statusCode, err.error.error);
+        if (err.statusCode === 404) {
+            throw new ModelError(404, `The user with id ${userId} does not exist`);
+        }
+        throw new ModelError(500, `Database call failed: ${err.error.error}`);
+    }
+}
+
+async function getAdmins() {
+    const options = {
+        method: 'GET',
+        uri: `${apiEndpoint}/users`,
+        qs: {
+            where: {
+                role: 'admin',
+            },
+        },
+        headers: sharedHeaders,
+        json: true,
+    };
+    try {
+        return (await request(options)).results;
+    } catch (err) {
+        throw new ModelError(500, `Database call failed: ${err.error.error}`);
     }
 }
 
@@ -92,5 +117,6 @@ module.exports = {
     login,
     logout,
     register,
-    getUserById,
+    getUser,
+    getAdmins,
 }

@@ -4,15 +4,16 @@ class AwsController {
 
         this.uploadFile = this.uploadFile.bind(this);
     }
-    async uploadFile(req, res) {
+    async uploadFile(req, res, next) {
+        console.log('uploadFile called');
         const singleUpload = this._model.uploadFile.single('file');
         const uploadFileResult = await singleUpload(req, res, function(err, some) {
         if (err) {
             return res.status(422).send({
             errors: [{title: 'Upload Error', detail: err.message}] });
         }
-        return res.json({
-            'fileURL': req.file.location});
+        req.fileURL = req.file.location;
+        next();
         });
     }
 }

@@ -1,14 +1,15 @@
 const jwt = require('jsonwebtoken');
 
 class UserController {
-    constructor(model, jwtSecret) {
-        this._model = model;
+    constructor(models = [], jwtSecret) {
+        this._model = Object.assign({}, ...models);
         this._jwtSecret = jwtSecret;
 
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
         this.register = this.register.bind(this);
         this.checkToken = this.checkToken.bind(this);
+        this.getAdmins = this.getAdmins.bind(this);
     }
 
     async checkToken(req, res) {
@@ -21,6 +22,7 @@ class UserController {
     }
 
     async login(req, res) {
+        console.log('login');
         const {username, password} = req.body;
         try {
             const loginResult = await this._model.login(username, password);
@@ -69,32 +71,14 @@ class UserController {
             return res.status(err.statusCode).json(err.toJSON());
         }
     }
-}
 
-async function register(req, res) {
-    const {username, password, role, ...rest} = req.body;
-    if (!username || !password || !role) {
-        const fieldsMissing = [];
-        if (!username) {
-        fieldsMissing.push('username');
+    async getAdmins(req, res) {
+        try {
+            const getAdminsResult = await this._model.getAdmins();
+            return res.status(200).json(getAdminsResult);
+        } catch(err) {
+            return res.status(err.statusCode).json(err);
         }
-        if (!password) {
-        fieldsMissing.push('password');
-        }
-        if (!role) {
-        fieldsMissing.push('role');
-        }
-        return res.status(400).json({
-        message: `Missing ${fieldsMissing.join(', ')}`,
-        });
-    }
-    try {
-        const registerResult = await userModel.register(req.body);
-        return res.json(registerResult);
-    } catch (err) {
-        return res.status(err.statusCode).json({
-            message: err.error.error,
-        });
     }
 }
 

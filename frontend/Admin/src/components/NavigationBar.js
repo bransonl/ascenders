@@ -1,36 +1,74 @@
 import React from 'react';
-import {BrowserRouter, Link} from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
+import { Button, Nav, OverlayTrigger, Popover } from 'react-bootstrap';
 import logo from './resources/accenture-purple-logo.png'
 import IosNotifications from 'react-ionicons/lib/IosNotifications'
-import IosListBoxOutline from 'react-ionicons/lib/IosListBoxOutline'
-import IosContactOutline from 'react-ionicons/lib/IosContactOutline'
+import IosListBox from 'react-ionicons/lib/IosListBox'
+import IosContact from 'react-ionicons/lib/IosContact'
 
-export default class NavigationBar extends React.Component {
-    render() {
-        let links = [
-            {label: 'Notification', icon: <IosNotifications className="IosNotifications" color="#febc11"/>, link: '/admin/notification'},
-            {label: 'To-do', icon: <IosListBoxOutline className="IosListBoxOutline" color="#febc11"/>,link: '/admin/todo'},
-            {label: 'MyAccount', icon: <IosContactOutline className="IosContactOutline" color="#febc11"/>,link: '/admin/myaccount'},
-        ];
+import '../css/reusable.css';
+import '../css/NavigationBar.css';
+import { AppContext } from './globalContext/AppContext';
+
+const AccountPop = (props) => {
+    return (   
+        <Popover
+            title="My Account"
+        >
+            <Button onClick={props.logout}>Sign Out</Button>
+        </Popover>
+    );
+}
+
+class NavigationBar extends React.Component {
+    constructor(props) {
+        super(props);
+        this.logout = this.logout.bind(this);
+    }
+
+    logout() {
+        console.log("\nLogging out...");        
+        this.context.logout;
+        console.log("Current context: ", this.context);
         return (
-            <BrowserRouter>
+            <Redirect to={'/'}/>
+        );
+        
+
+    }
+
+    render() {
+        return (
                 <div>
-                    <nav className="nav">
+                    <Nav 
+                        onSelect={selectedKey => console.log(`${selectedKey} is clicked`)}>
                         <div className="nav-wrapper">
-                            <Link exact to="/"><img className="nav-logo" src={logo} alt="logo"/></Link>
-                            <ul className="nav-link right">
-                            {links.map((link,index) => {
-                                return (
-                                    <li key={index} className="nav-link-list">
-                                        {<Link to={link.link}>{link.icon}</Link>}
-                                    </li>
-                                );
-                            })}
-                            </ul>
+                            <Nav.Item bsPrefix="logo">
+                                <NavLink to="/dashboard">
+                                    <img className="nav-logo"src={logo} alt="logo"/>
+                                </NavLink>
+                            </Nav.Item>
+                            <Nav.Item className="right">
+                                <a className="nav-link"><IosNotifications className="nav-icons"/></a>
+                                <a className="nav-link"><IosListBox className="nav-icons"/></a>
+                                
+                                <OverlayTrigger
+                                    trigger="click"
+                                    placement="bottom"
+                                    rootClose="true"
+                                    overlay= {<AccountPop logout={this.logout}/>}
+                                >
+                                    <a className="nav-link"><IosContact className="nav-icons"/></a>
+                                </OverlayTrigger>                           
+                                    
+                            </Nav.Item>
                         </div>
-                    </nav>               
+
+                    </Nav>
                 </div>
-            </BrowserRouter>
         );
     }
 }
+
+NavigationBar.contextType = AppContext;
+export default NavigationBar;

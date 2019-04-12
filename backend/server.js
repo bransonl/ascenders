@@ -14,7 +14,6 @@ new (require('./socket'))(http);
 require('./user/user.route.js').routes(app);
 require('./ticket/ticket.route.js').routes(app);
 require('./label/label.route.js').routes(app);
-require('./aws/aws.route.js').routes(app);
 require('./message/message.route.js').routes(app);
 require('./notification/notification.route').routes(app);
 
