@@ -97,14 +97,11 @@ class NotificationController {
         });
         userIds.forEach(async (userId) => {
             try {
-                const user = await this._model.getUserById(userId);
-                console.log(user);
+                const user = await this._model.getUser(userId);
                 if (user.email) {
-                    console.log(`${userId} has email`);
                     this._model.sendEmail(user.email, title, body);
                 }
                 if (user.phone) {
-                    console.log(`${userId} has phone`);
                     this._model.sendSms(user.phone, body);
                 }
             } catch (err) {

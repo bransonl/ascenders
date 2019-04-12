@@ -20,5 +20,6 @@ function routes(app) {
 }
 
 module.exports = {
+    controller,
     routes,
 };

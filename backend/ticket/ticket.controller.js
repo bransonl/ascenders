@@ -1,3 +1,5 @@
+const {controller: notificationController} = require('../notification/notification.route');
+
 class TicketController {
     constructor(models = []) {
         this._model = Object.assign({}, ...models);
@@ -45,9 +47,13 @@ class TicketController {
         try {
             const createTicketResult = await this._model.createTicket(title, body, creator, attachments);
             console.log(createTicketResult);
-            return res.status(200).send(createTicketResult);
+            res.status(200).send(createTicketResult);
+            const admins = await this._model.getAdmins();
+            const adminIds = admins.map(admin => admin.objectId);
+            notificationController.createNotificationForUsers(adminIds, `New Ticket`, `Title: ${title}, Body: ${body}`);
+            return;
         } catch (err) {
-            console.log('createTicket error occured');
+            console.error(err);
             return res.status(500).send();
         }
     }
