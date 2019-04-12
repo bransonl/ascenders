@@ -1,39 +1,74 @@
 import React from 'react';
-import {BrowserRouter, Link} from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
+import { Button, Nav, OverlayTrigger, Popover } from 'react-bootstrap';
 import logo from './resources/accenture-purple-logo.png'
 import IosNotifications from 'react-ionicons/lib/IosNotifications'
 import IosListBox from 'react-ionicons/lib/IosListBox'
 import IosContact from 'react-ionicons/lib/IosContact'
 
-export default class NavigationBar extends React.Component {
-    render() {
-        let links = [
-            {label: 'Notification', icon: <IosNotifications className="nav-icons" color="#febc11"/>, link: '/user/notification'},
-            {label: 'To-do', icon: <IosListBox className="nav-icons" color="#febc11"/>,link: '/user/todo'},
-            {label: 'MyAccount', icon: <IosContact className="nav-icons" color="#febc11"/>,link: '/user/myaccount'},
-        ];
-        return (
-            <BrowserRouter>
-                <div>
-                    <nav className="nav">
-                        <div className="nav-wrapper">
-                            <Link to="/"><img className="nav-logo" src={logo} alt="logo"/></Link>
-                            
+import '../css/reusable.css';
+import '../css/NavigationBar.css';
+import { AppContext } from './globalContext/AppContext';
 
-                            
-                            <ul className="nav-link right">
-                            {links.map((link,index) => {
-                                return (
-                                    <li key={index} className="nav-link-list">
-                                        {<Link to={link.link}>{link.icon}</Link>}
-                                    </li>
-                                );
-                            })}
-                            </ul>
+const AccountPop = (props) => {
+    return (   
+        <Popover
+            title="My Account"
+        >
+            <Button onClick={props.logout}>Sign Out</Button>
+        </Popover>
+    );
+}
+
+class NavigationBar extends React.Component {
+    constructor(props) {
+        super(props);
+        this.logout = this.logout.bind(this);
+    }
+
+    logout() {
+        console.log("\nLogging out...");        
+        this.context.logout;
+        console.log("Current context: ", this.context);
+        return (
+            <Redirect to={'/'}/>
+        );
+        
+
+    }
+
+    render() {
+        return (
+                <div>
+                    <Nav 
+                        onSelect={selectedKey => console.log(`${selectedKey} is clicked`)}>
+                        <div className="nav-wrapper">
+                            <Nav.Item bsPrefix="logo">
+                                <NavLink to="/dashboard">
+                                    <img className="nav-logo"src={logo} alt="logo"/>
+                                </NavLink>
+                            </Nav.Item>
+                            <Nav.Item className="right">
+                                <a className="nav-link"><IosNotifications className="nav-icons"/></a>
+                                <a className="nav-link"><IosListBox className="nav-icons"/></a>
+                                
+                                <OverlayTrigger
+                                    trigger="click"
+                                    placement="bottom"
+                                    rootClose="true"
+                                    overlay= {<AccountPop logout={this.logout}/>}
+                                >
+                                    <a className="nav-link"><IosContact className="nav-icons"/></a>
+                                </OverlayTrigger>                           
+                                    
+                            </Nav.Item>
                         </div>
-                    </nav>               
+
+                    </Nav>
                 </div>
-            </BrowserRouter>
         );
     }
 }
+
+NavigationBar.contextType = AppContext;
+export default NavigationBar;

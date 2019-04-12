@@ -2,6 +2,9 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import CardList from './ChatCard.js';
 
+import '../css/reusable.css';
+import '../css/Messages.css';
+
 
 class Messages extends React.Component {
     render() {

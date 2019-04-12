@@ -1,6 +1,8 @@
 import React from 'react';
 import logo from './resources/accenture-purple-logo.png';
 
+import '../css/reusable.css';
+import '../css/Dashboard.css';
 
 export default class Dashboard extends React.Component {
     render() {
@@ -13,7 +15,7 @@ export default class Dashboard extends React.Component {
                             <img className="login-splash-logo" src={logo}/>
                             <div className="login-splash-text">
                                 <label className="login-splash-text-h3">Welcome aboard</label>
-                                <p>Sit down, relax, and let the work go away.</p>
+                                <p>Sit down, relax, and let the work goes away.</p>
                             </div>
                         </div>
                     </div>

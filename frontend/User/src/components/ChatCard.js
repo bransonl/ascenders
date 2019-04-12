@@ -5,8 +5,8 @@ class ChatCard extends React.Component {
         return (
             <div className="messages-card">
                 <div className="col span-2-of-3">
-                    <div className="messages-card-author"><label>branson_user</label></div>
-                    <div className="messages-card-title"><small>Feature Demo</small></div>
+                    <div className="messages-card-author"><label>branson_admin</label></div>
+                    <div className="messages-card-title"><small>Feature Demo for PM3</small></div>
                 </div>
                 <div className="col span-1-of-3">
                     <div className="messages-card-status">

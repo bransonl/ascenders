@@ -15,6 +15,9 @@ module.exports = {
         }, {
             test: /\.(png|jpg)$/,
             loader: 'url-loader?limit=8192' 
+        }, {
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader']
         }]
     },
     devtool: 'cheap-module-eval-source-map',

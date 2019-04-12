@@ -23,7 +23,7 @@ class Ticket extends React.Component {
     componentDidMount() {
         console.log("Ticket component mounted...")
         console.log("Current context: ", this.context);
-        fetch('http://127.0.0.1:3000/tickets/admin', {
+        fetch('http://127.0.0.1:3000/tickets/user', {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + this.context.token
