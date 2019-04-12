@@ -38,8 +38,8 @@ function routes(app) {
     );
     app.route('/tickets/label')
     .get(
-        // auth.validateToken,
-        labelController.checkLabelExist_,
+        auth.validateToken,
+        labelController.getLabell,
         ticketController.getLabelTickets,
     );
     app.route('/tickets/admin')
@@ -71,23 +71,23 @@ function routes(app) {
     );
     app.route('/tickets/addtag/:ticketId')
     .put(
-        // auth.validateToken,
-        // auth.createRoleCheck('admin'),
-        labelController.checkLabelExist_,
+        auth.validateToken,
+        auth.createRoleCheck('admin'),
+        labelController.getLabell,
         ticketController.addTag,
     );
     app.route('/tickets/addstatus/:ticketId')
     .put(
-        // auth.validateToken,
-        // auth.createRoleCheck('admin'),
-        labelController.checkLabelExist_,
+        auth.validateToken,
+        auth.createRoleCheck('admin'),
+        labelController.getLabell,
         ticketController.addStatus,
     );
     app.route('/tickets/addpriority/:ticketId')
     .put(
-        // auth.validateToken,
-        // auth.createRoleCheck('admin'),
-        labelController.checkLabelExist_,
+        auth.validateToken,
+        auth.createRoleCheck('admin'),
+        labelController.getLabell,
         ticketController.addPriority,
     );
 };

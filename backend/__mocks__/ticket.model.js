@@ -167,7 +167,7 @@ async function getTicket(ticketId) {
         return Promise.resolve(JSON.parse(response));
     }
     else {
-        return new ModelError(101, 'Object not found');
+        return new ModelError(404, 'Ticket not found');
     }
 }
 

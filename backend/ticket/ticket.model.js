@@ -5,14 +5,11 @@ const {ModelError} = require('../error');
 const ticketsClassPath = `${apiEndpoint}/classes/tickets`;
 
 async function createTicket(title,body,creator,attachments) {
-    if (!title || !body || !creator) {
-        throw new ModelError(400, 'Missing fields');
+    if (!title | !body | !creator) {
+        throw new ModelError(500, 'Missing fields');
     }
     else if (creator.length != 10) {
-        throw new ModelError(400, 'Invalid userId');
-    }
-    if (!attachments) {
-        attachments = '';
+        throw new ModelError(500, 'Invalid userId');
     }
     const options = { // header of API request to ACNAPI
         method: 'POST',
@@ -30,16 +27,16 @@ async function createTicket(title,body,creator,attachments) {
     try {
         return await request(options);
     } catch (err) {
-        return new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(err.statusCode, err.error.error);
     }
 }
 
 async function getUserTickets(userId) {
     if (!userId) {
-        throw new ModelError(400, 'Missing fields');
+        throw new ModelError(500, 'Missing fields');
     }
     else if (userId.length != 10) {
-        throw new ModelError(400, 'Invalid userId');
+        throw new ModelError(500, 'Invalid userId');
     }
     const options = {
         method: 'GET',
@@ -52,19 +49,19 @@ async function getUserTickets(userId) {
     try {
         return JSON.parse(await request(options)).results;
     } catch (err) {
-        return new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(err.statusCode, err.error.error);
     }
 }
 
 async function getLabelTickets(labelType, labelId) {
-    if (!labelType | labelId) {
-        throw new ModelError(400, 'Missing fields');
+    if (!labelType | !labelId) {
+        throw new ModelError(500, 'Missing fields');
     }
     else if (labelType!='tag' & labelType!='status' & labelType!='priority') {
-        throw new ModelError(400, 'Invalid labelType');
+        throw new ModelError(500, 'Invalid labelType');
     }
     else if (labelId.length != 10) {
-        throw new ModelError(400, 'Invalid labelId');
+        throw new ModelError(500, 'Invalid labelId');
     }
     const options = {
         method: 'GET',
@@ -77,7 +74,7 @@ async function getLabelTickets(labelType, labelId) {
     try {
         return JSON.parse(await request(options)).results;
     } catch (err) {
-        return new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(err.statusCode, err.error.error);
     }
 }
 
@@ -90,16 +87,16 @@ async function getAllTickets() {
     try {
         return JSON.parse(await request(options)).results;
     } catch (err) {
-        return new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(err.statusCode, err.error.error);
     }
 }
 
 async function getTicket(ticketId) {
     if (!ticketId) {
-        throw new ModelError(400, 'Missing fields');
+        throw new ModelError(500, 'Missing fields');
     }
     else if (ticketId.length != 10) {
-        throw new ModelError(400, 'Invalid ticketId');
+        throw new ModelError(500, 'Invalid ticketId');
     }
     const options = {
         method: 'GET',
@@ -109,21 +106,21 @@ async function getTicket(ticketId) {
     try {
         return JSON.parse(await request(options));
     } catch(err) {
-        return new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(err.statusCode, err.error.error);
     }
 }
 
 async function modifyTicket(ticketId, data) {
-    if (!ticketId || !data) {
-        throw new ModelError(400,'Missing fields');
+    if (!ticketId | !data) {
+        throw new ModelError(500,'Missing fields');
     }
     else if (ticketId.length != 10) {
-        throw new ModelError(400, 'Invalid ticketId');
+        throw new ModelError(500, 'Invalid ticketId');
     }
     const keys = Object.keys(data);
     for (i=0; i<keys.length; i++) {
         if (keys[i].length == 0) {
-            throw new ModelError(400, 'Invalid key value');
+            throw new ModelError(500, 'Invalid key value');
         }
     }
     const options = {
@@ -134,31 +131,10 @@ async function modifyTicket(ticketId, data) {
         body: data,
     };
     try {
-        return request(options);
-    } catch(err) {
-        return new ModelError(err.statusCode, err.error.error);
-    }
-}
-
-// changes ticket status to 'closed'
-async function closeTicket(ticketId) {
-    if (!ticketId) {
-        throw new ModelError(400,'Missing fields');
-    }
-    else if (ticketId.length != 10) {
-        throw new ModelError(400, 'Invalid ticketId');
-    }
-    const options = {
-        method: 'PUT',
-        uri: `${ticketsClassPath}/${ticketId}`,
-        headers: sharedHeaders,
-        json: true,
-        body: {status: 'k8nQSGO3BN'} //labelId for 'closed'
-    };
-    try {
         return await request(options);
     } catch(err) {
-        return new ModelError(err.statusCode, err.error.error);
+        console.log(err);
+        throw new ModelError(err.statusCode, err.error.error);
     }
 }
 
@@ -169,5 +145,4 @@ module.exports = {
     getAllTickets,
     getTicket,
     modifyTicket,
-    closeTicket,
 }

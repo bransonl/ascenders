@@ -77,12 +77,14 @@ class UserController {
         try {
             const getUserResult = await this._model.getUser(userId);
             if (getUserResult == undefined) {
-                return res.status(400).send('This user does not exist');
+                return res.status(400).json({
+                    message:'This user does not exist',
+                });
             }
             req.user = getUserResult;
             next();
         } catch(err) {
-            return res.status(err.statusCode).json(err);
+            throw res.status(err.statusCode).json(err);
         }
     }
 
@@ -91,7 +93,7 @@ class UserController {
             const getAdminsResult = await this._model.getAdmins();
             return res.status(200).send(getAdminsResult);
         } catch(err) {
-            return res.status(err.statusCode).json(err);
+            throw res.status(err.statusCode).json(err);
         }
     }
 }
