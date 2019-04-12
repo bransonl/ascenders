@@ -4,7 +4,7 @@ import { Button, Form } from 'react-bootstrap';
 
 import '../css/reusable.css';
 import '../css/TicketPreview.css';
-import axios from 'axios'
+import axios, { post } from 'axios'
 import { AppContext } from '../components/globalContext/AppContext'
 
 class TicketPreview extends React.Component {
@@ -12,15 +12,27 @@ class TicketPreview extends React.Component {
         super(props);
         this.state = {
             preview: [],
-            replies: []
+            replies: [],
+
+            file: null
         }
         this.reply = this.reply.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.handleFileUpload = this.handleFileUpload.bind(this);
     }
 
     reply(e) {
         e.preventDefault();
         console.log("Sending reply...");
         const sendMessage = e.target.elements.sendmessages.value;
+
+        // File upload
+        if (this.state.file !== null) {
+            console.log("\n Trying to upload file...");
+            this.handleFileUpload(this.state.file).then((res) => {
+                console.log(res.data);
+            })
+        }
         console.log(this.state.preview);
         if (sendMessage != null) {
             console.log("Message submitted.\nFetching from API...");
@@ -54,6 +66,24 @@ class TicketPreview extends React.Component {
         } else {
             console.log("No message to send...");
         }
+    }
+
+    onChange(e) {
+        this.setState({file: e.target.files[0]});
+    }
+
+    handleFileUpload(file) {
+        const ticketId = this.state.preview.objectId;
+
+        const url = `http://127.0.0.1:3000/tickets/upload/${ticketId}`;
+        const formData = new FormData();
+        formData.append('file',file);
+        const config = {
+            headers: {
+                Authorization: "Bearer " + this.context.token
+            }
+        }
+        return post(url, formData, config);
     }
 
     componentDidMount() {
@@ -157,6 +187,7 @@ class TicketPreview extends React.Component {
                             <Form.Control 
                                 type="file"
                                 name="uploadFile"
+                                onChange={this.onChange}
                             />
                         </Form.Group>
                     </Form>
