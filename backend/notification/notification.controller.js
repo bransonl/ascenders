@@ -97,7 +97,7 @@ class NotificationController {
         });
         userIds.forEach(async (userId) => {
             try {
-                const user = await this._model.getUserById(userId);
+                const user = await this._model.getUser(userId);
                 console.log(user);
                 if (user.email) {
                     console.log(`${userId} has email`);
