@@ -15,7 +15,9 @@ const AccountPop = (props) => {
         <Popover
             title="My Account"
         >
-            <Button onClick={props.logout}>Sign Out</Button>
+            <Button onClick={() => {
+                sessionStorage.setItem("isAuthenticated", false);
+                }}>Sign Out</Button>
         </Popover>
     );
 }

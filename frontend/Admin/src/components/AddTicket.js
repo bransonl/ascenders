@@ -45,16 +45,12 @@ class AddTicket extends React.Component {
             .then(res => {
                 this.setState({title, body, ticketId: res.objectId});
                 console.log("Current state: ", this.state);
-                e.target.elements.title.value = "";
-                e.target.elements.description.value = "";
-                if (this.state.file !== null) {
-                    console.log("\n Trying to upload file...");
-                    this.handleFileUpload(this.state.file)
-                    .then((res) => {
-                        console.log(res);
-                    })
-                }
-                
+
+                console.log("\n Trying to upload file...");
+                this.handleFileUpload(this.state.file)
+                .then((res) => {
+                    console.log(res);
+                })
             })
             .catch(err => console.log(err));
         }
@@ -66,6 +62,7 @@ class AddTicket extends React.Component {
     }
     handleFileUpload(file) {
         // const token = 'Bearer ' + this.context.token
+        console.log("Handling file upload...");
         const token = 'Bearer ' + sessionStorage.getItem("token");
         const url = `http://127.0.0.1:3000/tickets/upload/${this.state.ticketId}`;
         let formData = new FormData();

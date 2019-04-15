@@ -2,12 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import IosAdd from 'react-ionicons/lib/IosAdd';
+import MdCreate from 'react-ionicons/lib/MdCreate';
+import MdClose from 'react-ionicons/lib/MdClose';
 
 import '../css/reusable.css';
 import '../css/Ticket.css';
 import { AppContext } from './globalContext/AppContext';
 import AddTicket from './AddTicket';
 import AddLabel from './AddLabel';
+
 
 class Ticket extends React.Component {
     constructor(props) {
@@ -76,7 +79,7 @@ class Ticket extends React.Component {
                         <Col>Date Submitted</Col>
                         <Col>Creator</Col>
                         <Col md={4}>Title</Col>
-                        <Col>Ticket Id</Col>
+                        <Col>Status</Col>
                         <Col>Action</Col>
                     </Row>
                 </Container>
@@ -94,8 +97,15 @@ class Ticket extends React.Component {
                                             <Col>{ticket.createdAt}</Col>
                                             <Col>{ticket.creator}</Col>
                                             <Col md={4}>{ticket.title}</Col>
-                                            <Col>{ticket.objectId}</Col>
-                                            <Col>Options</Col>
+                                            <Col>{ticket.status}</Col>
+                                            <Col>
+                                                <div>
+                                                    <a><MdCreate className="options-icon" /></a>
+                                                </div>
+                                                <div>
+                                                    <a><MdClose className="options-icon"/></a>
+                                                </div>
+                                            </Col>
                                         </Row>
                                     </Container>
                                 </Link>

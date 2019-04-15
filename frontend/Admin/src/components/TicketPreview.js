@@ -13,8 +13,6 @@ class TicketPreview extends React.Component {
         this.state = {
             preview: [],
             replies: [],
-
-            file: null
         }
         this.reply = this.reply.bind(this);
         this.onChange = this.onChange.bind(this);
