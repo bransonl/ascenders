@@ -5,7 +5,7 @@ module.exports = {
     output: {
         path: path.join(__dirname,'public'),
         filename: 'bundle.js',
-        publicPath: '/'
+        publicPath: process.env.PUBLIC_PATH || '/',
     },
     module: {
         rules: [{
@@ -14,7 +14,7 @@ module.exports = {
             exclude: /node_modules/
         }, {
             test: /\.(png|jpg)$/,
-            loader: 'url-loader?limit=8192' 
+            loader: 'url-loader?limit=8192'
         }, {
             test: /\.css$/,
             use: ['style-loader', 'css-loader']

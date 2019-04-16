@@ -33,9 +33,9 @@ class Ticket extends React.Component {
             method: 'GET',
             headers: {
                 'Authorization': token
-            }, 
+            },
         })
-        .then(res => res.json()) 
+        .then(res => res.json())
         .then(res => {
             console.log("\nSetting state...");
             this.setState({tickets: [...res]});
@@ -50,7 +50,6 @@ class Ticket extends React.Component {
         return (
             <div className="ticket-wrapper">
                 <Container bsPrefix="action-bar">
-                    
                     <div className="add-ticket right">
                         <Button
                             bsPrefix="content-btn"
@@ -62,8 +61,8 @@ class Ticket extends React.Component {
                             onHide={labelModalClose}/>
                     </div>
                     <div className="add-ticket right">
-                        <Button 
-                            bsPrefix="content-btn" 
+                        <Button
+                            bsPrefix="content-btn"
                             onClick={() => this.setState({ticketModalShow: true})}>
                                 {/* <IosAdd className="IosAdd"/> */}
                                 Add Ticket
@@ -72,7 +71,7 @@ class Ticket extends React.Component {
                             show={this.state.ticketModalShow}
                             onHide={ticketModalClose}/>
                     </div>
-                    
+
                 </Container>
                 <Container bsPrefix="header-container">
                     <Row>
@@ -87,10 +86,10 @@ class Ticket extends React.Component {
                     {this.state.tickets.map((ticket, index) => {
                         return (
                             <div key={index}>
-                                <Link 
+                                <Link
                                     to={{
                                         pathname: `/tickets/preview/${ticket.objectId}`,
-                                    }}                
+                                    }}
                                 >
                                     <Container bsPrefix="ticket-container">
                                         <Row>
@@ -113,7 +112,7 @@ class Ticket extends React.Component {
                         );
                     })}
                 </div>
-            </div>    
+            </div>
         );
     }
 }

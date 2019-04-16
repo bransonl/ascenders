@@ -15,27 +15,23 @@ class AscendersAdminHome extends React.Component {
     render() {
         if (sessionStorage.getItem("isAuthenticated") !== "true") {
             console.log("Not authenticated...");
-            return (<Redirect to={'/'}/>);
+            return (<Redirect to="/login"/>);
         } else {
             console.log("Authentication: ", sessionStorage.getItem("isAuthenticated"));
             return (
-                <BrowserRouter basename="/admin">
-                    <div>
-                        <NavigationBar/>
-                            <div className="base-row">
-                                <Sidebar/>
-                                <Switch>
-                                    <Route exact path="/" component={Dashboard}/>
-                                    <Route path="/dashboard" component={Dashboard}/>
-                                    <Route exact path="/tickets" component={Ticket}/>
-                                    <Route path="/messages" component={Messages}/>
-                                    <Route exact path="/tickets/preview/:ticketId" component={TicketPreview}/>
-                                    <Route component={NotFoundPage}/>
-
-                                </Switch>
-                            </div>
-                    </div>
-                </BrowserRouter>
+                <div>
+                    <NavigationBar/>
+                        <div className="base-row">
+                            <Sidebar/>
+                            <Switch>
+                                <Route exact path="/" component={Dashboard}/>
+                                <Route exact path="/tickets" component={Ticket}/>
+                                <Route exact path="/messages" component={Messages}/>
+                                <Route exact path="/tickets/preview/:ticketId" component={TicketPreview}/>
+                                <Route component={NotFoundPage}/>
+                            </Switch>
+                        </div>
+                </div>
             );
         }
     }
@@ -43,4 +39,3 @@ class AscendersAdminHome extends React.Component {
 
 AscendersAdminHome.contextType = AppContext
 export default AscendersAdminHome;
-
