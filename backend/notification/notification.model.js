@@ -25,19 +25,19 @@ function init() {
     console.log('init twilio');
 }
 
-async function createNotificationForUsers(userIds = [], title, body, navigateTo) {
-    if (userIds.length === 0) {
+async function createNotificationForUsers(usernames = [], title, body, navigateTo) {
+    if (usernames.length === 0) {
         throw new ModelError(500, 'Invalid number of users for notification');
     }
-    const results = {}; // record success/failures for each userId to return to caller
-    userIds.forEach(async userId => {
+    const results = {}; // record success/failures for each username to return to caller
+    usernames.forEach(async username => {
         const options = {
             method: 'POST',
             uri: notificationClassEndpoint,
             headers: sharedHeaders,
             json: true,
             body: {
-                userId,
+                username,
                 title,
                 body,
                 navigateTo,
@@ -46,41 +46,20 @@ async function createNotificationForUsers(userIds = [], title, body, navigateTo)
         };
         try {
             await request(options);
-            results[userId] = {
+            results[username] = {
                 success: true,
             };
         } catch (err) {
-            results[userId] = {
+            results[username] = {
                 success: false,
                 error: err,
             };
         }
     });
-    // for some reason batch isn't working???
-    // const requests = userIds.map(userId => ({
-    //     method: 'POST',
-    //     path: notificationClassPath,
-    //     body: {userId, title, body, navigateTo, read: false},
-    // }));
-    // console.log(requests);
-    // const options = {
-    //     method: 'POST',
-    //     uri: batchEndpoint,
-    //     headers: sharedHeaders,
-    //     json: true,
-    //     body: {
-    //         requests,
-    //     },
-    // };
-    // try {
-    //     return await request(options);
-    // } catch (err) {
-    //     throw new ModelError(500, `Database call failed: ${err.statusCode}, ${err.error.error}`);
-    // }
 }
 
-async function getNotificationsForUser(userId) {
-    if (!userId) {
+async function getNotificationsForUser(username) {
+    if (!username) {
         throw new ModelError(400, 'Missing user');
     }
     const options = {
@@ -88,7 +67,7 @@ async function getNotificationsForUser(userId) {
         uri: notificationClassEndpoint,
         headers: sharedHeaders,
         json: true,
-        qs: {where: {userId}},
+        qs: {where: {username}},
     };
     try {
         const {results} = await request(options);

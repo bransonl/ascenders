@@ -47,7 +47,7 @@ class AscendersAdminLogin extends React.Component {
 
                     console.log("Context state: ", this.context);
                     console.log("Authentication success...");
-                    this.forceUpdate();
+                    this.props.history.push("/");
                 } else {
                     alert("Incorrect username/password!");
                 }
@@ -56,15 +56,14 @@ class AscendersAdminLogin extends React.Component {
         } else {
             alert("Please enter username/password...");
         }
-          
+
     }
 
     render() {
         console.log("\nRendering login page...");
-
         if (sessionStorage.getItem("isAuthenticated") === "true") {
-            console.log("Redirecting...");
-            return (<Redirect to={'/admin/dashboard'}/>);
+            console.log("Authenticated...");
+            return (<Redirect to="/"/>);
         } else {
             return (
                 <div className="adminLogin">
@@ -76,10 +75,10 @@ class AscendersAdminLogin extends React.Component {
                                     <label className="login-splash-text-h3">Ascenders</label>
                                     <p>Improve your performance and productivity with seamless and efficient working experience.</p>
                                 </div>
-                            </div> 
+                            </div>
                             <div className="login-splash-2">
-                            
-                            </div> 
+
+                            </div>
                         </div>
 
                         <Form className="container-form" onSubmit={this.login}>
@@ -90,7 +89,7 @@ class AscendersAdminLogin extends React.Component {
                                 <div className="container-form-wrap-input">
                                 <IosMail className="IosMail" color="#e2e2e2"/>
                                 <Form.Control
-                                    bsPrefix="login-form-control" 
+                                    bsPrefix="login-form-control"
                                     type="text"
                                     name="username"
                                     placeholder="Enter username"
@@ -102,7 +101,7 @@ class AscendersAdminLogin extends React.Component {
                             <Form.Group>
                                 <div className="container-form-wrap-input">
                                 <IosLock className="IosLock" color="#e2e2e2"/>
-                                <Form.Control 
+                                <Form.Control
                                     bsPrefix="login-form-control"
                                     type="password"
                                     name="password"
@@ -115,10 +114,11 @@ class AscendersAdminLogin extends React.Component {
                                 <Button bsPrefix="login-btn" type="submit">Login</Button>
                             </div>
                             <label className="container-form-label">Forgot your password? <Link to="/"><span className="forgot-password">Click Here</span></Link></label>
-                        </Form>            
+                        </Form>
                     </div>
                 </div>
-            );}
+            );
+        }
     }
 };
 

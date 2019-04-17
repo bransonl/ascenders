@@ -19,7 +19,8 @@ class Ticket extends React.Component {
             ticketModalShow: false,
             labelModalShow: false,
             tickets: [],
-            preview: null
+            preview: null,
+            statuses: {},
         };
     }
 
@@ -33,13 +34,29 @@ class Ticket extends React.Component {
             method: 'GET',
             headers: {
                 'Authorization': token
-            }, 
+            },
         })
-        .then(res => res.json()) 
+        .then(res => res.json())
         .then(res => {
             console.log("\nSetting state...");
             this.setState({tickets: [...res]});
             console.log("State is successfully set...\nTickets: ", this.state);
+        })
+        .catch(err => console.log(err));
+
+        fetch('http://127.0.0.1:3000/label/status', {
+            method: 'GET',
+            headers: {
+                Authorization: token,
+            },
+        })
+        .then(res => res.json())
+        .then(res => {
+            const statuses = {};
+            res.forEach(status => {
+                statuses[status.objectId] = status;
+            });
+            this.setState({statuses});
         })
         .catch(err => console.log(err));
     }
@@ -50,7 +67,6 @@ class Ticket extends React.Component {
         return (
             <div className="ticket-wrapper">
                 <Container bsPrefix="action-bar">
-                    
                     <div className="add-ticket right">
                         <Button
                             bsPrefix="content-btn"
@@ -62,8 +78,8 @@ class Ticket extends React.Component {
                             onHide={labelModalClose}/>
                     </div>
                     <div className="add-ticket right">
-                        <Button 
-                            bsPrefix="content-btn" 
+                        <Button
+                            bsPrefix="content-btn"
                             onClick={() => this.setState({ticketModalShow: true})}>
                                 {/* <IosAdd className="IosAdd"/> */}
                                 Add Ticket
@@ -72,7 +88,7 @@ class Ticket extends React.Component {
                             show={this.state.ticketModalShow}
                             onHide={ticketModalClose}/>
                     </div>
-                    
+
                 </Container>
                 <Container bsPrefix="header-container">
                     <Row>
@@ -85,35 +101,31 @@ class Ticket extends React.Component {
                 </Container>
                 <div className="body-container">
                     {this.state.tickets.map((ticket, index) => {
+                        const status = this.state.statuses[ticket.status];
                         return (
-                            <div key={index}>
-                                <Link 
-                                    to={{
-                                        pathname: `/tickets/preview/${ticket.objectId}`,
-                                    }}                
-                                >
-                                    <Container bsPrefix="ticket-container">
-                                        <Row>
-                                            <Col>{ticket.createdAt}</Col>
-                                            <Col>{ticket.creator}</Col>
-                                            <Col md={4}>{ticket.title}</Col>
-                                            <Col>{ticket.status}</Col>
-                                            <Col>
-                                                <div>
-                                                    <a><MdCreate className="options-icon" /></a>
-                                                </div>
-                                                <div>
-                                                    <a><MdClose className="options-icon"/></a>
-                                                </div>
-                                            </Col>
-                                        </Row>
-                                    </Container>
-                                </Link>
-                            </div>
+                            <Link
+                                key={`ticket-${index}`}
+                                to={{
+                                    pathname: `/tickets/preview/${ticket.objectId}`,
+                                }}
+                            >
+                                <Container bsPrefix="ticket-container">
+                                    <Row>
+                                        <Col>{ticket.createdAt}</Col>
+                                        <Col>{ticket.creator}</Col>
+                                        <Col md={4}>{ticket.title}</Col>
+                                        <Col>{status ? status.name : ""}</Col>
+                                        <Col>
+                                            <MdCreate className="options-icon" />
+                                            <MdClose className="options-icon"/>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Link>
                         );
                     })}
                 </div>
-            </div>    
+            </div>
         );
     }
 }
