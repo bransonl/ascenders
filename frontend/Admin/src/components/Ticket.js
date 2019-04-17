@@ -98,12 +98,8 @@ class Ticket extends React.Component {
                                             <Col md={4}>{ticket.title}</Col>
                                             <Col>{ticket.status}</Col>
                                             <Col>
-                                                <div>
-                                                    <a><MdCreate className="options-icon" /></a>
-                                                </div>
-                                                <div>
-                                                    <a><MdClose className="options-icon"/></a>
-                                                </div>
+                                                <MdCreate className="options-icon" />
+                                                <MdClose className="options-icon"/>
                                             </Col>
                                         </Row>
                                     </Container>

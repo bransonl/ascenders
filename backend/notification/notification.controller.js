@@ -54,9 +54,9 @@ class NotificationController {
                     });
 
                     // handle get notification events
-                    socket.on('get', async (userId, ack) => {
+                    socket.on('get', async (username, ack) => {
                         try {
-                            const notifications = await this._model.getNotificationsForUser(userId);
+                            const notifications = await this._model.getNotificationsForUser(username);
                             ack({success: true, data: notifications});
                         } catch (err) {
                             ack({success: false});
@@ -69,14 +69,14 @@ class NotificationController {
     }
 
     async getNotificationsForUser(req, res) {
-        const userId = req.user.objectId;
-        if (!userId) {
+        const username = req.user.username;
+        if (!username) {
             return res.status(400).json({
                 message: 'Missing user id',
             });
         }
         try {
-            const notifications = await this._model.getNotificationsForUser(userId);
+            const notifications = await this._model.getNotificationsForUser(username);
             return res.json({
                 notifications,
             });
@@ -85,19 +85,19 @@ class NotificationController {
         }
     }
 
-    async createNotificationForUsers(userIds, title, body, navigateTo) {
-        await this._model.createNotificationForUsers(userIds, title, body, navigateTo);
-        userIds.forEach((userId) => {
-            if (!this._userSockets[userId]) {
+    async createNotificationForUsers(usernames, title, body, navigateTo) {
+        await this._model.createNotificationForUsers(usernames, title, body, navigateTo);
+        usernames.forEach((username) => {
+            if (!this._userSockets[username]) {
                 return;
             }
-            this._userSockets[userId].emit('new', {
+            this._userSockets[username].emit('new', {
                 title, body, navigateTo,
             });
         });
-        userIds.forEach(async (userId) => {
+        usernames.forEach(async (username) => {
             try {
-                const user = await this._model.getUser(userId);
+                const user = await this._model.getUserByUsername(username);
                 if (user.email) {
                     this._model.sendEmail(user.email, title, body);
                 }

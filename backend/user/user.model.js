@@ -72,7 +72,7 @@ async function register(username, password, role, email) {
     }
 }
 
-async function getUser(userId) {
+async function getUserById(userId) {
     if (!userId) {
         throw new ModelError(400, 'Missing fields');
     }
@@ -88,6 +88,35 @@ async function getUser(userId) {
     } catch (err) {
         if (err.statusCode === 404) {
             throw new ModelError(404, `The user with id ${userId} does not exist`);
+        }
+        throw new ModelError(500, `Database call failed: ${err.error.error}`);
+    }
+}
+
+async function getUserByUsername(username) {
+    if (!username) {
+        throw new ModelError(400, 'Missing username');
+    }
+    const options = {
+        method: 'GET',
+        uri: `${apiEndpoint}/users`,
+        headers: sharedHeaders,
+        json: true,
+        qs: {
+            where: {
+                username,
+            },
+        },
+    };
+    try {
+        const results = (await request(options)).results;
+        if (results.length === 0) {
+            throw new ModelError(404, `The user with username ${username} does not exist`);
+        }
+        return createUserObject(results[0]);
+    } catch (err) {
+        if (err.statusCode === 404) {
+            throw err;
         }
         throw new ModelError(500, `Database call failed: ${err.error.error}`);
     }
@@ -117,6 +146,7 @@ module.exports = {
     login,
     logout,
     register,
-    getUser,
+    getUserById,
+    getUserByUsername,
     getAdmins,
 }

@@ -48,7 +48,7 @@ class MessageController {
     async addCommentToTicket(req, res) {
         const {ticketId} = req.params;
         const {message} = req.body;
-        const sender = req.user.objectId;
+        const sender = req.user.username;
         try {
             const messageResult = await this._model.createMessage(ticketId, sender, message);
             const result = await this.addMessageToTicket(
@@ -59,7 +59,7 @@ class MessageController {
             res.status(200).send(result);
             const ticket = await this._model.getTicket(ticketId);
             if (ticket.creator === sender) {
-                const assignees = ticket.assigned.split(', ');
+                const assignees = ticket.assigned.split(",");
                 notificationController.createNotificationForUsers(
                     assignees,
                     `New comment on ticket ${ticketId}`,
