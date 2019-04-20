@@ -6,26 +6,24 @@ const awsModel = require('../aws/aws.model');
 const {AwsController} = require('../aws/aws.controller');
 
 const userModel = require('../user/user.model');
-const {UserController} = require('../user/user.controller');
 
 const labelModel = require('../label/label.model');
 const {LabelController} = require('../label/label.controller');
 
-const ticketController = new TicketController(ticketModel);
+const ticketController = new TicketController([ticketModel, userModel]);
 const awsController = new AwsController(awsModel);
-const userController = new UserController(userModel);
 const labelController = new LabelController(labelModel);
 
 function routes(app) {
     //create tickets
     app.route('/tickets')
     .post(
-        auth.validateToken,
+        auth.validateTokenMiddleware,
         ticketController.createTicket
     )
     app.route('/tickets/upload/:ticketId')
     .put(
-        auth.validateToken,
+        auth.validateTokenMiddleware,
         awsController.uploadFile,
         ticketController.addAttachment
     );
@@ -33,7 +31,7 @@ function routes(app) {
     //get tickets
     app.route('/tickets/user')
     .get(
-        auth.validateToken,
+        auth.validateTokenMiddleware,
         ticketController.getUserTickets
     );
     app.route('/tickets/label')
@@ -44,29 +42,28 @@ function routes(app) {
     );
     app.route('/tickets/admin')
     .get(
-        auth.validateToken,
+        auth.validateTokenMiddleware,
         auth.createRoleCheck('admin'),
         ticketController.getAllTickets
     )
     app.route('/tickets/:ticketId')
     .get(
-        auth.validateToken,
+        auth.validateTokenMiddleware,
         ticketController.getTicket
     );
 
     //close ticket
     app.route('/tickets/close/:ticketId')
     .put(
-        auth.validateToken,
+        auth.validateTokenMiddleware,
         ticketController.closeTicket
     );
 
     //filtering
     app.route('/tickets/assign/:ticketId') //assign ticket to admin
     .put(
-        auth.validateToken,
+        auth.validateTokenMiddleware,
         auth.createRoleCheck('admin'),
-        userController.getUser,
         ticketController.addAdmin
     );
     app.route('/tickets/addtag/:ticketId')

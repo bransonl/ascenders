@@ -12,24 +12,24 @@ class AppRouter extends React.Component {
         super(props);
         this.logout = this.logout.bind(this);
         this.state = {
-            username: undefined,
-            role: undefined,
-            token: undefined,
-            isAuthenticated: true,
-            redirectToHome: false,
-            logout: this.logout()
+            username: sessionStorage.getItem("username"),
+            role: sessionStorage.getItem("role"),
+            token: sessionStorage.getItem("token"),
+            isAuthenticated: sessionStorage.getItem("isAuthenticated"),
+            logout: this.logout
         };
     }
 
     logout() {
         console.log("\nContext logout is called...");
         console.log(this.state);
-        
+        // const token = 'Bearer ' + this.context.token
+        // const token = 'Bearer ' + sessionStorage.getItem("token");
         // const url = "http://127.0.0.1:3000/logout"
-        // axios.post(url, 
+        // axios.post(url,
         //     null, {
         //     headers: {
-        //         Authorization: "Bearer " + this.state.token
+        //         Authorization: token
         //     }
         // })
         // .then(res => {
@@ -41,17 +41,20 @@ class AppRouter extends React.Component {
         //         isAuthenticated: false
         //     });
         // });
+        sessionStorage.clear();
+        this.context = {};
+        this.forceUpdate();
     }
 
     render() {
         return (
             <AppContext.Provider
                 value={this.state}>
-                <BrowserRouter>
+                <BrowserRouter basename="/admin">
                 <div>
                     <Switch>
-                        <Route exact path="/" component={AscendersAdminLogin}/>
-                        <Route path="/admin" component={AscendersAdminHome}/>
+                        <Route exact path="/login" component={AscendersAdminLogin}/>
+                        <Route path="/" component={AscendersAdminHome}/>
                         <Route component={NotFoundPage}/>
                     </Switch>
                 </div>

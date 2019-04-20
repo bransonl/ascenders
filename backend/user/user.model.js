@@ -3,10 +3,12 @@ const request = require('request-promise-native');
 const {apiEndpoint, sharedHeaders} = require('../env.js');
 const {ModelError} = require('../error');
 
-function createUserObject({username, role, phone}) {
+function createUserObject({objectId, username, role, notificationEmail, phone}) {
     return {
+        userId: objectId,
         username,
         role,
+        email: notificationEmail,
         phone,
     };
 }
@@ -48,12 +50,12 @@ async function logout(sessionToken) {
     try {
         return await request(options);
     } catch (err) {
-        throw new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(500, `Database call failed: ${err.error.error}`);
     }
 }
 
-async function register(username, password, role) {
-    if (!username || !password || !role) {
+async function register(username, password, role, email) {
+    if (!username || !password || !role || !email) {
         throw new ModelError(400, 'Missing fields');
     }
     const options = {
@@ -66,28 +68,57 @@ async function register(username, password, role) {
     try {
         return await request(options);
     } catch (err) {
-        throw new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(500, `Database call failed ${err.error.error}`);
     }
 }
 
-async function getUser(userId) {
+async function getUserById(userId) {
     if (!userId) {
         throw new ModelError(400, 'Missing fields');
     }
     const options = {
         method: 'GET',
-        uri: `${apiEndpoint}/users`,
-        qs: {
-            where: `{"objectId":"${userId}"}`,
-        },
+        uri: `${apiEndpoint}/users/${userId}`,
         headers: sharedHeaders,
+        json: true,
     };
     try {
-        console.log('getUser');
-        console.log(JSON.parse(await request(options)).results[0]);
-        return JSON.parse(await request(options)).results[0];
+        const user = await request(options);
+        return createUserObject(user);
     } catch (err) {
-        throw new ModelError(err.statusCode, err.error.error);
+        if (err.statusCode === 404) {
+            throw new ModelError(404, `The user with id ${userId} does not exist`);
+        }
+        throw new ModelError(500, `Database call failed: ${err.error.error}`);
+    }
+}
+
+async function getUserByUsername(username) {
+    if (!username) {
+        throw new ModelError(400, 'Missing username');
+    }
+    const options = {
+        method: 'GET',
+        uri: `${apiEndpoint}/users`,
+        headers: sharedHeaders,
+        json: true,
+        qs: {
+            where: {
+                username,
+            },
+        },
+    };
+    try {
+        const results = (await request(options)).results;
+        if (results.length === 0) {
+            throw new ModelError(404, `The user with username ${username} does not exist`);
+        }
+        return createUserObject(results[0]);
+    } catch (err) {
+        if (err.statusCode === 404) {
+            throw err;
+        }
+        throw new ModelError(500, `Database call failed: ${err.error.error}`);
     }
 }
 
@@ -96,14 +127,17 @@ async function getAdmins() {
         method: 'GET',
         uri: `${apiEndpoint}/users`,
         qs: {
-            where: `{"role":"admin"}`,
+            where: {
+                role: 'admin',
+            },
         },
         headers: sharedHeaders,
+        json: true,
     };
     try {
-        return JSON.parse(await request(options)).results;
+        return (await request(options)).results;
     } catch (err) {
-        throw new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(500, `Database call failed: ${err.error.error}`);
     }
 }
 
@@ -112,6 +146,7 @@ module.exports = {
     login,
     logout,
     register,
-    getUser,
+    getUserById,
+    getUserByUsername,
     getAdmins,
 }

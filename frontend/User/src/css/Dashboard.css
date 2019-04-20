@@ -1,0 +1,21 @@
+/* --------- */
+/* Dashboard */
+/* --------- */
+/* Temp */
+.container-login-tmp {
+    width: 480px;
+    height: 300px;
+    background: var(--midground-color);
+    justify-content: flex-start;
+    border-radius: 10px;
+    display: flex;
+    box-shadow: 0 0 20px 6px rgba(8, 8, 8, 0.301);
+}
+
+.container-splash-tmp {
+    background: var(--secondary-color);
+    text-align: center;
+    width:100%;
+
+    padding-top : 10%;
+}

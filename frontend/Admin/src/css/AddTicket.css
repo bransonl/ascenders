@@ -10,3 +10,6 @@
 .form-control-textarea {
     height: 10rem !important;
 }
+.form-control {
+    font-size: 0.8rem;
+}
