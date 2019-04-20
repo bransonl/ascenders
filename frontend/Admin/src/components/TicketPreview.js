@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Image, Modal } from 'react-bootstrap';
+import IosAttach from 'react-ionicons/lib/IosAttach';
 
 import '../css/reusable.css';
 import '../css/TicketPreview.css';
-import axios, { post } from 'axios'
+import axios from 'axios'
 import { AppContext } from '../components/globalContext/AppContext'
 
 class TicketPreview extends React.Component {
@@ -13,10 +14,15 @@ class TicketPreview extends React.Component {
         this.state = {
             preview: [],
             replies: [],
+
+            showAttachment: false
         }
         this.reply = this.reply.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.handleFileUpload = this.handleFileUpload.bind(this);
+        // this.onChange = this.onChange.bind(this);
+        // this.handleFileUpload = this.handleFileUpload.bind(this);
+
+        this.handleShow = this.handleShow.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
 
     reply(e) {
@@ -24,13 +30,13 @@ class TicketPreview extends React.Component {
         console.log("Sending reply...");
         const sendMessage = e.target.elements.sendmessages.value;
 
-        // File upload
-        if (this.state.file !== null) {
-            console.log("\n Trying to upload file...");
-            this.handleFileUpload(this.state.file).then((res) => {
-                console.log(res.data);
-            })
-        }
+        // // File upload
+        // if (this.state.file !== null) {
+        //     console.log("\n Trying to upload file...");
+        //     this.handleFileUpload(this.state.file).then((res) => {
+        //         console.log(res.data);
+        //     })
+        // }
         console.log(this.state.preview);
         if (sendMessage != null) {
             console.log("Message submitted.\nFetching from API...");
@@ -68,25 +74,25 @@ class TicketPreview extends React.Component {
         }
     }
 
-    onChange(e) {
-        this.setState({file: e.target.files[0]});
-    }
+    // onChange(e) {
+    //     this.setState({file: e.target.files[0]});
+    // }
 
-    handleFileUpload(file) {
-        const ticketId = this.state.preview.objectId;
+    // handleFileUpload(file) {
+    //     const ticketId = this.state.preview.objectId;
 
-        // const token = 'Bearer ' + this.context.token
-        const token = 'Bearer ' + sessionStorage.getItem("token");
-        const url = `http://127.0.0.1:3000/tickets/upload/${ticketId}`;
-        const formData = new FormData();
-        formData.append('file',file);
-        const config = {
-            headers: {
-                Authorization: token
-            }
-        }
-        return axios.put(url, formData, config);
-    }
+    //     // const token = 'Bearer ' + this.context.token
+    //     const token = 'Bearer ' + sessionStorage.getItem("token");
+    //     const url = `http://127.0.0.1:3000/tickets/upload/${ticketId}`;
+    //     const formData = new FormData();
+    //     formData.append('file',file);
+    //     const config = {
+    //         headers: {
+    //             Authorization: token
+    //         }
+    //     }
+    //     return axios.put(url, formData, config);
+    // }
 
     componentDidMount() {
         console.log("\nTicket preview is mounted...")
@@ -127,6 +133,13 @@ class TicketPreview extends React.Component {
         });
     }
 
+    handleShow() {
+        this.setState({showAttachment: true});
+    }
+    handleClose() {
+        this.setState({showAttachment: false});
+    }
+
     render() {
         return (
             <div className="preview-app">
@@ -149,9 +162,23 @@ class TicketPreview extends React.Component {
                     </div>
                 </div>
                 <div className="body-ticketpreview">
+                    {this.state.preview.attachments !== "" &&                
+                            <div className="attachment--ticketpreview">
+                                <IosAttach className="icon--ticketpreview" onClick={this.handleShow}/>
+
+                                <Modal show={this.state.showAttachment} onHide={this.handleClose}>
+                                    <Modal.Body><Image src={this.state.preview.attachments} className="img--ticketpreview"/></Modal.Body>
+                                </Modal>
+
+                            </div>                      
+                    }
+
+                    
                     <div className="body--ticketpreview">
                         <p>{this.state.preview.body}</p>
+                        {/* <span>{this.state.preview.attachments[0]}</span> */}
                     </div>
+                    
                 </div>
                 <div className="preview-ticketpreview">
                     

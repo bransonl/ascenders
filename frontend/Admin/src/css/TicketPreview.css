@@ -45,6 +45,7 @@
 .body-ticketpreview {
     flex: 0 1 auto;
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     padding: 0.5rem 1rem;
     background-color: #2d2d2d;
@@ -52,12 +53,22 @@
 }
 .body--ticketpreview {
     align-content: flex-start;
-    border-radius: 0.25rem;
-    width: 60%;
+    width: 40%;
     font-size: 1.2rem;
     padding: 0.25rem;
     margin-bottom: 0.5rem;
     color: var(--info-blue);
+}
+.attachment--ticketpreview {
+    margin-bottom: 0.5rem;
+}
+.icon--ticketpreview {
+    fill: var(--info-blue);
+    cursor: pointer;
+    align-content: flex-start;
+}
+.img--ticketpreview {
+    width: 100%;
 }
 
 .preview-ticketpreview {
