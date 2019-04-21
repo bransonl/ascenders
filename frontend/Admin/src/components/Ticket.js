@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Button, Dropdown } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import MdCreate from 'react-ionicons/lib/MdCreate';
 import MdClose from 'react-ionicons/lib/MdClose';
 
@@ -22,12 +22,6 @@ class Ticket extends React.Component {
             preview: null,
             statuses: {},
 
-            selectedLabel: [],
-            filterLabel: [
-                {value: 'One'},
-                {value: 'Two'},
-                {value: 'Three'}
-            ],
         };
         this.handleRefresh = this.handleRefresh.bind(this);
     }

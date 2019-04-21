@@ -1,11 +1,12 @@
 import React from 'react';
-import {BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import NavigationBar from './NavigationBar.js';
 import Sidebar from './Sidebar.js';
 import Dashboard from './Dashboard.js';
 import Ticket from './Ticket.js';
 import TicketPreview from './TicketPreview';
-import Archive from './Archive.js';
+import Archives from './Archives.js';
+import ArchivesPreview from './ArchivesPreview';
 import NotFoundPage from './NotFoundPage';
 import '../css/reusable.css';
 import '../css/AscendersAdminHome.css';
@@ -26,8 +27,9 @@ class AscendersAdminHome extends React.Component {
                             <Switch>
                                 <Route exact path="/" component={Dashboard}/>
                                 <Route exact path="/tickets" component={Ticket}/>
-                                <Route exact path="/archive" component={Archive}/>
+                                <Route exact path="/archive" component={Archives}/>
                                 <Route exact path="/tickets/preview/:ticketId" component={TicketPreview}/>
+                                <Route exact path="/archive/preview/:ticketId" component={ArchivesPreview}/>
                                 <Route component={NotFoundPage}/>
                             </Switch>
                         </div>
