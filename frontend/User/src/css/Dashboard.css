@@ -5,15 +5,15 @@
 .container-login-tmp {
     width: 480px;
     height: 300px;
-    background: var(--midground-color);
+    background: var(--secondary-color);
     justify-content: flex-start;
-    border-radius: 10px;
+    border-radius: 5px;
     display: flex;
     box-shadow: 0 0 20px 6px rgba(8, 8, 8, 0.301);
 }
 
 .container-splash-tmp {
-    background: var(--secondary-color);
+    background: var(--foreground-color2);
     text-align: center;
     width:100%;
 

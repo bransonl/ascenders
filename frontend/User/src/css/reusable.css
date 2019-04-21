@@ -2,14 +2,17 @@
 /* CUSTOM COLOR */
 /* ------------ */
 :root {
---background-color: #1e1e1e;
---midground-color: #30353e;
---foreground-color: #242426;
+--background-color: #e4e7ea;
+--midground-color: 	#c8ced3;
+--foreground-color: #ffffff;
+--foreground-color2: #f6f7f8;
+--contrast-color: #2f353a;
 
---primary-color: #febc11;
---secondary-color: #000000;
---text-on-black: #e2e2e2;
---text-on-black2: #c8c9c4;
+--primary-color: #63c2de;
+--secondary-color: #20a8d8;
+--text-on-white: #5c6873;
+--text-on-white2: #515355;
+--text-on-black: #f0f3f5;
 
 --success-green: #4dbd74;
 --danger-red: #f86c6b;

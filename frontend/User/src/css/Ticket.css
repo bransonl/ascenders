@@ -5,6 +5,7 @@
     display: flex;
     flex-direction: column;
     width: 100vw;
+    background-color: var(--foreground-color2);
 }
 .action-bar,
 .ticket-container,
@@ -13,22 +14,25 @@
     flex-direction: column;
     width: 100%;
     padding: 0.5rem 1rem;
+    background-color: var(--foreground-color2);
 
     font-size: 80%;
     text-align: left;
-    color: var(--text-on-black2);
+    color: var(--text-on-white);
 }
-
 .header-container {
     border-bottom: 1px solid var(--primary-color);  
-    text-align: center;  
+    text-align: center;
+    min-height: fit-content;
 }
 
 .ticket-container:hover {
     text-decoration: none;
-    background-color: #2a2d2e;
+    background-color: var(--midground-color);
 }
-
+.options-icon {
+    fill: var(--text-on-black)
+}
 .row {
     display: flex;
     flex-direction: row;
@@ -41,8 +45,9 @@
 }
 
 .action-bar {
-    background-color: #2d2d2d;
-    flex-direction: row
+    background-color: var(--background-color);
+    flex-direction: row;
+    min-height: fit-content;
 
 }
 .add-ticket {
@@ -59,7 +64,7 @@
     fill: #000;
 }
 .content-btn {
-    color: var(--text-on-black);
+    color: var(--text-on-white2);
     background-color: transparent;
     padding: 0.25rem 0.5rem;
     border: 1px solid var(--primary-color);

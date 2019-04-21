@@ -15,7 +15,7 @@
     display: flex;
     flex-direction: column;
     padding: 0;
-    background-color: var(--foreground-color);
+    background-color: var(--contrast-color);
 }
 
 .sidebar-nav-link {
@@ -39,8 +39,8 @@
 .sidebar-nav-link-list a:hover,
 .sidebar-nav-link-list a:focus {
     background-color: var(--primary-color);
-    color: var(--secondary-color);
-    fill: var(--secondary-color);
+    color: #ffffff;
+    fill: #ffffff;
 }
 
 /* Icons */

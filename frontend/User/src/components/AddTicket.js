@@ -4,69 +4,76 @@ import { Col, Row, Modal, Form, Button } from 'react-bootstrap';
 import '../css/reusable.css';
 import '../css/AddTicket.css';
 import { AppContext } from './globalContext/AppContext.js';
+import axios, { post } from 'axios';
 
 
 class AddTicket extends React.Component {
     constructor(props) {
         super(props);
         this.submitTicket = this.submitTicket.bind(this);
-        // this.onChange = this.onChange.bind(this);
-        // this.fileUpload = this.fileUpload.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.handleFileUpload = this.handleFileUpload.bind(this);
         this.state = {
             title: null,
             body: null,
+
+            ticketId: null,
+            file: ""
         };
     }
 
     submitTicket(e) {
-        console.log("submitting...");
+        console.log("\nCreating new ticket...");
         e.preventDefault();
         const title = e.target.elements.title.value;
         const body = e.target.elements.description.value;
-        // const file = this.state.file;
-        fetch('http://127.0.0.1:3000/tickets', {
-            method: 'POST',
-            headers: {
-                'Authorization': 'Bearer ' + this.context.token,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({title, body}),
-        })
-        .then(res => res.json())
-        .then(res => {
-            this.setState({title, body, ticketId: res.objectId});
 
-            this.fileUpload();
-        })
-        .catch(res => console.log(err));
-
-        e.target.elements.title.value = "";
-        e.target.elements.description.value = "";
+        // const token = 'Bearer ' + this.context.token
+        const token = 'Bearer ' + sessionStorage.getItem("token");
+        if (title === "" || body === "") {
+            alert("Please fill the title/body!");
+        } else {
+            fetch('http://127.0.0.1:3000/tickets', {
+                method: 'POST',
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({title, body}),
+            })
+            .then(res => res.json())
+            .then(res => {
+                this.setState({title, body, ticketId: res.objectId});
+                if (this.state.file !== "") {
+                    console.log("\n Trying to upload file...");
+                    this.handleFileUpload(this.state.file)
+                    .then((res) => {
+                        console.log(res);
+                    })
+                }
+            })
+            .catch(err => console.log(err));
+        }
     }
 
-    // onChange(e) { // called when file selected
-    //     this.setState({file: e.target.files[0]});
-    // }
-
-    // fileUpload() {
-    //     console.log('uploading file...');
-    //     const {ticketId, file} = this.state;
-    //     const formData = new FormData();
-    //     formData.append('file', file, 'file');
-    //     const url = `http://127.0.0.1:3000/tickets/upload/${ticketId}`;
-    //     fetch(url, {
-    //         method: 'PUT',
-    //         headers: {
-    //             'Authorization': 'Bearer ' + this.context.token
-    //         },
-    //         body: formData,
-    //     })
-    //     .then(res => res.json())
-    //     .then(res => {
-    //         console.log("Response fileUpload: ", res);
-    //     })
-    //     .catch(res => console.log(err));
-    // }
+    onChange(e) {
+        this.state.file = e.target.files[0];
+        console.log("\nFile content: ", this.state.file, "\n");
+    }
+    handleFileUpload(file) {
+        // const token = 'Bearer ' + this.context.token
+        console.log("Handling file upload...");
+        const token = 'Bearer ' + sessionStorage.getItem("token");
+        const url = `http://127.0.0.1:3000/tickets/upload/${this.state.ticketId}`;
+        let formData = new FormData();
+        formData.append('file',file);
+        const config = {
+            headers: {
+                Authorization: token
+            }
+        }
+        return axios.put(url, formData, config);
+    }
 
     render() {
         return (
@@ -108,7 +115,8 @@ class AddTicket extends React.Component {
                                     id="formControlsFile"
                                     type="file"
                                     multiple
-                                    label="File" />
+                                    label="File"
+                                    onChange={this.onChange}/>
                             </Col>
                         </Form.Group>                    
                     </Modal.Body>

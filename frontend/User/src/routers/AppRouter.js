@@ -12,46 +12,50 @@ class AppRouter extends React.Component {
         super(props);
         this.logout = this.logout.bind(this);
         this.state = {
-            username: undefined,
-            role: undefined,
-            token: undefined,
-            isAuthenticated: true,
-            redirectToHome: false,
-            logout: this.logout()
+            username: sessionStorage.getItem("username"),
+            role: sessionStorage.getItem("role"),
+            token: sessionStorage.getItem("token"),
+            isAuthenticated: sessionStorage.getItem("isAuthenticated"),
+            logout: this.logout
         };
     }
 
     logout() {
         console.log("\nContext logout is called...");
         console.log(this.state);
-        
-        // const url = "http://127.0.0.1:3000/logout"
-        // axios.post(url, 
-        //     null, {
-        //     headers: {
-        //         Authorization: "Bearer " + this.state.token
-        //     }
-        // })
-        // .then(res => {
-        //     console.log(res)
-        //     this.setState({
-        //         username: undefined,
-        //         role: undefined,
-        //         token: undefined,
-        //         isAuthenticated: false
-        //     });
-        // });
+        // const token = 'Bearer ' + this.context.token
+        const token = 'Bearer ' + sessionStorage.getItem("token");
+        fetch('http://127.0.0.1:3000/logout', {
+            method: 'POST',
+            headers: {
+                'Authorization': token,
+            },
+        })
+        .then(res => {
+            console.log(res)
+            this.setState({
+                username: undefined,
+                role: undefined,
+                token: undefined,
+                isAuthenticated: false
+            });
+            console.log("\n Logging out...");
+        })
+        .catch(err => console.log(err));
+        sessionStorage.clear();
+        this.context = {};
+        this.forceUpdate();
     }
 
     render() {
         return (
             <AppContext.Provider
                 value={this.state}>
-                <BrowserRouter>
+                <BrowserRouter basename="/user">
                 <div>
                     <Switch>
-                        <Route exact path="/" component={AscendersUserLogin}/>
-                        <Route path="/user" component={AscendersUserHome}/>
+                        <Route exact path="/login" component={AscendersUserLogin}/>
+                        <Route path="/" component={AscendersUserHome}/>
                         <Route component={NotFoundPage}/>
                     </Switch>
                 </div>
