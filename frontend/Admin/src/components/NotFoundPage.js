@@ -1,9 +1,10 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import '../css/NotFoundPage.css';
 
 const NotFoundPage = () => (
-    <div>
-        404 - <Link to="/">Go Home</Link>
+    <div className="notfound-wrapper">
+    
     </div>
 );
 

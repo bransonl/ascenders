@@ -8,7 +8,7 @@ import { Form, Button } from 'react-bootstrap';
 import '../css/reusable.css';
 import '../css/AscendersAdminLogin.css';
 
-import {AppContext} from './globalContext/AppContext.js';
+import { AppContext } from './globalContext/AppContext.js';
 
 class AscendersAdminLogin extends React.Component {
     constructor(props) {
