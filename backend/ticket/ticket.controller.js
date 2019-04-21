@@ -188,11 +188,14 @@ class TicketController {
                 });
             }
             const ticket = await this._model.getTicket(ticketId);
-            const assignedUsernames = ticket.assigned.split(",");
-            if (assignedUsernames.includes(username)) {
-                return res.status(304).json({
-                    message: `User already assigned`,
-                })
+            let assignedUsernames;
+            if (ticket.assigned != undefined) {
+                assignedUsernames = ticket.assigned.split(",");
+                if (assignedUsernames.includes(username)) {
+                    return res.status(304).json({
+                        message: `User already assigned`
+                    });
+                }
             }
             const assigned = ticket.assigned ? `${ticket.assigned},${username}` : username;
             try {
