@@ -87,7 +87,7 @@ class AscendersUserLogin extends React.Component {
                             </Form.Group>
                             <Form.Group>
                                 <div className="container-form-wrap-input">
-                                <IosMail className="IosMail" color="#e2e2e2"/>
+                                <IosMail className="IosMail" color="#5c6873"/>
                                 <Form.Control
                                     bsPrefix="login-form-control"
                                     type="text"
@@ -100,7 +100,7 @@ class AscendersUserLogin extends React.Component {
                             </Form.Group>
                             <Form.Group>
                                 <div className="container-form-wrap-input">
-                                <IosLock className="IosLock" color="#e2e2e2"/>
+                                <IosLock className="IosLock" color="#5c6873"/>
                                 <Form.Control
                                     bsPrefix="login-form-control"
                                     type="password"

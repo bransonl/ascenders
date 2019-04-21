@@ -7,6 +7,7 @@
 --foreground-color: #ffffff;
 --foreground-color2: #f6f7f8;
 --contrast-color: #2f353a;
+--contrast-color2: #8f9295;
 
 --primary-color: #63c2de;
 --secondary-color: #20a8d8;
@@ -149,6 +150,7 @@ h5 {
 
 .form-control-file {
     font-size: 0.8rem;
+    color: var(--text-on-black);
 } 
 
 /* btn */

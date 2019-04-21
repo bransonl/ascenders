@@ -31,7 +31,7 @@
     background-color: var(--midground-color);
 }
 .options-icon {
-    fill: var(--text-on-black)
+    fill: var(--text-on-white)
 }
 .row {
     display: flex;
@@ -78,5 +78,6 @@
     background-color: var(--primary-color);
     color: var(--secondary-color);
     fill: var(--secondary-color);
+    color: var(--text-on-black);
 }
 

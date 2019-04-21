@@ -7,10 +7,9 @@ import MdClose from 'react-ionicons/lib/MdClose';
 import '../css/reusable.css';
 import '../css/Ticket.css';
 import { AppContext } from './globalContext/AppContext';
-import AddTicket from './AddTicket';
 
 
-class Ticket extends React.Component {
+class Archive extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -28,7 +27,7 @@ class Ticket extends React.Component {
 
         // const token = 'Bearer ' + this.context.token
         const token = 'Bearer ' + sessionStorage.getItem("token");
-        fetch('http://127.0.0.1:3000/tickets/user', {
+        fetch('http://127.0.0.1:3000/tickets/user/closed', {
             method: 'GET',
             headers: {
                 'Authorization': token
@@ -44,23 +43,8 @@ class Ticket extends React.Component {
     }
 
     render() {
-        let ticketModalClose = () => this.setState({ticketModalShow: false})
         return (
             <div className="ticket-wrapper">
-                <Container bsPrefix="action-bar">
-                    <div className="add-ticket right">
-                        <Button
-                            bsPrefix="content-btn"
-                            onClick={() => this.setState({ticketModalShow: true})}>
-                                {/* <IosAdd className="IosAdd"/> */}
-                                Add Ticket
-                        </Button>
-                        <AddTicket
-                            show={this.state.ticketModalShow}
-                            onHide={ticketModalClose}/>
-                    </div>
-
-                </Container>
                 <Container bsPrefix="header-container">
                     <Row>
                         <Col>Date Submitted</Col>
@@ -77,7 +61,7 @@ class Ticket extends React.Component {
                             <Link
                                 key={`ticket-${index}`}
                                 to={{
-                                    pathname: `/tickets/preview/${ticket.objectId}`,
+                                    pathname: `/archive/preview/${ticket.objectId}`,
                                 }}
                             >
                                 <Container bsPrefix="ticket-container">
@@ -101,5 +85,5 @@ class Ticket extends React.Component {
     }
 }
 
-Ticket.contextType = AppContext;
-export default Ticket;
+Archive.contextType = AppContext;
+export default Archive;

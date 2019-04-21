@@ -4,9 +4,10 @@ import NavigationBar from './NavigationBar.js';
 import Sidebar from './Sidebar.js';
 import Dashboard from './Dashboard.js';
 import Ticket from './Ticket.js';
-import TicketPreview from './TicketPreview';
-import Messages from './Messages.js';
-import NotFoundPage from './NotFoundPage';
+import TicketPreview from './TicketPreview.js';
+import Archive from './Archive.js';
+import ArchiveTicketPreview from './ArchiveTicketPreview.js';
+import NotFoundPage from './NotFoundPage.js';
 import '../css/reusable.css';
 import '../css/AscendersAdminHome.css';
 import {AppContext} from './globalContext/AppContext.js';
@@ -26,8 +27,9 @@ class AscendersUserHome extends React.Component {
                             <Switch>
                                 <Route exact path="/" component={Dashboard}/>
                                 <Route exact path="/tickets" component={Ticket}/>
-                                <Route exact path="/messages" component={Messages}/>
+                                <Route exact path="/archive" component={Archive}/>
                                 <Route exact path="/tickets/preview/:ticketId" component={TicketPreview}/>
+                                <Route exact path="/archive/preview/:ticketId" component={ArchiveTicketPreview}/>
                                 <Route component={NotFoundPage}/>
                             </Switch>
                         </div>

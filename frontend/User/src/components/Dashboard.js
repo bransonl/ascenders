@@ -9,12 +9,12 @@ export default class Dashboard extends React.Component {
         return (
             <div className="main-app">
 
-                <div className="container-login-tmp">
-                    <div className="container-splash-tmp">
-                        <div className="login-splash-1">
-                            <img className="login-splash-logo" src={logo}/>
-                            <div className="login-splash-text">
-                                <label className="login-splash-text-h3">Welcome aboard</label>
+                <div className="container-dashboard">
+                    <div className="container-dashboard-splash">
+                        <div className="dashboard-splash-1">
+                            <img className="dashboard-splash-logo" src={logo}/>
+                            <div className="dashboard-splash-text">
+                                <label className="dashboard-splash-text-h3">Welcome aboard</label>
                                 <p>Sit down, relax, and let the work goes away.</p>
                             </div>
                         </div>
