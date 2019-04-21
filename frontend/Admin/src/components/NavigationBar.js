@@ -45,6 +45,7 @@ class NavigationBar extends React.Component {
                         <OverlayTrigger
                             trigger="click"
                             rootClose={true}
+                            placement="bottom"
                             overlay={
                                 <Popover id="my-account-popover" title="My Account">
                                     <Button onClick={this.props.logout}>Sign Out</Button>
