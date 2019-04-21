@@ -6,7 +6,32 @@
     src: url("./fonts/khyayregular.ttf");
 }
 
+@font-face {
+    font-family: "Montserrat-Light";
+    src: url("./fonts/montserratlight.otf");
+}
 /* ---------------------- */
+
+/* ------------ */
+/* CUSTOM COLOR */
+/* ------------ */
+:root {
+--background-color: #242426;
+/* --midground-color: #353535; */
+--midground-color: #30353e;
+
+--primary-color: #febc11;
+--secondary-color: #000000;
+--text-on-black: #e2e2e2;
+--text-on-black2: #c8c9c4;
+
+--success-green: #4dbd74;
+--danger-red: #f86c6b;
+--warning-yellow: #ffc107;
+--info-blue: #63c2de;
+}
+
+
 
 ::-webkit-scrollbar {
     display: none;
@@ -22,8 +47,8 @@
 html {
     background-color: #f6f6f6;
     color: #555;
-    font-family: "Khyay-Regular", Arial, sans-serif;
-    font-weight: 300;
+    font-family: Helvetica,"Khyay-Regular", Arial, sans-serif;
+    font-weight: 100;
     font-size: 120%;
     text-rendering: optimizeLegibility;
 }
@@ -34,18 +59,15 @@ body {
     height: 100vh;
     overflow: scroll;
     color: rgba(0,0,0,0.87);
-    background-color: #f2f2f2;
+    background-color: #242426;
     line-height: 1.75;
 }
 
-ul, menu, dir {
-    display: block;
-    list-style-type: disc;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    padding-inline-start: 40px;
+p {
+    font-family: "Montserrat-Light", Arial, Helvetica, sans-serif;
+    font-size: 80%;
+    font-weight: 100;
+    line-height: 1.5;
 }
 
 /* ------ */
@@ -77,6 +99,17 @@ ul, menu, dir {
     max-width: 1440px;
     margin: 0 auto;
 }
+@media only screen and (max-width: 1280px) {
+    .row {
+        width: 960px;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    .row {
+        width: 480px;
+    }
+}
 
 .box p {
     margin: 7% 10%;
@@ -84,6 +117,10 @@ ul, menu, dir {
     font-weight: 100;
 }
 
+.content-center {
+    justify-content: center;
+    align-items: center;
+}
 
 .right {
     float: right !important;
@@ -100,315 +137,603 @@ ul, menu, dir {
     position: fixed !important;
 }
 
+.no-top {
+    margin-top: 0;
+}
 
-.brand-logo {
+.no-right {
+    margin-right: 0;
+}
+
+.no-bottom {
+    margin-bottom: 0;
+}
+
+.no-left {
+    margin-left: 0;
+}
+
+/* ------------- */
+/* ADMIN LOGIN */
+/* ------------- */
+.adminLogin {
     display: flex;
+    justify-content: center;
     align-items: center;
-    height: 100%;
-}
-
-.under-nav-admin {
-    margin-top: 60px;
-}
-
-.row {
-    width: 1440px;
-}
-
-@media only screen and (max-width: 1280px) {
-    .row {
-        width: 960px;
-    }
-}
-
-@media only screen and (max-width: 640px) {
-    .row {
-        width: 480px;
-    }
-}
-
-/* -------------------------- */
-/* NAVIGATION BAR */
-/* -------------------------- */
-nav .nav-wrapper,
-nav .nav-wrapper-admin {
-    position: relative;
-    height: 100%;
-    font-weight: 100;
-}
-
-nav .nav-wrapper-admin {
-    border-bottom-width: 8px;
-    border-bottom-color: #febc11;
-    border-bottom-style: solid;
+    height: 100vh;
+    background-image: url('../../img/blue_sky.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
     
 }
 
-nav .brand-logo {
-    position: absolute;
-    cursor: pointer;
-    padding: 0 30px;
-    font-size: 1.25rem;
+.container-login {
+    width: 960px;
+    height: 600px;
+    background: var(--midground-color);
+    justify-content: flex-start;
+    border-radius: 10px;
     display: flex;
+    box-shadow: 0 0 20px 6px rgba(8, 8, 8, 0.301);
 }
 
-nav ul li {
-    float: left;
-    padding: 0;
-
-    transition: background-color .3s;
-}
-
-nav ul {
-    display: inline;
-    margin: 0;
-}
-
-nav a {
-    color: #fff;
-}
-
-.beta-nav,
-.admin-nav {
-    background-color: #000;
-    position: fixed;
-    z-index: 100;
-}
-
-.admin-nav {
-    height: 64px;
-}
-
-nav {
-    color: #fff;
-    width: 100%;
-    height: 56px;
-    line-height: 56px;
-}
-
-ul:not(.browser-default) {
-    padding-left: 0;
-    list-style-type: none;
-}
-
-a {
-    outline: 0;
-    text-decoration: none;
-    background-color: transparent;
-}
-
-li {
-    display: list-item;
-}
-
-.nav-link {
-    font-size: 1rem;
-    color: #fff;
-    display: block;
-    cursor: pointer;
-
-    transition: background-color .3s;
-    padding: 0 30px;
-}
-
-.nav-link:hover {
-    color: #febc11;
-}
-
-.nav-link-admin {
-    font-size: 1rem;
-    color: #fff;
-    display: block;
-    padding: 0 15px;
-    cursor: pointer;
-
-    transition: background-color .3s;
-    transition: color .3s;
-}
-
-.nav-link-admin:hover {
-    color: #000;            /* REPLACE WITH ICONS */
-    background: #febc11;
-}
-
-/* ---------------------- */
-/* BANNER */
-/* ---------------------- */
-
-.heroimage {
-    width: 100vw;
-    height: 100vh;
-    padding-top: 64px;
-    background-color: #000;
-    background-image: url(../../img/main-banner.png);
-    background-size: cover;
-    background-repeat: no-repeat;
-    position: relative;
-
-    overflow: scroll;
-}
-
-.bg-overlay {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.7);
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    flex-direction: column;
+.container-splash {
+    background: var(--secondary-color);
     text-align: center;
+    width:50%;
+
+    padding-top : 15%;
 }
 
-/* -------------------------------- */
-/* LOGIN CONTAINER - Add Ticket CONTAINER */
-/* -------------------------------- */
+.container-form {
+    text-align: center;
+    width: 50%;
+
+    padding: 18% 5%;
+}
+
+.login-splash-logo {
+    width: 25%;
+    height: auto;
+}
+
+.login-splash-text {
+    padding: 0 30px 0 30px;
+    color: white;
+}
+.login-splash-text-h3 {
+    margin-top: 0;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
 .container-form-title {
     font-size: 24px;
     font-weight: 800;
-    text-transform: uppercase;
     text-align: center;
     display: block;
-    padding-bottom: 30px;
+    margin-bottom: 25px;
+    color: var(--text-on-black)
 }
 
-.container-ticketSubmission,
-.container-login {
-    width: 480px;
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
+.container-form-wrap-input{
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 20px 40px 40px 40px;
-}
-
-.container-ticketSubmission {
-    border-radius: 4px;
-    position: fixed;
-    bottom: 10vh;
-    right: 25vw;
-    width: 1000px;
-    background-color: #f0f0f0;
-}
-
-.container-form-ticketSubmission,
-.container-form {
-    width: 480px;
-    display: block;
-}
-
-.container-form-ticketSubmission {
-    width: 1000px;
-}
-
-.wrap-input-ticketSubmission,
-.wrap-input {
-    position: relative;
+    margin-bottom: 10px;
     width: 100%;
-    margin-bottom: 8px;
+    height: 40px;
+    border-radius: 20px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--text-on-black);
+    padding: 0 20px;
+    cursor: text;
 }
-
-.wrap-input-ticketSubmission {
-    margin-bottom: 20px;
-}
-
-.input-ticketSubmission-textarea,
-.input-ticketSubmission,
 .input {
-    font-size: 16px;
-    line-height: 1.5;
-    color: #4e4e4e;
-    background: #e2e2e2;
-    display: block;
     width: 100%;
     height: 40px;
     border-style: solid;
     border-width: 0;
-    border-radius: 20px;
-    padding: 0 20px 0 20px;
-
+    background-color: var(--midground-color);
+    font-family: "Montserrat-Light", Arial, sans-serif;
+    color: var(--text-on-black);
+    padding: 0 10px;
     cursor: text;
 }
-
-.input-ticketSubmission-textarea,
-.input-ticketSubmission {
-    border-radius: 2px;
-    background: #fff;
+.input::placeholder {
+    font-family: "Montserrat-Light", Arial, sans-serif;
+    font-weight: 100;
+    color: var(--text-on-black);
+}
+.IosMail, 
+.IosLock {
+    margin-top: 8px;
+    color: var(--text-on-black);
 }
 
-.input-ticketSubmission-textarea {
-    height: 100px;
-}
-.input-ticketSubmission-attachment {
-    width: 20%;
+.container-form-wrap-input-button {
+    height: 60px;
+    margin-top: 20px;
 
 }
-
-.input-button-ticketSubmission, 
 .input-button {
     width: 100%;
+    height: 40px;
+    border-radius: 20px;
     border-style: solid;
     border-width: 0;
-    border-radius: 25px;
-    height: 50px;
-    margin-top: 20px;
-    padding: 0 20px 0 20px;
+    background-color: var(--primary-color);
+    padding: 0 20px;
     cursor: pointer;
 
-    background-color: #febc11;
-
-    font-size: 14px;
-    font-weight: 400;
     text-transform: uppercase;
-    line-height: 1.5;
-
-    transition: background-color 0.3s;
+    box-shadow: 0 10px 5px -6px #7c5b09b6;
+}
+.input-button:hover {
+    transform: translateY(2px);
+    box-shadow: 0 5px 5px -6px;
+    background-color: #f8ca57;
 }
 
-.input-button-ticketSubmission {
-    width: 30%;
-    float: right;
+.container-form-label {
+    font-size: 60%;
+    color: #e2e2e2;
+}
+.container-form-label .forgot-password {
+    color: var(--primary-color);
+    cursor: pointer;
+}
+.container-form-label .forgot-password:hover {
+    color: #f8ca57;
 }
 
-.input-button:hover{
-    background-color: rgb(202, 149, 15);
+/* -------------- */
+/* Navigation Bar */
+/* -------------- */
+.nav {
+    position: fixed;
+    z-index: 100;
+    background-color: var(--secondary-color);
+    height: 64px;
+    line-height: 56px;
+    width: 100%;
+    border-bottom-style: solid;
+    border-bottom-color: var(--primary-color);
+    border-bottom-width: 8px;
+}
+nav .nav-wrapper {
+    position: relative;
+    height: 56px;
 }
 
-/* ----------------------- */
-/* ADMIN MANAGEMENTS */
-/* ----------------------- */
-.col {
-    margin: auto;
+nav .nav-logo {
+    position: absolute;
+    cursor: pointer;
+    padding: 0 30px;
+    width: auto;
+    height: 40px;
+    margin-top: 8px;
 }
 
-.ticket-wrapper,
-.preview-wrapper,
-.history-wrapper {
+nav .nav-link {
+    margin: 0;
+    height: 56px;
+}
+
+.nav-link-list {
+    width: 40px;
+    display: inline-block;
+    justify-content: center;
+    text-align: center;
+}
+.nav-link-list:hover,
+.nav-link-list a:hover,
+.nav-link-list a:focus {
+    cursor: pointer;
+}
+.nav-link-list a {
+    display: block;
+    color: var(--primary-color);
+    text-decoration: none;
+    padding-right: 8px;
+}
+
+/* --------------- */
+/* Admin Base Page */
+/* --------------- */
+.base-row {
+    padding-top: 64px;
+    background-color: var(--background-color);
+    display: flex;
+    flex-direction: row;
     height: 100vh;
+}
 
+/* Main App Body */
+.main-app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    padding: 1rem;
+}
+
+/* ------- */
+/* Sidebar */
+/* ------- */
+.sidebar {
+    flex: 0 0 200px;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    background-color: var(--midground-color);
+}
+
+.sidebar-nav-link {
+    margin: 0;
+    color: var(--text-on-black);
+}
+
+.sidebar-nav-link-list {
+    margin: 0;
+    position: relative;
+}
+.sidebar-nav-link-list a {
+    padding: 0.75rem 1rem;
+    font-size: 80%;
+    display: flex;
+    color: var(--text-on-black);
+    text-decoration: none;
+    cursor: pointer;
+    fill: var(--text-on-black);
+}
+.sidebar-nav-link-list a:hover,
+.sidebar-nav-link-list a:focus {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    fill: var(--secondary-color);
+}
+
+/* Icons */
+.sidebar-icon {
+    margin-right: 8px;
+    fill: var(--text-on-black);
+}
+
+/* -------------- */
+/* Reuseable Card */
+/* -------------- */
+.addticket-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    word-wrap: break-word;
     background-color: #fff;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #ebebeb;
+    background-clip: border-box;
+    border: 1px solid #c8ced3;
+    border-radius: 0.1rem;
 
-    padding: 1%;
-
+    font-size: 80%;
+    margin-bottom: 1.5rem;
 }
 
+.addticket-card-header {
+    padding: 0.25rem 1rem;
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.addticket-card-body {
+    padding: 0.5rem 1rem;
+    line-height: 2rem;
+}
+
+.input-wrapper {
+    margin-bottom: 1rem;
+}
+
+.addticket-input-creator,
+.addticket-input-title,
+.addticket-input-description,
+.addticket-input-attach {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #5c6873;
+
+    background-color: white;
+    background-clip: padding-box;
+    border: 1px solid #e4e7ea;
+    border-radius: 0.25rem;
+}
+.addticket-input-description {
+    min-height: 6rem;
+    height: auto;
+}
+.addticket-input-help {
+    font-size: 60%;
+    font-weight: 400;
+    margin-top: 0.05rem;
+    display: block;
+    color: #73818f;
+}
+
+input[type="file"] {
+    display: none;
+}
+.addticket-input-attach{
+    width: 10rem;
+    font-size: 0.8rem;
+    color: #5c6873;
+    border: 1px solid #e4e7ea;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    text-align: center;
+}
+.addticket-input-attach:hover {
+    background-color: var(--primary-color);
+    color: black;
+}
+
+.addticket-input-button {
+    display: block;
+    width: 20%;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.7rem;
+    line-height: 1.5;
+    color: black;
+
+    background-color: var(--primary-color);
+    background-clip: padding-box;
+    border: 1px solid #f8ca57;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+.addticket-input-button:hover {
+    background-color: #f8ca57;
+}
+
+form .input-wrapper .col {
+    flex: 0 0 25%;
+}
+
+/* --------- */
+/* Dashboard */
+/* --------- */
+/* Temp */
+.container-login-tmp {
+    width: 480px;
+    height: 300px;
+    background: var(--midground-color);
+    justify-content: flex-start;
+    border-radius: 10px;
+    display: flex;
+    box-shadow: 0 0 20px 6px rgba(8, 8, 8, 0.301);
+}
+
+.container-splash-tmp {
+    background: var(--secondary-color);
+    text-align: center;
+    width:100%;
+
+    padding-top : 10%;
+}
+
+
+
+/* ------- */
+/* Tickets */
+/* ------- */
 .ticket-wrapper {
-    border-left-width: 0px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
-.history-wrapper {
-    border-right-width: 0px;
+.ticket-category {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 0.5rem 1rem;
+
+    font-size: 80%;
+    text-align: center;
+    color: var(--text-on-black2);
+
+    border-bottom: 1px solid var(--primary-color);
 }
 
+.ticket-header {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.ticket-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    border-right: 1px solid var(--midground-color);
+}
+
+.ticket-summary-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 6rem;
+    border-bottom: 4px solid var(--primary-color);
+
+    color: var(--text-on-black);
+}
+.ticket-summary-unread,
+.ticket-summary-all {
+    width: 50%;
+    height: 100%;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+    color: var(--text-on-black);
+    text-decoration: none;
+
+    line-height: 1.4;
+}
+.ticket-summary-unread:focus,
+.ticket-summary-all:focus {
+    background-color: var(--primary-color);
+    color: black;
+}
+.ticket-summary-number {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.ticket-list-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 0 1rem;
+}
+
+.ticket-card {
+    width: 100%;
+    height: 4rem;
+    border-bottom: 1px solid var(--midground-color);
+    padding: 0.5rem 1rem;
+    align-items: center;
+    display: flex;
+    line-height: 1.2;
+
+    color: var(--text-on-black);
+}
+
+.ticket-card-author {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.ticket-card-status {
+    justify-content: center;
+}
+.badge {
+    position: relative;
+}
+.badge[data-badge]:after {
+    content:attr(data-badge);
+    position: absolute;
+    /* top: -10px;
+    right: -10px; */
+    font-size: -7em;
+    background-color: var(--success-green);
+    color: white;
+    width: 18px;
+    height: 18px;
+    text-align: 18px;
+    border-radius: 50%;
+    box-shadow: 0 0 1px #333;
+}
+
+
+/* ------- */
+/* Messages */
+/* ------- */
+.messages-wrapper {
+    display: flex;
+    width: 100vw;
+}
+
+.messages-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    border-right: 1px solid var(--midground-color);
+}
+
+.messages-summary-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 6rem;
+    border-bottom: 4px solid var(--primary-color);
+
+    color: var(--text-on-black);
+}
+.messages-summary-unread,
+.messages-summary-all {
+    width: 50%;
+    height: 100%;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+    color: var(--text-on-black);
+    text-decoration: none;
+
+    line-height: 1.4;
+}
+.messages-summary-unread:focus,
+.messages-summary-all:focus {
+    background-color: var(--primary-color);
+    color: black;
+}
+.messages-summary-number {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.messages-list-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 0 1rem;
+}
+
+
+/* --------------------- */
+/* Message List Template */
+/* --------------------- */
+.messages-container-spec {
+    min-width: 450px;
+}
+
+.messages-card {
+    width: 100%;
+    height: 4rem;
+    border-bottom: 1px solid var(--midground-color);
+    padding: 0.5rem 1rem;
+    align-items: center;
+    display: flex;
+    line-height: 1.2;
+
+    color: var(--text-on-black);
+}
+
+.messages-card-author {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.messages-card-status {
+    justify-content: center;
+}
+.badge {
+    position: relative;
+}
+.badge[data-badge]:after {
+    content:attr(data-badge);
+    position: absolute;
+    /* top: -10px;
+    right: -10px; */
+    font-size: -7em;
+    background-color: var(--success-green);
+    color: white;
+    width: 18px;
+    height: 18px;
+    text-align: 18px;
+    border-radius: 50%;
+    box-shadow: 0 0 1px #333;
+}

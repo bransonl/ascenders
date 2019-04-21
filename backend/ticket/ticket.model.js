@@ -8,8 +8,8 @@ async function createTicket(title,body,creator,attachments) {
     if (!title | !body | !creator) {
         throw new ModelError(500, 'Missing fields');
     }
-    else if (creator.length != 10) {
-        throw new ModelError(500, 'Invalid userId');
+    if (!attachments) {
+        attachments = '';
     }
     const options = { // header of API request to ACNAPI
         method: 'POST',
@@ -31,18 +31,17 @@ async function createTicket(title,body,creator,attachments) {
     }
 }
 
-async function getUserTickets(userId) {
-    if (!userId) {
-        throw new ModelError(500, 'Missing fields');
-    }
-    else if (userId.length != 10) {
-        throw new ModelError(500, 'Invalid userId');
+async function getUserTickets(username) {
+    if (!username) {
+        throw new ModelError(400, 'Missing fields');
     }
     const options = {
         method: 'GET',
         uri: ticketsClassPath,
         qs: {
-            where: `{"creator":"${userId}"}`,
+            where: {
+                creator: username,
+            },
         },
         headers: sharedHeaders,
     };
@@ -124,7 +123,7 @@ async function modifyTicket(ticketId, data) {
         }
     }
     const options = {
-        method: 'PUT', 
+        method: 'PUT',
         uri: `${ticketsClassPath}/${ticketId}`,
         headers: sharedHeaders,
         json: true,

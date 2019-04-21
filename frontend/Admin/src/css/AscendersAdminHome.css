@@ -1,0 +1,10 @@
+/* --------------- */
+/* Admin Base Page */
+/* --------------- */
+.base-row {
+    padding-top: 60px;
+    background-color: var(--background-color);
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}

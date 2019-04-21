@@ -23,7 +23,6 @@ describe('create ticket tests', () => {
 });
 
 describe('GET TICKETS OF USER TESTS', () => {
-    //getUserTickets(userId)
     test('normal test case', async() => {
         const response = await ticketModel.getUserTickets('0p1maitmtS');
         expect(response[0]).toBeDefined();
@@ -78,7 +77,7 @@ describe('GET TICKET BY TICKETID TESTS', () => {
     });
     test('error message if missing fields', async() => {
         await expect(ticketModel.getTicket())
-        .rejects.toThrow('Missing fields');        
+        .rejects.toThrow('Missing fields');
     });
 });
 
@@ -102,7 +101,7 @@ describe('MODIFY TICKET TESTS', () => {
     });
     test('error message if missing fields', async() => {
         await expect(ticketModel.modifyTicket())
-        .rejects.toThrow('Missing fields');        
+        .rejects.toThrow('Missing fields');
     });
 });
 
@@ -118,6 +117,6 @@ describe('CLOSE TICKET TESTS', () => {
     });
     test('error message if missing fields', async() => {
         await expect(ticketModel.closeTicket())
-        .rejects.toThrow('Missing fields');        
+        .rejects.toThrow('Missing fields');
     });
 });

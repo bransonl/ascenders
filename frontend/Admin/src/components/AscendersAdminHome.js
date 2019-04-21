@@ -1,30 +1,41 @@
 import React from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import NavigationBar from './NavigationBar.js';
 import Sidebar from './Sidebar.js';
 import Dashboard from './Dashboard.js';
 import Ticket from './Ticket.js';
-import AddTicket from './AddTicket.js';
+import TicketPreview from './TicketPreview';
 import Messages from './Messages.js';
+import NotFoundPage from './NotFoundPage';
+import '../css/reusable.css';
+import '../css/AscendersAdminHome.css';
+import { AppContext } from './globalContext/AppContext.js';
 
-export default class AscendersAdminHome extends React.Component {
+class AscendersAdminHome extends React.Component {
     render() {
-        return (
-            <BrowserRouter>
+        if (sessionStorage.getItem("isAuthenticated") !== "true") {
+            console.log("Not authenticated...");
+            return (<Redirect to="/login"/>);
+        } else {
+            console.log("Authentication: ", sessionStorage.getItem("isAuthenticated"));
+            return (
                 <div>
                     <NavigationBar/>
                         <div className="base-row">
                             <Sidebar/>
                             <Switch>
-                                <Route path="/admin/dashboard" component={Dashboard}/>
-                                <Route path="/admin/tickets" component={Ticket}/>
-                                <Route path="/admin/messages" component={Messages}/>
-                                <Route path="/admin/addticket" component={AddTicket}/>
+                                <Route exact path="/" component={Dashboard}/>
+                                <Route exact path="/tickets" component={Ticket}/>
+                                <Route exact path="/messages" component={Messages}/>
+                                <Route exact path="/tickets/preview/:ticketId" component={TicketPreview}/>
+                                <Route component={NotFoundPage}/>
                             </Switch>
                         </div>
                 </div>
-            </BrowserRouter>
-        );
+            );
+        }
     }
 }
 
+AscendersAdminHome.contextType = AppContext
+export default AscendersAdminHome;

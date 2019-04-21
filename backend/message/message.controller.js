@@ -1,6 +1,8 @@
+const {controller: notificationController} = require('../notification/notification.route');
+
 class MessageController {
-    constructor(model) {
-        this._model = model;
+    constructor(models = []) {
+        this._model = Object.assign({}, ...models);
         this.addMessageToTicket = this.addMessageToTicket.bind(this);
         this.getCommentsByTicket = this.getCommentsByTicket.bind(this);
         this.addCommentToTicket = this.addCommentToTicket.bind(this);
@@ -22,9 +24,9 @@ class MessageController {
             console.error(err.error);
             return res.status(500).send();
         }
-        
+
     }
-    
+
     async getCommentsByTicket(req, res) {
         const {ticketId} = req.params;
         try {
@@ -41,12 +43,12 @@ class MessageController {
             return res.status(500).send();
         }
     }
-    
+
     // TODO: add permission checking
     async addCommentToTicket(req, res) {
         const {ticketId} = req.params;
         const {message} = req.body;
-        const sender = req.user.objectId;
+        const sender = req.user.username;
         try {
             const messageResult = await this._model.createMessage(ticketId, sender, message);
             const result = await this.addMessageToTicket(
@@ -54,7 +56,23 @@ class MessageController {
                 this._model.MessageTypes.COMMENT,
                 messageResult.objectId
             );
-            return res.status(200).send(result);
+            res.status(200).send(result);
+            const ticket = await this._model.getTicket(ticketId);
+            if (ticket.creator === sender) {
+                const assignees = ticket.assigned.split(",");
+                notificationController.createNotificationForUsers(
+                    assignees,
+                    `New comment on ticket ${ticketId}`,
+                    `Comment: ${message}`
+                );
+            } else {
+                notificationController.createNotificationForUsers(
+                    [ticket.creator],
+                    `An admin has replied to ticket ${ticketId}`,
+                    `Comment: ${message}`,
+                );
+            }
+            return;
         } catch (err) {
             console.error(err.error);
             return res.status(500).send();

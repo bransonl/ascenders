@@ -7,11 +7,11 @@ const labelController = new LabelController(labelModel);
 function routes(app) {
     app.route('/label/:labelType') // get all labels of type
     .get(
-        // auth.validateToken,
+        // auth.validateTokenMiddleware,
         labelController.getLabels,
         )
     .post( // post new label of type
-        // auth.validateToken,
+        // auth.validateTokenMiddlware,
         // auth.createRoleCheck('admin'),
         labelController.createLabel,
         );
@@ -21,14 +21,14 @@ function routes(app) {
         // auth.validateToken,
         labelController.getLabel,
         )
-    
-    app.route('/label/:labelType/:labelName')    
+
+    app.route('/label/:labelType/:labelName')
     .put(
         // auth.validateToken,
         // auth.createRoleCheck('admin'),
         labelController.modifyLabel,
         );
-    app.route('/labelc/:labelType/:labelName')    
+    app.route('/labelc/:labelType/:labelName')
     .put(
         // auth.validateToken,
         // auth.createRoleCheck('admin'),

@@ -1,6 +1,8 @@
 import React from 'react';
 import logo from './resources/accenture-purple-logo.png';
 
+import '../css/reusable.css';
+import '../css/Dashboard.css';
 
 export default class Dashboard extends React.Component {
     render() {

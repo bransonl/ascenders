@@ -1,7 +1,8 @@
+const {controller: notificationController} = require('../notification/notification.route');
 
 class TicketController {
-    constructor(model) {
-        this._model = model;
+    constructor(models = []) {
+        this._model = Object.assign({}, ...models);
 
         this.createTicket = this.createTicket.bind(this);
         this.addAttachment = this.addAttachment.bind(this);
@@ -23,32 +24,28 @@ class TicketController {
 
     async createTicket(req, res) {
         console.log('createTicket called');
-        const creator = req.user.objectId;
-        const {title, body} = req.body;
+        req.body.creator = req.user.username;
+        const {title, body, creator} = req.body;
         let attachments = req.body.attachments;
         if (!attachments) {
             attachments = '';
         }
-        if (!title | !body) {
-            return res.status(400).json({
-                message:'Missing fields',
-            });
-        }
-        if (!creator) {
-            return res.status(500).json({
-                message:'Missing JWT',
-            })
-        }
-        else if (creator.length !=10) {
-            return res.status(500).json({
-                message: 'Invalid userId',
-            })
-        }
-        try { 
+        try {
             const createTicketResult = await this._model.createTicket(title, body, creator, attachments);
-            return res.status(200).send(createTicketResult);
+            console.log(createTicketResult);
+            res.status(200).send(createTicketResult);
+            const admins = await this._model.getAdmins();
+            const adminUsernames = admins.map(admin => admin.username);
+            notificationController.createNotificationForUsers(
+                adminUsernames,
+                `New Ticket`,
+                `Title: ${title},
+                Body: ${body}`
+            );
+            return;
         } catch (err) {
-            return res.status(err.statusCode).json(err);
+            console.error(err);
+            return res.status(500).send();
         }
     }
 
@@ -83,19 +80,9 @@ class TicketController {
     }
 
     async getUserTickets(req, res) {
-        const userId = req.user.objectId;
-        if (!userId) {
-            return res.status(500).json({
-                message:'Missing JWT',
-            })
-        }
-        else if (userId.length !=10) {
-            return res.status(500).json({
-                message: 'Invalid userId',
-            })
-        }
+        const username = req.user.username;
         try {
-            const getTicketsResult = await this._model.getUserTickets(userId);
+            const getTicketsResult = await this._model.getUserTickets(username);
             return res.status(200).send(getTicketsResult);
         } catch (err) {
             return res.status(err.statusCode).json(err);
@@ -150,41 +137,41 @@ class TicketController {
 
     async addAdmin(req, res) {
         const {ticketId} = req.params;
-        const newAdmin = req.user;
-        const newAdminId = newAdmin.objectId;
-        console.log(newAdminId);
-        if (newAdmin.role != 'admin') {
-            return res.status(401).json({
-                message:'This user is unauthorized'
+        const username = req.body.username;
+        if (!username) {
+            res.status(400).json({
+                message: 'Missing username',
             });
         }
-        let ticket;
         try {
-            ticket = await this._getTicket(ticketId);
-        } catch(err) {
-            return res.status(err.statusCode).json(err);
-        }
-        let assigned = ticket.assigned;
-        if (assigned == undefined) {
-            assigned = newAdminId;
-        }
-        else {
-            const assignedArray = assigned.split(', ');
-            var i;
-            for (i=0; i<assignedArray.length;i++) {
-                if (newAdminId==assignedArray[i]){
-                    return res.status(400).json({
-                        message:'Admin already assigned to this ticket',
-                    })
-                }
+            const newAdmin = await this._model.getUserByUsername(username);
+            if (newAdmin.role !== 'admin') {
+                return res.status(400).json({
+                    message: 'This user has insufficient permissions'
+                });
             }
-            assigned += ', ' + newAdminId;
-        }
-        try {
-            const modifyTicketResult = await this._modifyTicket(ticketId, {assigned});
-            return res.status(200).send(modifyTicketResult);
+            const ticket = await this._model.getTicket(ticketId);
+            const assignedUsernames = ticket.assigned.split(",");
+            if (assignedUsernames.includes(username)) {
+                return res.status(304).json({
+                    message: `User already assigned`,
+                })
+            }
+            const assigned = ticket.assigned ? `${ticket.assigned},${username}` : username;
+            try {
+                const modifyTicketResult = await this._model.modifyTicket(ticketId,{assigned});
+                return res.status(200).send(modifyTicketResult);
+            } catch (err) {
+                console.error(err);
+                return res.status(500).send();
+            }
         } catch (err) {
-            return res.status(err.statusCode).json(err);
+            console.error(err);
+            if (err.statusCode === 404) {
+                return res.status(404).json({
+                    message: `No user with username ${username}`,
+                });
+            }
         }
     }
 
@@ -348,4 +335,3 @@ class TicketController {
 module.exports = {
     TicketController,
 }
-

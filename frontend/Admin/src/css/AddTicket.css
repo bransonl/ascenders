@@ -1,0 +1,15 @@
+.modal-header {
+    background-color: var(--midground-color);
+}
+
+.h4 {
+    color: var(--text-on-black);
+    font-size: 0.9rem;
+}
+
+.form-control-textarea {
+    height: 10rem !important;
+}
+.form-control {
+    font-size: 0.8rem;
+}

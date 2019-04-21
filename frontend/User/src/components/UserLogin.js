@@ -1,10 +1,8 @@
-                                                                                                                                                                  import React from 'react';
+import React from 'react';
 import {Link, Redirect} from 'react-router-dom';
-
-import logo from './resources/accenture-purple-logo.png';
+import logo from './resources/accenture-purple-logo.png'; //change?
 import IosMail from 'react-ionicons/lib/IosMail';
 import IosLock from 'react-ionicons/lib/IosLock';
-
 import {AppContext} from './AppContext.js';
 
 class AdminLogin extends React.Component {
@@ -61,7 +59,7 @@ class AdminLogin extends React.Component {
                             <img className="login-splash-logo" src={logo} alt="accenture-purple-logo"/>
                             <div className="login-splash-text">
                                 <label className="login-splash-text-h3">Ascenders</label>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec neque tortor. Proin efficitur leo vel ex aliquarn.</p>
+                                <p>Login with the given user ID and password.</p>
                             </div>
                         </div> 
                         <div className="login-splash-2">

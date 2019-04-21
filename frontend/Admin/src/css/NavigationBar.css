@@ -1,0 +1,25 @@
+/* -------------- */
+/* Navigation Bar */
+/* -------------- */
+.nav {
+    position: fixed;
+    background-color: var(--secondary-color);
+    height: 60px;
+    width: 100%;
+    border-bottom-style: solid;
+    border-bottom-color: var(--primary-color);
+    border-bottom-width: 4px;
+}
+.nav-logo {
+    cursor: pointer;
+    height: 40px;
+}
+.nav-link {
+    cursor: pointer;
+    margin-left: 10px;
+}
+.nav-icons {
+    fill: #febc11;
+    width: 28px;
+    height: 28px;
+}

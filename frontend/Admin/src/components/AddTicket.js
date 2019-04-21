@@ -1,114 +1,131 @@
 import React from 'react';
-import {AppContext} from './AppContext.js';
+import { Col, Row, Modal, Form, Button } from 'react-bootstrap';
+
+import '../css/reusable.css';
+import '../css/AddTicket.css';
+import { AppContext } from './globalContext/AppContext.js';
+import axios, { post } from 'axios';
+
 
 class AddTicket extends React.Component {
     constructor(props) {
         super(props);
         this.submitTicket = this.submitTicket.bind(this);
         this.onChange = this.onChange.bind(this);
-        this.fileUpload = this.fileUpload.bind(this);
+        this.handleFileUpload = this.handleFileUpload.bind(this);
         this.state = {
             title: null,
             body: null,
+
+            ticketId: null,
+            file: null
         };
     }
 
     submitTicket(e) {
-        console.log('submitTicket called');
+        console.log("\nCreating new ticket...");
         e.preventDefault();
         const title = e.target.elements.title.value;
         const body = e.target.elements.description.value;
-        const file = this.state.file;
-        fetch('http://127.0.0.1:3000/tickets', {
-            method: 'POST',
-            headers: {
-                'Authorization': 'Bearer ' + this.context.token,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({title, body}),
-        })
-        .then(res => res.json())
-        .then(res => {
-            this.setState({title, body, ticketId: res.objectId});
-            console.log("Response: ", res);
-            console.log("State: ", this.state);
-            this.fileUpload();
-        })
-        .catch(res => console.log(err));
 
-        e.target.elements.title.value = "";
-        e.target.elements.description.value = "";
+        // const token = 'Bearer ' + this.context.token
+        const token = 'Bearer ' + sessionStorage.getItem("token");
+        if (title === "" || body === "") {
+            alert("Please fill the title/body!");
+        } else {
+            fetch('http://127.0.0.1:3000/tickets', {
+                method: 'POST',
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({title, body}),
+            })
+            .then(res => res.json())
+            .then(res => {
+                this.setState({title, body, ticketId: res.objectId});
+                console.log("Current state: ", this.state);
+
+                console.log("\n Trying to upload file...");
+                this.handleFileUpload(this.state.file)
+                .then((res) => {
+                    console.log(res);
+                })
+            })
+            .catch(err => console.log(err));
+        }
     }
 
-    onChange(e) { // called when file selected
-        this.setState({file: e.target.files[0]});
+    onChange(e) {
+        this.state.file = e.target.files[0];
+        console.log("\nFile content: ", this.state.file, "\n");
     }
-
-    fileUpload() {
-        console.log('fileUpload called');
-        const {ticketId, file} = this.state;
-        const formData = new FormData();
-        formData.append('file', file, 'file');
-        const url = `http://127.0.0.1:3000/tickets/upload/${ticketId}`;
-        fetch(url, {
-            method: 'PUT',
+    handleFileUpload(file) {
+        // const token = 'Bearer ' + this.context.token
+        console.log("Handling file upload...");
+        const token = 'Bearer ' + sessionStorage.getItem("token");
+        const url = `http://127.0.0.1:3000/tickets/upload/${this.state.ticketId}`;
+        let formData = new FormData();
+        formData.append('file',file);
+        const config = {
             headers: {
-                'Authorization': 'Bearer ' + this.context.token
-            },
-            body: formData,
-        })
-        .then(res => res.json())
-        .then(res => {
-            console.log("Response: ", res);
-            console.log("State: ", this.state);
-        })
-        .catch(res => console.log(err));
+                Authorization: token
+            }
+        }
+        return axios.put(url, formData, config);
     }
 
     render() {
         return (
-            <div className="main-app">
-                <div className="col span-1-of-2">
-                    <div className="addticket-card">
-                        <div className="addticket-card-header">
-                            <label>Add Ticket</label>
-                        </div>
-                        <div className="addticket-card-body">
-                            <form onSubmit={this.submitTicket}>
-                                <div className="input-wrapper">
-                                    <div className="col span-1-of-4">
-                                        <label>Title</label>
-                                    </div>
-                                    <div className="col span-3-of-4">
-                                        <input name="title" placeholder="title" type="text" className="addticket-input-title"/>
-                                        <small className="addticket-input-help">Describe your issue in a short sentence</small>
-                                    </div>
-                                </div>
-                                <div className="input-wrapper">
-                                    <div className="col span-1-of-4">
-                                        <label>Description</label>
-                                    </div>
-                                    <div className="col span-3-of-4">
-                                        <textarea name="description" placeholder="content" type="text" className="addticket-input-description"/>
-                                    </div>
-                                </div>
-                                <div className="input-wrapper">
-                                    <div className="col span-1-of-4">
-                                        <label>Attach</label>
-                                    </div>
-                                    <div className="col span-3-of-4">
-                                        <label htmlFor="fileupload" className="addticket-input-attach">Choose File</label>
-                                        <input onChange={this.onChange} name="attach" type="file" id="fileupload"/>
-                                    </div>
-                                </div>
-                                <div className="input-wrapper">
-                                    <button className="addticket-input-button right" type="submit">Submit</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Modal
+                {...this.props}
+                size="lg"
+                aria-labelledby="create-ticket-modal"
+                centered
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title id="create-ticket-modal">Create Ticket</Modal.Title>
+                </Modal.Header>
+                <Form onSubmit={this.submitTicket}>
+                    <Modal.Body>                   
+                        <Form.Group as={Row}>
+                            <Form.Label column sm="2">Title</Form.Label>
+                            <Col sm="10">
+                                <Form.Control
+                                    name="title" 
+                                    type="text" 
+                                    placeholder="Enter title" />
+                            </Col>
+                        </Form.Group>   
+                        <Form.Group as={Row}>
+                            <Form.Label column sm="2">Description</Form.Label>
+                            <Col sm="10">
+                                <Form.Control 
+                                    as="textarea" 
+                                    name="description"
+                                    type="text"
+                                    placeholder="Enter Description"
+                                    bsPrefix="form-control-textarea form-control"/>
+                            </Col>    
+                        </Form.Group>
+                        <Form.Group as={Row}>
+                            <Form.Label column sm="2">Upload</Form.Label>
+                            <Col sm="10">
+                                <Form.Control 
+                                    id="formControlsFile"
+                                    type="file"
+                                    multiple
+                                    label="File"
+                                    onChange={this.onChange}/>
+                            </Col>
+                        </Form.Group>                    
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.props.onHide}>Cancel</Button>
+                        <Button variant="primary" type="submit" onClick={this.props.onHide}>Submit</Button>
+                    </Modal.Footer>
+                </Form>
+            </Modal>
         );
     }
 }

@@ -1,14 +1,14 @@
 const jwt = require('jsonwebtoken');
 
 class UserController {
-    constructor(model, jwtSecret) {
-        this._model = model;
+    constructor(models = [], jwtSecret) {
+        this._model = Object.assign({}, ...models);
         this._jwtSecret = jwtSecret;
 
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
         this.register = this.register.bind(this);
-        this.getUser = this.getUser.bind(this);
+        this.checkToken = this.checkToken.bind(this);
         this.getAdmins = this.getAdmins.bind(this);
     }
 
@@ -72,56 +72,13 @@ class UserController {
         }
     }
 
-    async getUser(req, res, next) {
-        const {userId} = req.body;
-        try {
-            const getUserResult = await this._model.getUser(userId);
-            if (getUserResult == undefined) {
-                return res.status(400).json({
-                    message:'This user does not exist',
-                });
-            }
-            req.user = getUserResult;
-            next();
-        } catch(err) {
-            throw res.status(err.statusCode).json(err);
-        }
-    }
-
     async getAdmins(req, res) {
         try {
             const getAdminsResult = await this._model.getAdmins();
-            return res.status(200).send(getAdminsResult);
+            return res.status(200).json(getAdminsResult);
         } catch(err) {
             throw res.status(err.statusCode).json(err);
         }
-    }
-}
-
-async function register(req, res) {
-    const {username, password, role, ...rest} = req.body;
-    if (!username || !password || !role) {
-        const fieldsMissing = [];
-        if (!username) {
-        fieldsMissing.push('username');
-        }
-        if (!password) {
-        fieldsMissing.push('password');
-        }
-        if (!role) {
-        fieldsMissing.push('role');
-        }
-        return res.status(400).json({
-        message: `Missing ${fieldsMissing.join(', ')}`,
-        });
-    }
-    try {
-        const registerResult = await userModel.register(req.body);
-        return res.json(registerResult);
-    } catch (err) {
-        return res.status(err.statusCode).json({
-            message: err.error.error,
-        });
     }
 }
 

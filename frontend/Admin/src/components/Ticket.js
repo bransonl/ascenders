@@ -1,72 +1,134 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
-import TicketCard from './CardList.js';
+import { Link } from 'react-router-dom';
+import { Container, Row, Col, Button } from 'react-bootstrap';
+import IosAdd from 'react-ionicons/lib/IosAdd';
+import MdCreate from 'react-ionicons/lib/MdCreate';
+import MdClose from 'react-ionicons/lib/MdClose';
 
-export default class Ticket extends React.Component {
+import '../css/reusable.css';
+import '../css/Ticket.css';
+import { AppContext } from './globalContext/AppContext';
+import AddTicket from './AddTicket';
+import AddLabel from './AddLabel';
+
+
+class Ticket extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            ticketModalShow: false,
+            labelModalShow: false,
+            tickets: [],
+            preview: null,
+            statuses: {},
+        };
+    }
+
+    componentDidMount() {
+        console.log("Ticket component mounted...")
+        console.log("Current context: ", this.context);
+
+        // const token = 'Bearer ' + this.context.token
+        const token = 'Bearer ' + sessionStorage.getItem("token");
+        fetch('http://127.0.0.1:3000/tickets/admin', {
+            method: 'GET',
+            headers: {
+                'Authorization': token
+            },
+        })
+        .then(res => res.json())
+        .then(res => {
+            console.log("\nSetting state...");
+            this.setState({tickets: [...res]});
+            console.log("State is successfully set...\nTickets: ", this.state);
+        })
+        .catch(err => console.log(err));
+
+        fetch('http://127.0.0.1:3000/label/status', {
+            method: 'GET',
+            headers: {
+                Authorization: token,
+            },
+        })
+        .then(res => res.json())
+        .then(res => {
+            const statuses = {};
+            res.forEach(status => {
+                statuses[status.objectId] = status;
+            });
+            this.setState({statuses});
+        })
+        .catch(err => console.log(err));
+    }
+
     render() {
+        let ticketModalClose = () => this.setState({ticketModalShow: false})
+        let labelModalClose = () => this.setState({labelModalShow: false})
         return (
             <div className="ticket-wrapper">
-                <div className="ticket-category">
-                    <div className="ticket-header ticket-date-submitted col span-1-of-7 no-top no-bottom">
-                        <label>Date Submitted</label>
+                <Container bsPrefix="action-bar">
+                    <div className="add-ticket right">
+                        <Button
+                            bsPrefix="content-btn"
+                            onClick={() => this.setState({labelModalShow: true})}>
+                                Add Label
+                        </Button>
+                        <AddLabel
+                            show={this.state.labelModalShow}
+                            onHide={labelModalClose}/>
                     </div>
-                    <div className="ticket-header ticket-ticket-type col span-1-of-7 no-top no-bottom">
-                        <label>Ticket Type</label>
+                    <div className="add-ticket right">
+                        <Button
+                            bsPrefix="content-btn"
+                            onClick={() => this.setState({ticketModalShow: true})}>
+                                {/* <IosAdd className="IosAdd"/> */}
+                                Add Ticket
+                        </Button>
+                        <AddTicket
+                            show={this.state.ticketModalShow}
+                            onHide={ticketModalClose}/>
                     </div>
-                    <div className="ticket-header ticket-title col span-2-of-7 no-top no-bottom">
-                        <label>Title</label>
-                    </div>
-                    <div className="ticket-header ticket-status col span-1-of-7 no-top no-bottom">
-                        <label>Status</label>
-                    </div>
-                    <div className="ticket-header ticket-ticket-id col span-1-of-7 no-top no-bottom">
-                        <label>Ticket Id</label>
-                    </div>
-                    <div className="ticket-header ticket-action col span-1-of-7 no-top no-bottom">
-                        <label>Action</label>
-                    </div>
+
+                </Container>
+                <Container bsPrefix="header-container">
+                    <Row>
+                        <Col>Date Submitted</Col>
+                        <Col>Creator</Col>
+                        <Col md={4}>Title</Col>
+                        <Col>Status</Col>
+                        <Col>Action</Col>
+                    </Row>
+                </Container>
+                <div className="body-container">
+                    {this.state.tickets.map((ticket, index) => {
+                        const status = this.state.statuses[ticket.status];
+                        return (
+                            <Link
+                                key={`ticket-${index}`}
+                                to={{
+                                    pathname: `/tickets/preview/${ticket.objectId}`,
+                                }}
+                            >
+                                <Container bsPrefix="ticket-container">
+                                    <Row>
+                                        <Col>{ticket.createdAt}</Col>
+                                        <Col>{ticket.creator}</Col>
+                                        <Col md={4}>{ticket.title}</Col>
+                                        <Col>{status ? status.name : ""}</Col>
+                                        <Col>
+                                            <MdCreate className="options-icon" />
+                                            <MdClose className="options-icon"/>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Link>
+                        );
+                    })}
                 </div>
-
-
-                                            {/* <div className="col span-2-of-5 no-top">
-                                                <div className="ticket-container">
-                                                    <div className="ticket-summary-container">
-                                                        <Link to="/admin/tickets/#/unread" className="ticket-summary-unread">
-                                                        
-                                                            <div className="ticket-summary-unread-number">
-                                                                <span className="ticket-summary-number">0</span>
-                                                            </div>
-
-                                                            <div className="ticket-summary-unread-label">
-                                                                <small>unread</small>
-                                                            </div>
-
-                                                        </Link>                       
-                                                        <Link to="/admin/tickets/#/all" className="ticket-summary-all">
-
-                                                            <div className="ticket-summary-all-number">
-                                                                <span className="ticket-summary-number">1</span>
-                                                            </div>
-
-                                                            <div className="ticket-summary-all-label">
-                                                                <small className="small">all</small>
-                                                            </div>
-                                                            
-                                                        </Link>
-                                                    </div>
-                                                    <div className="ticket-list-container">
-                                                    
-                                                        <TicketCard/>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="col span-3-of-5 no-left no-top">
-                                                <div className="ticket-preview-container">
-                                                
-                                                </div>
-                                            </div> */}
             </div>
         );
     }
 }
+
+Ticket.contextType = AppContext;
+export default Ticket;

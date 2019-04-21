@@ -1,39 +1,64 @@
 import React from 'react';
-import {BrowserRouter, Link} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import { Button, Nav, OverlayTrigger, Popover, Navbar } from 'react-bootstrap';
 import logo from './resources/accenture-purple-logo.png'
 import IosNotifications from 'react-ionicons/lib/IosNotifications'
-import IosListBoxOutline from 'react-ionicons/lib/IosListBoxOutline'
-import IosContactOutline from 'react-ionicons/lib/IosContactOutline'
+import IosListBox from 'react-ionicons/lib/IosListBox'
+import IosContact from 'react-ionicons/lib/IosContact'
 
-export default class NavigationBar extends React.Component {
+import '../css/reusable.css';
+import '../css/NavigationBar.css';
+import { AppContext } from './globalContext/AppContext';
+
+class NavigationBar extends React.Component {
+    constructor(props) {
+        super(props);
+        this.logout = this.logout.bind(this);
+        this.state = {};
+    }
+
+    logout() {
+        console.log("\nLogging out...");
+        console.log("Current context: ", this.context);
+        this.context.logout();
+    }
+
     render() {
-        let links = [
-            {label: 'Notification', icon: <IosNotifications className="IosNotifications" color="#febc11"/>, link: '/admin/notification'},
-            {label: 'To-do', icon: <IosListBoxOutline className="IosListBoxOutline" color="#febc11"/>,link: '/admin/todo'},
-            {label: 'MyAccount', icon: <IosContactOutline className="IosContactOutline" color="#febc11"/>,link: '/admin/myaccount'},
-        ];
         return (
-            <BrowserRouter>
-                <div>
-                    <nav className="nav">
-                        <div className="nav-wrapper">
-                            <Link to="/"><img className="nav-logo" src={logo} alt="logo"/></Link>
-                            
-
-                            
-                            <ul className="nav-link right">
-                            {links.map((link,index) => {
-                                return (
-                                    <li key={index} className="nav-link-list">
-                                        {<Link to={link.link}>{link.icon}</Link>}
-                                    </li>
-                                );
-                            })}
-                            </ul>
-                        </div>
-                    </nav>               
-                </div>
-            </BrowserRouter>
-        );
+            <Navbar className="nav">
+                <Navbar.Brand>
+                    <NavLink to="/">
+                        <img className="nav-logo" src={logo} alt="logo"/>
+                    </NavLink>
+                </Navbar.Brand>
+                <Nav
+                    className="justify-content-end w-100"
+                    onSelect={selectedKey => console.log(`${selectedKey} is clicked`)}
+                >
+                    <Nav.Item>
+                        <a className="nav-link"><IosNotifications className="nav-icons"/></a>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <a className="nav-link"><IosListBox className="nav-icons"/></a>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <OverlayTrigger
+                            trigger="click"
+                            rootClose={true}
+                            overlay={
+                                <Popover id="my-account-popover" title="My Account">
+                                    <Button onClick={this.props.logout}>Sign Out</Button>
+                                </Popover>
+                            }
+                        >
+                            <a className="nav-link"><IosContact className="nav-icons"/></a>
+                        </OverlayTrigger>
+                    </Nav.Item>
+                </Nav>
+            </Navbar>
+        )
     }
 }
+
+NavigationBar.contextType = AppContext;
+export default NavigationBar;
