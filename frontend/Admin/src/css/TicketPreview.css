@@ -4,22 +4,65 @@
     display: flex;
     flex-flow: column;
 }
+.profile-ticketpreview {
+    flex: 0 1 auto;
+    height: 15%;
+    display: flex;
+    background-color: var(--foreground-color);
+}
+.media {
+    padding: 1rem;
+    overflow: hidden;
+}
+.avatar--ticketpreview {
+    width: 96px;
+    margin-right: 20px;
+}
+.profile--creator,
+.profile--company,
+.profile--email {
+    color: var(--text-on-black2);
+    line-height: 1.75;
+}
+.profile--creator {
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+
 
 .header-ticketpreview {
     flex: 0 1 auto;
-    height: 13%;
+    height: 10%;
     display: flex;
-    flex-direction: column;
-    background-color: #333333;
+    flex-direction: row;
+    box-shadow: 0 5px 6px 0px #14141448;
 }
 .title-header-ticketpreview {
     display: flex;
     flex-direction: column;
-    height: 80%;
     padding: 0.5rem 1rem;
     overflow: hidden;
-    box-shadow: 0 5px 6px 0px #14141448;
+    width: 50%;
     color: var(--text-on-black);
+}
+.tickethead--ticketpreview {
+    display: flex;
+    flex-direction: row;
+}
+.attachment--ticketpreview {
+    display: flex;
+    align-content: center;
+}
+.icon--ticketpreview {
+    width: 24px;
+    height: 24px;
+    fill: var(--primary-color);
+    cursor: pointer;
+    align-content: flex-start;
+}
+.img--ticketpreview {
+    width: 100%;
 }
 .tickettitle--ticketpreview,
 .username--ticketpreview {
@@ -32,14 +75,26 @@
     display: flex;
     flex-direction: row;
 
-    padding: 0.5rem 1rem;
-
     color: #797979;
 }
 .datecreated--ticketpreview,
 .lastupdated--ticketpreview {
     margin: auto 1rem auto 0;
     font-size: 0.8rem;
+}
+.actionbar-ticketpreview{
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+}
+.tags--ticketpreview,
+.status--ticketpreview,
+.label--ticketpreview,
+.assign--ticketpreview,
+.resolve--ticketpreview {
+    margin-right: 10px;
 }
 
 .body-ticketpreview {
@@ -48,7 +103,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     padding: 0.5rem 1rem;
-    background-color: #2d2d2d;
+    background-color: var(--foreground-color);
     height: 9%;
 }
 .body--ticketpreview {
@@ -59,33 +114,11 @@
     margin-bottom: 0.5rem;
     color: var(--info-blue);
 }
-.attachment--ticketpreview {
-    margin-bottom: 0.5rem;
-}
-.icon--ticketpreview {
-    fill: var(--info-blue);
-    cursor: pointer;
-    align-content: flex-start;
-}
-.img--ticketpreview {
-    width: 100%;
-}
-.actionbar--ticketpreview{
-    margin-bottom: 0.5rem;
-    font-size: 0.8rem;
-    padding: 0.25rem;
-    width: 57%;
-    display: flex;
-    justify-content: flex-end;
-}
-.assign--ticketpreview,
-.resolve--ticketpreview {
-    margin-right: 10px;
-}
 
 .preview-ticketpreview {
     flex: 1 0 62%;
-    max-height: 62%;
+    /* max-height: 62%; */
+    max-height: 56%;
     display: flex;
     flex-direction: column;
     padding: 0.5rem 1rem;
@@ -114,15 +147,21 @@
     color: var(--success-green);
     font-weight: 600;
 }
+.sender--createdAt {
+    color: #797979;
+    font-size: 0.6rem;
+    text-align: right;
+}
 
 .footer-ticketpreview {
     flex: 0 0;
-    background-color: #2d2d2d;
+    background-color: var(--foreground-color);
     bottom: 0;
     width: calc(100vw - 200px);
     right: 0;
     position: absolute;
-    height: 16%;
+    /* height: 16%; */
+    height: 10%;
 }
 
 .sendmessage-preview {
@@ -133,6 +172,7 @@
     flex-direction: row;
 }
 .btn--preview {
+    color: black;
     width: 150px;
     height: 3rem;
     border-radius: 0.3rem; 

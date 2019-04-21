@@ -5,7 +5,7 @@ import Sidebar from './Sidebar.js';
 import Dashboard from './Dashboard.js';
 import Ticket from './Ticket.js';
 import TicketPreview from './TicketPreview';
-import Messages from './Messages.js';
+import Archives from './Archives.js';
 import NotFoundPage from './NotFoundPage';
 import '../css/reusable.css';
 import '../css/AscendersAdminHome.css';
@@ -26,7 +26,7 @@ class AscendersAdminHome extends React.Component {
                             <Switch>
                                 <Route exact path="/" component={Dashboard}/>
                                 <Route exact path="/tickets" component={Ticket}/>
-                                <Route exact path="/messages" component={Messages}/>
+                                <Route exact path="/archives" component={Archives}/>
                                 <Route exact path="/tickets/preview/:ticketId" component={TicketPreview}/>
                                 <Route component={NotFoundPage}/>
                             </Switch>

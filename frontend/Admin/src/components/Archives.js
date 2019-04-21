@@ -3,10 +3,10 @@ import {Link} from 'react-router-dom';
 import CardList from './ChatCard.js';
 
 import '../css/reusable.css';
-import '../css/Messages.css';
+import '../css/Archives.css';
 
 
-class Messages extends React.Component {
+class Archives extends React.Component {
     render() {
         return (
             <div className="messages-wrapper">
@@ -53,4 +53,4 @@ class Messages extends React.Component {
     }
 }
 
-export default Messages;
+export default Archives;
