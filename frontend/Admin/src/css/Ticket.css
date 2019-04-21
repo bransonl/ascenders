@@ -59,7 +59,7 @@
 }
 .add-ticket {
     display: flex;
-    margin: 0 1rem;
+    margin: 0 5px;
 }
 .IosAdd {
     fill: var(--primary-color);

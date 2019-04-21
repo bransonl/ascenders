@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Button, Nav, OverlayTrigger, Popover, Navbar } from 'react-bootstrap';
+import { Modal, Button, Nav, OverlayTrigger, Popover, Navbar } from 'react-bootstrap';
 import logo from './resources/accenture-purple-logo.png'
 import IosNotifications from 'react-ionicons/lib/IosNotifications'
 import IosListBox from 'react-ionicons/lib/IosListBox'
@@ -13,14 +13,18 @@ import { AppContext } from './globalContext/AppContext';
 class NavigationBar extends React.Component {
     constructor(props) {
         super(props);
-        this.logout = this.logout.bind(this);
-        this.state = {};
+        this.handleAccountOpen = this.handleAccountOpen.bind(this);
+        this.handleAccountClose = this.handleAccountClose.bind(this);
+        this.state = {
+            showAccount: false,
+        };
     }
 
-    logout() {
-        console.log("\nLogging out...");
-        console.log("Current context: ", this.context);
-        this.context.logout();
+    handleAccountOpen() {
+        this.setState({showAccount: true});
+    }
+    handleAccountClose() {
+        this.setState({showAccount: false});
     }
 
     render() {
@@ -42,18 +46,19 @@ class NavigationBar extends React.Component {
                         <a className="nav-link"><IosListBox className="nav-icons"/></a>
                     </Nav.Item>
                     <Nav.Item>
-                        <OverlayTrigger
-                            trigger="click"
-                            rootClose={true}
-                            placement="bottom"
-                            overlay={
-                                <Popover id="my-account-popover" title="My Account">
-                                    <Button onClick={this.props.logout}>Sign Out</Button>
-                                </Popover>
-                            }
-                        >
-                            <a className="nav-link"><IosContact className="nav-icons"/></a>
-                        </OverlayTrigger>
+                        <a className="nav-link" onClick={this.handleAccountOpen}><IosContact className="nav-icons"/></a>
+                        <Modal 
+                            show={this.state.showAccount} 
+                            onHide={this.handleAccountClose}
+                            backdrop={false}
+                            size='sm'>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Account</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <Button onClick={this.context.logout}>Sign out</Button>
+                            </Modal.Body>
+                        </Modal>
                     </Nav.Item>
                 </Nav>
             </Navbar>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, Form, Image, Modal } from 'react-bootstrap';
+import { Media, Button, Form, Image, Modal } from 'react-bootstrap';
 import IosAttach from 'react-ionicons/lib/IosAttach';
 
 import '../css/reusable.css';
@@ -157,41 +157,71 @@ class TicketPreview extends React.Component {
     render() {
         return (
             <div className="preview-app">
+
+                <div className="profile-ticketpreview">
+                    <Media>
+                        <Image 
+                            className="avatar--ticketpreview"
+                            src={`https://avatars3.githubusercontent.com/u/40631483?s=460&v=4`}
+                            roundedCircle/>
+                        <Media.Body>
+                            <p className="profile--creator">{this.state.preview.creator}</p>
+                            <p className="profile--company">Singapore University of Technology and Design</p>
+                            <p className="profile--email">andrehadianto@gmail.com</p>
+                        </Media.Body>
+                    </Media>
+                </div>
                 <div className="header-ticketpreview">
                     <div className="title-header-ticketpreview">
-                        <div className="tickettitle--ticketpreview">
-                            <h5>{this.state.preview.title}</h5>
+                        <div className="tickethead--ticketpreview">
+                            {this.state.preview.attachments !== "" &&                
+                                <div className="attachment--ticketpreview">
+                                    <IosAttach className="icon--ticketpreview" onClick={this.handleShow}/>
+
+                                    <Modal show={this.state.showAttachment} onHide={this.handleClose}>
+                                        <Modal.Body><Image src={this.state.preview.attachments} className="img--ticketpreview"/></Modal.Body>
+                                    </Modal>
+
+                                </div>                      
+                            }
+                            <div className="tickettitle--ticketpreview">
+                                <h5>{this.state.preview.title}</h5>
+                            </div>
                         </div>
                         <div className="username--ticketpreview">
                             <p>{this.state.preview.creator}</p>
                         </div>
-                    </div>
-
-                    <div className="date-header-ticketpreview">
-                        <div className="datecreated--ticketpreview">
-                            <p>Date created: {this.state.preview.createdAt}</p>
+                        <div className="date-header-ticketpreview">
+                            <div className="datecreated--ticketpreview">
+                                <p>Date created: {this.state.preview.createdAt}</p>
+                            </div>
+                            <div className="lastupdated--ticketpreview">
+                                <p>Last updated: {this.state.preview.updatedAt}</p>
+                            </div>
                         </div>
-                        <div className="lastupdated--ticketpreview">
-                            <p>Last updated: {this.state.preview.updatedAt}</p>
+                    </div>
+                    <div className="actionbar-ticketpreview">
+                        <div className="tags--ticketpreview right">
+                            <Button
+                                bsPrefix="content-btn"
+                                onClick={() => this.setState({assignModalShow: true})}>
+                                    Add Tags
+                            </Button>
                         </div>
-                    </div>
-                </div>
-                <div className="body-ticketpreview">
-                    {this.state.preview.attachments !== "" &&                
-                            <div className="attachment--ticketpreview">
-                                <IosAttach className="icon--ticketpreview" onClick={this.handleShow}/>
-
-                                <Modal show={this.state.showAttachment} onHide={this.handleClose}>
-                                    <Modal.Body><Image src={this.state.preview.attachments} className="img--ticketpreview"/></Modal.Body>
-                                </Modal>
-
-                            </div>                      
-                    }
-                    <div className="body--ticketpreview">
-                        <p>{this.state.preview.body}</p>
-                        {/* <span>{this.state.preview.attachments[0]}</span> */}
-                    </div>
-                    <div className="actionbar--ticketpreview">
+                        <div className="status--ticketpreview right">
+                            <Button
+                                bsPrefix="content-btn"
+                                onClick={() => this.setState({assignModalShow: true})}>
+                                    Add Status
+                            </Button>
+                        </div>
+                        <div className="label--ticketpreview right">
+                            <Button
+                                bsPrefix="content-btn"
+                                onClick={() => this.setState({assignModalShow: true})}>
+                                    Add Label
+                            </Button>
+                        </div>
                         <div className="assign--ticketpreview right">
                             <Button
                                 bsPrefix="content-btn"
@@ -212,8 +242,12 @@ class TicketPreview extends React.Component {
                         </div>
                     </div>
                     
-                    
-                    
+                </div>
+                <div className="body-ticketpreview">
+                    <div className="body--ticketpreview">
+                        <p>{this.state.preview.body}</p>
+                    </div>
+         
                 </div>
                 <div className="preview-ticketpreview">
                     
@@ -221,7 +255,9 @@ class TicketPreview extends React.Component {
                         return (
                             <div className="replies-container--ticketpreview" key={index}>
                                 <div className="replies--ticketpreview">
-                                    <p><span className="sender">{reply.sender}</span><br/>{reply.message}</p>
+                                    <p><span className="sender">{reply.sender}</span><br/>
+                                    {reply.message}</p>
+                                    <p className="sender--createdAt">{reply.createdAt}</p>
                                 </div>
                             </div>
                         );
@@ -251,13 +287,13 @@ class TicketPreview extends React.Component {
                                 type="submit"
                              >Send</Button>                           
                         </Form.Group>
-                        <Form.Group>
+                        {/* <Form.Group>
                             <Form.Control 
                                 type="file"
                                 name="uploadFile"
                                 onChange={this.onChange}
                             />
-                        </Form.Group>
+                        </Form.Group> */}
                     </Form>
                 </div>
             </div>

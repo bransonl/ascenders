@@ -1,5 +1,6 @@
 .modal-header {
     background-color: var(--midground-color);
+    padding: 0.5rem;
 }
 
 .h4 {
