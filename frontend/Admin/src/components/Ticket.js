@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Button } from 'react-bootstrap';
-import IosAdd from 'react-ionicons/lib/IosAdd';
+import { Container, Row, Col, Button, Dropdown } from 'react-bootstrap';
 import MdCreate from 'react-ionicons/lib/MdCreate';
 import MdClose from 'react-ionicons/lib/MdClose';
 
@@ -18,9 +17,17 @@ class Ticket extends React.Component {
         this.state = {
             ticketModalShow: false,
             labelModalShow: false,
+
             tickets: [],
             preview: null,
             statuses: {},
+
+            selectedLabel: [],
+            filterLabel: [
+                {value: 'One'},
+                {value: 'Two'},
+                {value: 'Three'}
+            ],
         };
     }
 
@@ -81,13 +88,13 @@ class Ticket extends React.Component {
                         <Button
                             bsPrefix="content-btn"
                             onClick={() => this.setState({ticketModalShow: true})}>
-                                {/* <IosAdd className="IosAdd"/> */}
                                 Add Ticket
                         </Button>
                         <AddTicket
                             show={this.state.ticketModalShow}
                             onHide={ticketModalClose}/>
                     </div>
+
 
                 </Container>
                 <Container bsPrefix="header-container">
@@ -103,25 +110,28 @@ class Ticket extends React.Component {
                     {this.state.tickets.map((ticket, index) => {
                         const status = this.state.statuses[ticket.status];
                         return (
-                            <Link
-                                key={`ticket-${index}`}
-                                to={{
-                                    pathname: `/tickets/preview/${ticket.objectId}`,
-                                }}
-                            >
-                                <Container bsPrefix="ticket-container">
+                            <Container bsPrefix="ticket-container">
+                                <Link
+                                    className="link--text"
+                                    key={`ticket-${index}`}
+                                    to={{
+                                        pathname: `/tickets/preview/${ticket.objectId}`,
+                                    }}
+                                >
                                     <Row>
                                         <Col>{ticket.createdAt}</Col>
                                         <Col>{ticket.creator}</Col>
-                                        <Col md={4}>{ticket.title}</Col>
+                                        <Col md={4}>
+                                            {ticket.title}
+                                        </Col>
                                         <Col>{status ? status.name : ""}</Col>
                                         <Col>
                                             <MdCreate className="options-icon" />
                                             <MdClose className="options-icon"/>
                                         </Col>
                                     </Row>
-                                </Container>
-                            </Link>
+                                </Link>
+                            </Container>
                         );
                     })}
                 </div>

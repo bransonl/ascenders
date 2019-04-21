@@ -18,11 +18,25 @@ class TicketPreview extends React.Component {
             showAttachment: false
         }
         this.reply = this.reply.bind(this);
+        this.resolve = this.resolve.bind(this);
         // this.onChange = this.onChange.bind(this);
         // this.handleFileUpload = this.handleFileUpload.bind(this);
 
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
+    }
+
+    resolve(e) {
+        e.preventDefault();
+        console.log("\nResolving ticket...");
+        const token = 'Bearer ' + sessionStorage.getItem("token");
+        const url = `http://127.0.0.1:3000/tickets/close/${this.state.preview.objectId}`
+        axios.put(url, null, {
+            headers: {
+                Authorization: token
+            },
+        })
+        .then(res => console.log(res))
     }
 
     reply(e) {
@@ -152,6 +166,7 @@ class TicketPreview extends React.Component {
                             <p>{this.state.preview.creator}</p>
                         </div>
                     </div>
+
                     <div className="date-header-ticketpreview">
                         <div className="datecreated--ticketpreview">
                             <p>Date created: {this.state.preview.createdAt}</p>
@@ -172,12 +187,32 @@ class TicketPreview extends React.Component {
 
                             </div>                      
                     }
-
-                    
                     <div className="body--ticketpreview">
                         <p>{this.state.preview.body}</p>
                         {/* <span>{this.state.preview.attachments[0]}</span> */}
                     </div>
+                    <div className="actionbar--ticketpreview">
+                        <div className="assign--ticketpreview right">
+                            <Button
+                                bsPrefix="content-btn"
+                                onClick={() => this.setState({assignModalShow: true})}>
+                                    Assign
+                            </Button>
+                        </div>
+                        <div className="resolve--ticketpreview right">
+                            <Form onSubmit={this.resolve}>
+                                <Form.Group>
+                                    <Button
+                                        bsPrefix="content-btn"
+                                        type="submit">
+                                            Resolve Ticket
+                                    </Button>
+                                </Form.Group>
+                            </Form>
+                        </div>
+                    </div>
+                    
+                    
                     
                 </div>
                 <div className="preview-ticketpreview">

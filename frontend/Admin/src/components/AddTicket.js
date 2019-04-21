@@ -18,7 +18,7 @@ class AddTicket extends React.Component {
             body: null,
 
             ticketId: null,
-            file: null
+            file: ""
         };
     }
 
@@ -44,13 +44,14 @@ class AddTicket extends React.Component {
             .then(res => res.json())
             .then(res => {
                 this.setState({title, body, ticketId: res.objectId});
-                console.log("Current state: ", this.state);
-
-                console.log("\n Trying to upload file...");
-                this.handleFileUpload(this.state.file)
-                .then((res) => {
-                    console.log(res);
-                })
+                if (this.state.file !== "") {
+                    console.log("\n Trying to upload file...");
+                    this.handleFileUpload(this.state.file)
+                    .then((res) => {
+                        console.log(res);
+                    }) 
+                }
+                console.log("Ticket submited!\nCurrent state: ", this.state);     
             })
             .catch(err => console.log(err));
         }

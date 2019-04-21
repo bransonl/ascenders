@@ -23,11 +23,20 @@
     text-align: center;
     min-height: fit-content;
 }
-
 .ticket-container:hover {
     text-decoration: none;
     background-color: #2a2d2e;
 }
+
+.link--text {
+    text-decoration: none;
+    color: var(--text-on-black2);
+}
+.link--text:hover {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
 .options-icon {
     fill: var(--text-on-black)
 }

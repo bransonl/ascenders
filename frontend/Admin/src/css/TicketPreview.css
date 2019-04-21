@@ -15,7 +15,7 @@
 .title-header-ticketpreview {
     display: flex;
     flex-direction: column;
-    
+    height: 80%;
     padding: 0.5rem 1rem;
     overflow: hidden;
     box-shadow: 0 5px 6px 0px #14141448;
@@ -69,6 +69,18 @@
 }
 .img--ticketpreview {
     width: 100%;
+}
+.actionbar--ticketpreview{
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+    padding: 0.25rem;
+    width: 57%;
+    display: flex;
+    justify-content: flex-end;
+}
+.assign--ticketpreview,
+.resolve--ticketpreview {
+    margin-right: 10px;
 }
 
 .preview-ticketpreview {
