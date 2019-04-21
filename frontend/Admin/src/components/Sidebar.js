@@ -13,7 +13,7 @@ export default class Sidebar extends React.Component {
         let links = [
             {label: 'Dashboard', icon: <IosApps className="sidebar-icon"/>, link: '/'},
             {label: 'Tickets', icon: <IosPaper className="sidebar-icon" />, link: '/tickets'},
-            {label: 'Archives', icon: <IosText className="sidebar-icon" />, link: '/archives'},
+            {label: 'Archive', icon: <IosText className="sidebar-icon" />, link: '/archive'},
         ];
 
         return (

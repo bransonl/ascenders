@@ -72,7 +72,6 @@ class Ticket extends React.Component {
                 </Container>
                 <div className="body-container">
                     {this.state.tickets.map((ticket, index) => {
-                        const status = this.state.statuses[ticket.status];
                         return (
                             <Link
                                 key={`ticket-${index}`}
@@ -85,7 +84,7 @@ class Ticket extends React.Component {
                                         <Col>{ticket.createdAt}</Col>
                                         <Col>{ticket.creator}</Col>
                                         <Col md={4}>{ticket.title}</Col>
-                                        <Col>{status ? status.name : ""}</Col>
+                                        <Col>{ticket.status}</Col>
                                         <Col>
                                             <MdCreate className="options-icon" />
                                             <MdClose className="options-icon"/>
