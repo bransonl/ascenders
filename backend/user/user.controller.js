@@ -77,7 +77,7 @@ class UserController {
             const getAdminsResult = await this._model.getAdmins();
             return res.status(200).json(getAdminsResult);
         } catch(err) {
-            return res.status(err.statusCode).json(err);
+            throw res.status(err.statusCode).json(err);
         }
     }
 }

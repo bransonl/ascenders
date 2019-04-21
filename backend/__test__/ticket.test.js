@@ -73,7 +73,7 @@ describe('GET TICKET BY TICKETID TESTS', () => {
     });
     test('return error if non-existent ticketId', async() => {
         const response = await ticketModel.getTicket('fakeId');
-        expect(response).toEqual(new ModelError(101, 'Object not found'));
+        expect(response).toEqual(new ModelError(404, 'Ticket not found'));
     });
     test('error message if missing fields', async() => {
         await expect(ticketModel.getTicket())

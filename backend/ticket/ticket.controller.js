@@ -8,9 +8,12 @@ class TicketController {
         this.addAttachment = this.addAttachment.bind(this);
         this.closeTicket = this.closeTicket.bind(this);
 
-        this.getUserTickets = this.getUserTickets.bind(this);
+        this.getUserOpenTickets = this.getUserOpenTickets.bind(this);
+        this.getUserClosedTickets = this.getUserClosedTickets.bind(this);
         this.getLabelTickets = this.getLabelTickets.bind(this);
-        this.getAllTickets = this.getAllTickets.bind(this);
+
+        this.getAllOpenTickets = this.getAllOpenTickets.bind(this);
+        this.getAllClosedTickets = this.getAllClosedTickets.bind(this);
         this.getTicket = this.getTicket.bind(this);
 
         this.addAdmin = this.addAdmin.bind(this);
@@ -18,7 +21,9 @@ class TicketController {
         this.addStatus = this.addStatus.bind(this);
         this.addPriority = this.addPriority.bind(this);
 
-        this.modifyTicket = this.modifyTicket.bind(this);
+        this._modifyTicket = this._modifyTicket.bind(this);
+        this._getTicket = this._getTicket.bind(this);
+        this._beautifyDate = this._beautifyDate.bind(this);
     }
 
     async createTicket(req, res) {
@@ -26,21 +31,6 @@ class TicketController {
         req.body.creator = req.user.username;
         const {title, body, creator} = req.body;
         let attachments = req.body.attachments;
-        if (!title | !body | !creator) {
-            const fieldsMissing = [];
-            if (!title) {
-                fieldsMissing.push('title');
-            }
-            if (!body) {
-                fieldsMissing.push('body');
-            }
-            if (!creator) {
-                fieldsMissing.push('creator');
-            }
-            return res.status(400).send({
-                message: `Missing ${fieldsMissing.join(`, `)}`,
-            });
-        }
         if (!attachments) {
             attachments = '';
         }
@@ -67,8 +57,17 @@ class TicketController {
         console.log('addAttachment called');
         const ticketId = req.params.ticketId;
         const newAttachment = req.fileURL;
-        console.log(newAttachment);
-        const ticket = await this._model.getTicket(ticketId);
+        if (!newAttachment) {
+            return res.status(400).json({
+                message:'Missing fields'
+            })
+        }
+        let ticket;
+        try { // check ticket exist
+            ticket = await this._getTicket(ticketId);
+        } catch(err) {
+            return res.status(err.statusCode).json(err);
+        }
         let attachments = ticket.attachments;
         if (!attachments) {
             attachments = newAttachment;
@@ -77,20 +76,41 @@ class TicketController {
             attachments = `${attachments}, ${newAttachment}`;
         }
         try {
-            const modifyTicketResult = await this._model.modifyTicket(ticketId,{attachments:attachments});
+            const modifyTicketResult = await this._modifyTicket(ticketId, {attachments:attachments});
             return res.status(200).send(modifyTicketResult);
         } catch (err) {
-            return res.status(500).send();
+            return res.status(err.statusCode).json(err);
         }
     }
 
-    async getUserTickets(req, res) {
+    async _beautifyDate(getTicketsResult) {
+        var i;
+        for (i=0; i<getTicketsResult.length; i++) {
+            getTicketsResult[i].createdAt = getTicketsResult[i].createdAt.substring(0,10);
+            getTicketsResult[i].updatedAt = getTicketsResult[i].updatedAt.substring(0,10);
+        }
+        return getTicketsResult;
+    }
+
+    async getUserOpenTickets(req, res) {
         const username = req.user.username;
         try {
-            const getTicketsResult = await this._model.getUserTickets(username);
-            return res.status(200).send(getTicketsResult);
+            const getTicketsResult = await this._model.getUserOpenTickets(username);
+            const beautifiedResult = await this._beautifyDate(getTicketsResult);
+            return res.status(200).send(beautifiedResult);
         } catch (err) {
-            return res.status(500).send();
+            return res.status(err.statusCode).json(err);
+        }
+    }
+
+    async getUserClosedTickets(req, res) {
+        const username = req.user.username;
+        try {
+            const getTicketsResult = await this._model.getUserClosedTickets(username);
+            const beautifiedResult = await this._beautifyDate(getTicketsResult);
+            return res.status(200).send(beautifiedResult);
+        } catch (err) {
+            return res.status(err.statusCode).json(err);
         }
     }
 
@@ -98,30 +118,57 @@ class TicketController {
         console.log("getLabelTickets");
         const {labelType} = req.body;
         const labelId = req.label.objectId;
+        if (!labelType | !req.label | !labelId) {
+            return res.status(400).json({
+                message:'Missing fields',
+            })
+        }
+        else if (labelType!='tag' & labelType!='status' & labelType!='priority') {
+            return res.status(400).json({
+                message: 'Invalid labelType',
+            })
+        }
+        else if (labelId.length !=10) {
+            return res.status(400).json({
+                message: 'Invalid labelId',
+            })
+        }
         try {
             const getLabelTicketsResult = await this._model.getLabelTickets(labelType, labelId);
-            return res.status(200).send(getLabelTicketsResult);
+            const beautifiedResult = await this._beautifyDate(getLabelTicketsResult);
+            return res.status(200).send(beautifiedResult);
         } catch (err) {
-            return res.status(500).send();
+            return res.status(err.statusCode).json(err);
         }
     }
 
-    async getAllTickets(req, res) {
+    async getAllOpenTickets(req, res) {
         try {
-            const getTicketsResult = await this._model.getAllTickets();
-            return res.status(200).send(getTicketsResult);
+            const getTicketsResult = await this._model.getAllOpenTickets();
+            const beautifiedResult = await this._beautifyDate(getTicketsResult);
+            return res.status(200).send(beautifiedResult);
         } catch (err) {
-            return res.status(500).send();
+            return res.status(err.statusCode).json(err);
+        }
+    }
+
+    async getAllClosedTickets(req, res) {
+        try {
+            const getTicketsResult = await this._model.getAllClosedTickets();
+            const beautifiedResult = await this._beautifyDate(getTicketsResult);
+            return res.status(200).send(beautifiedResult);
+        } catch (err) {
+            return res.status(err.statusCode).json(err);
         }
     }
 
     async getTicket(req, res) {
-        const ticketId = req.params.ticketId;
+        const {ticketId} = req.params;
         try {
-            const getTicketResult = await this._model.getTicket(ticketId);
+            const getTicketResult = await this._getTicket(ticketId);
             return res.status(200).send(getTicketResult);
         } catch (err) {
-            return res.status(500).send();
+            return res.status(err.statusCode).json(err);
         }
     }
 
@@ -141,11 +188,14 @@ class TicketController {
                 });
             }
             const ticket = await this._model.getTicket(ticketId);
-            const assignedUsernames = ticket.assigned.split(",");
-            if (assignedUsernames.includes(username)) {
-                return res.status(304).json({
-                    message: `User already assigned`,
-                })
+            let assignedUsernames;
+            if (ticket.assigned != undefined) {
+                assignedUsernames = ticket.assigned.split(",");
+                if (assignedUsernames.includes(username)) {
+                    return res.status(304).json({
+                        message: `User already assigned`
+                    });
+                }
             }
             const assigned = ticket.assigned ? `${ticket.assigned},${username}` : username;
             try {
@@ -168,73 +218,156 @@ class TicketController {
     async addTag(req, res) {
         console.log("addTag called");
         const {ticketId} = req.params;
-        if (req.label != false) {
-            const ticket = await this._model.getTicket(ticketId);
-            let tag = ticket.tag;
-            if (!tag) {
-                tag = req.label.objectId;
-            }
-            else {
-                tag = `${tag}, ${req.label.objectId}`;
-            }
-            try {
-                const modifyTicketResult = await this._model.modifyTicket(ticketId,{tag});
-                return res.status(200).send(modifyTicketResult);
-            } catch (err) {
-                return res.status(500).send();
-            }
+        const label = req.label;
+        if (label.labelType != 'tag') {
+            return res.status(400).json({
+                message:`Wrong method for ${label.labelType}`,
+            })
+        }
+        let ticket;
+        try {
+            ticket = await this._getTicket(ticketId);
+        } catch(err) {
+            return res.status(err.statusCode).json(err);
+        }
+        let tag = ticket.tag;
+        if (!tag) {
+            tag = label.objectId;
+        }
+        else {
+            tag = `${tag}, ${label.objectId}`;
+        }
+        try {
+            const modifyTicketResult = await this._modifyTicket(ticketId, {tag});
+            return res.status(200).send(modifyTicketResult);
+        } catch (err) {
+            return res.status(err.statusCode).json(err);
         }
     }
 
     async addStatus(req, res) { //only 1
+        console.log('addStatus called');
         const {ticketId} = req.params;
-        if (req.label != false) {
-            const ticket = await this._model.getTicket(ticketId);
-            try {
-                const modifyTicketResult = await this._model.modifyTicket(ticketId,{status:req.label.objectId});
-                return res.status(200).send(modifyTicketResult);
-            } catch (err) {
-                return res.status(500).send();
-            }
+        const label = req.label;
+        if (label.labelType != 'status') {
+            return res.status(400).json({
+                message:`Wrong method for ${label.labelType}`,
+            })
+        }
+        try {
+            const ticket = await this._getTicket(ticketId);
+        } catch(err) {
+            return res.status(err.statusCode).json(err);
+        }
+        const labelId = label.objectId;
+        if (!labelId) {
+            return res.status(400).json({
+                message: 'Missing fields',
+            })
+        }
+        try {
+            const modifyTicketResult = await this._modifyTicket(ticketId, {status:labelId});
+            return res.status(200).send(modifyTicketResult);
+        } catch (err) {
+            return res.status(err.statusCode).json(err);
         }
     }
 
     async addPriority(req, res) { //only 1
+        console.log('addPriority called');
         const {ticketId} = req.params;
-        if (req.label != false) {
-            const ticket = await this._model.getTicket(ticketId);
-            try {
-                const modifyTicketResult = await this._model.modifyTicket(ticketId,{priority:req.label.objectId});
-                return res.status(200).send(modifyTicketResult);
-            } catch (err) {
-                return res.status(500).send();
-            }
+        const label = req.label;
+        if (label.labelType != 'priority') {
+            return res.status(400).json({
+                message:`Wrong method for ${label.labelType}`,
+            })
+        }
+        try {
+            const ticket = await this._getTicket(ticketId);
+        } catch(err) {
+            return res.status(err.statusCode).json(err);
+        }
+        const labelId = label.objectId;
+        if (!labelId) {
+            return res.status(400).json({
+                message: 'Missing fields',
+            })
+        }
+        try {
+            const modifyTicketResult = await this._modifyTicket(ticketId, {priority:labelId});
+            return res.status(200).send(modifyTicketResult);
+        } catch (err) {
+            return res.status(err.statusCode).json(err);
         }
     }
 
     async closeTicket(req, res) {
         const ticketId = req.params.ticketId;
+        if (!ticketId) {
+            return res.status(400).json({
+                message: 'Missing fields',
+            })
+        }
+        else if (ticketId.length !=10) {
+            return res.status(400).json({
+                message: 'Invalid ticketId',
+            })
+        }
         try {
-            const closeTicketResult = await this._model.closeTicket(ticketId);
+            const ticket = await this._getTicket(ticketId);
+        } catch(err) {
+            return res.status(err.statusCode).json(err);
+        }
+        try {
+            const closeTicketResult = await this._modifyTicket(ticketId, {status:'closed'});
             return res.status(200).send({
-                message: 'Closed',
+                message: 'Ticket closed',
             });
         } catch (err) {
-            return res.status(500).send();
+            return res.status(err.statusCode).json(err);
         }
     }
 
-    //helper function
-    async modifyTicket(ticketId, data) {
-        if (!ticketId | !data) {
-            return new ModelError(400,'Missing fields');
+    //helper functions
+    async _modifyTicket(ticketId, data) {
+        if (!data) {
+            throw new ModelError(500, 'Missing fields');
         }
-        console.log(data);
+        const keys = Object.keys(data);
+        var i;
+        for (i=0; i<keys.length; i++) {
+            if (keys[i].length == 0) {
+                throw new ModelError(400, 'Invalid key value');
+            }
+        }
         try {
-            const modifyTicketResult = await this._model.modifyTicket(ticketId,data);
-            return res.status(200).send(modifyTicketResult);
+            const ticket = await this._getTicket(ticketId);
+        } catch(err) {
+            throw new ModelError(err.statusCode,err.error.error);
+        }
+        try {
+            const modifyTicketResult = await this._model.modifyTicket(ticketId, data);
+            return modifyTicketResult;
         } catch (err) {
-            return res.status(500).send();
+            throw new ModelError(err.statusCode, err.error.error);
+        }
+    }
+
+    async _getTicket(ticketId) {
+        if (!ticketId) {
+            throw new ModelError(400, 'Missing ticketId');
+        }
+        else if (ticketId.length !=10) {
+            throw new ModelError(400, 'Invalid ticketId');
+        }
+        try {
+            const getTicketResult = await this._model.getTicket(ticketId);
+            return getTicketResult;
+        } catch(err) {
+            if (err.statusCode == 404) {
+                throw new ModelError(404, 'Ticket not found');
+            }
+            throw new ModelError(err.statusCode, err.error.error);
         }
     }
 }

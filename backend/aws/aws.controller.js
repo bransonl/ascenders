@@ -6,15 +6,31 @@ class AwsController {
     }
     async uploadFile(req, res, next) {
         console.log('uploadFile called');
+        // try {
+        //     const uploadFileResult = await this._model.uploadFile(req, res);
+        //     console.log(uploadFileResult);
+        //     // req.fileURL = req.file.location;
+        //     next();
+        // } catch(err) {
+        //     return res.status(422).json({
+        //         message:'Error uploading file',
+        //     })
+        // }
+
         const singleUpload = this._model.uploadFile.single('file');
-        const uploadFileResult = await singleUpload(req, res, function(err, some) {
-        if (err) {
-            return res.status(422).send({
-            errors: [{title: 'Upload Error', detail: err.message}] });
-        }
-        req.fileURL = req.file.location;
-        next();
-        });
+        const uploadFileResult = await singleUpload(req, res, 
+            function(err, some) {
+                if (err) {
+                    return res.status(422).json({
+                        message: 'Error uploading file',
+                    });
+                }
+                console.log(req.file.location);
+                console.log(req.file.originalname);
+                req.fileURL = req.file.location;
+                next();
+            }
+        );
     }
 }
 

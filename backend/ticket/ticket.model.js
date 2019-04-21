@@ -5,8 +5,8 @@ const {ModelError} = require('../error');
 const ticketsClassPath = `${apiEndpoint}/classes/tickets`;
 
 async function createTicket(title,body,creator,attachments) {
-    if (!title || !body || !creator) {
-        throw new ModelError(400, 'Missing fields');
+    if (!title | !body | !creator) {
+        throw new ModelError(500, 'Missing fields');
     }
     if (!attachments) {
         attachments = '';
@@ -20,18 +20,18 @@ async function createTicket(title,body,creator,attachments) {
             body,
             creator,
             attachments,
-            status: 'e0WoclRcZV', //labelId for open
+            status: 'open', //labelId for open
         },
         json: true,
     }
     try {
         return await request(options);
     } catch (err) {
-        return new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(err.statusCode, err.error.error);
     }
 }
 
-async function getUserTickets(username) {
+async function getUserOpenTickets(username) {
     if (!username) {
         throw new ModelError(400, 'Missing fields');
     }
@@ -41,6 +41,7 @@ async function getUserTickets(username) {
         qs: {
             where: {
                 creator: username,
+                status: 'open'
             },
         },
         headers: sharedHeaders,
@@ -48,19 +49,41 @@ async function getUserTickets(username) {
     try {
         return JSON.parse(await request(options)).results;
     } catch (err) {
-        return new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(err.statusCode, err.error.error);
+    }
+}
+
+async function getUserClosedTickets(username) {
+    if (!username) {
+        throw new ModelError(400, 'Missing fields');
+    }
+    const options = {
+        method: 'GET',
+        uri: ticketsClassPath,
+        qs: {
+            where: {
+                creator: username,
+                status: 'closed'
+            },
+        },
+        headers: sharedHeaders,
+    };
+    try {
+        return JSON.parse(await request(options)).results;
+    } catch (err) {
+        throw new ModelError(err.statusCode, err.error.error);
     }
 }
 
 async function getLabelTickets(labelType, labelId) {
-    if (!labelType | labelId) {
-        throw new ModelError(400, 'Missing fields');
+    if (!labelType | !labelId) {
+        throw new ModelError(500, 'Missing fields');
     }
     else if (labelType!='tag' & labelType!='status' & labelType!='priority') {
-        throw new ModelError(400, 'Invalid labelType');
+        throw new ModelError(500, 'Invalid labelType');
     }
     else if (labelId.length != 10) {
-        throw new ModelError(400, 'Invalid labelId');
+        throw new ModelError(500, 'Invalid labelId');
     }
     const options = {
         method: 'GET',
@@ -73,29 +96,52 @@ async function getLabelTickets(labelType, labelId) {
     try {
         return JSON.parse(await request(options)).results;
     } catch (err) {
-        return new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(err.statusCode, err.error.error);
     }
 }
 
-async function getAllTickets() {
+async function getAllOpenTickets() {
     const options = {
         method: 'GET',
         uri: ticketsClassPath,
         headers: sharedHeaders,
+        qs: {
+            where: {
+                status: 'open'
+            },
+        },
     };
     try {
         return JSON.parse(await request(options)).results;
     } catch (err) {
-        return new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(err.statusCode, err.error.error);
+    }
+}
+
+async function getAllClosedTickets() {
+    const options = {
+        method: 'GET',
+        uri: ticketsClassPath,
+        headers: sharedHeaders,
+        qs: {
+            where: {
+                status: 'closed'
+            },
+        },
+    };
+    try {
+        return JSON.parse(await request(options)).results;
+    } catch (err) {
+        throw new ModelError(err.statusCode, err.error.error);
     }
 }
 
 async function getTicket(ticketId) {
     if (!ticketId) {
-        throw new ModelError(400, 'Missing fields');
+        throw new ModelError(500, 'Missing fields');
     }
     else if (ticketId.length != 10) {
-        throw new ModelError(400, 'Invalid ticketId');
+        throw new ModelError(500, 'Invalid ticketId');
     }
     const options = {
         method: 'GET',
@@ -105,21 +151,21 @@ async function getTicket(ticketId) {
     try {
         return JSON.parse(await request(options));
     } catch(err) {
-        return new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(err.statusCode, err.error.error);
     }
 }
 
 async function modifyTicket(ticketId, data) {
-    if (!ticketId || !data) {
-        throw new ModelError(400,'Missing fields');
+    if (!ticketId | !data) {
+        throw new ModelError(500,'Missing fields');
     }
     else if (ticketId.length != 10) {
-        throw new ModelError(400, 'Invalid ticketId');
+        throw new ModelError(500, 'Invalid ticketId');
     }
     const keys = Object.keys(data);
     for (i=0; i<keys.length; i++) {
         if (keys[i].length == 0) {
-            throw new ModelError(400, 'Invalid key value');
+            throw new ModelError(500, 'Invalid key value');
         }
     }
     const options = {
@@ -130,40 +176,21 @@ async function modifyTicket(ticketId, data) {
         body: data,
     };
     try {
-        return request(options);
-    } catch(err) {
-        return new ModelError(err.statusCode, err.error.error);
-    }
-}
-
-// changes ticket status to 'closed'
-async function closeTicket(ticketId) {
-    if (!ticketId) {
-        throw new ModelError(400,'Missing fields');
-    }
-    else if (ticketId.length != 10) {
-        throw new ModelError(400, 'Invalid ticketId');
-    }
-    const options = {
-        method: 'PUT',
-        uri: `${ticketsClassPath}/${ticketId}`,
-        headers: sharedHeaders,
-        json: true,
-        body: {status: 'k8nQSGO3BN'} //labelId for 'closed'
-    };
-    try {
         return await request(options);
     } catch(err) {
-        return new ModelError(err.statusCode, err.error.error);
+        console.log(err);
+        throw new ModelError(err.statusCode, err.error.error);
     }
 }
 
 module.exports = {
     createTicket,
-    getUserTickets,
+    getUserOpenTickets,
+    getUserClosedTickets,
     getLabelTickets,
-    getAllTickets,
+    
+    getAllOpenTickets,
+    getAllClosedTickets,
     getTicket,
     modifyTicket,
-    closeTicket,
 }

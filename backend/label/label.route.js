@@ -15,22 +15,23 @@ function routes(app) {
         // auth.createRoleCheck('admin'),
         labelController.createLabel,
         );
+        
     app.route('/label/:labelType/:labelName')
     .get( // get label of type and name
-        auth.validateToken,
+        // auth.validateToken,
         labelController.getLabel,
         )
 
     app.route('/label/:labelType/:labelName')
     .put(
-        auth.validateToken,
-        auth.createRoleCheck('admin'),
+        // auth.validateToken,
+        // auth.createRoleCheck('admin'),
         labelController.modifyLabel,
         );
     app.route('/labelc/:labelType/:labelName')
     .put(
-        auth.validateToken,
-        auth.createRoleCheck('admin'),
+        // auth.validateToken,
+        // auth.createRoleCheck('admin'),
         labelController.modifyLabelc,
         );
 }

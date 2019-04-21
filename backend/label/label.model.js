@@ -6,10 +6,10 @@ const labelsClassPath = `${apiEndpoint}/classes`;
 
 async function getLabels(labelType) {
     if (!labelType) {
-        throw new ModelError(400, 'Missing fields');
+        throw new ModelError(500, 'Missing fields');
     }
     else if (labelType!='tag' & labelType!='status' & labelType!='priority') {
-        throw new ModelError(400, 'Invalid labelType');
+        throw new ModelError(500, 'Invalid labelType');
     }
     const options = {
         method: 'GET',
@@ -20,16 +20,16 @@ async function getLabels(labelType) {
         const res = await request(options);
         return JSON.parse(res).results;
     } catch(err) {
-        return new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(err.statusCode, err.error.error);
     }
 }
 
 async function getLabel(labelType, name) {
     if (!labelType | !name) {
-        throw new ModelError(400, 'Missing fields');
+        throw new ModelError(500, 'Missing fields');
     }
     else if (labelType!='tag' & labelType!='status' & labelType!='priority') {
-        throw new ModelError(400, 'Invalid labelType');
+        throw new ModelError(500, 'Invalid labelType');
     }
     const options = {
         method: 'GET',
@@ -40,19 +40,19 @@ async function getLabel(labelType, name) {
         headers: sharedHeaders,
     };
     try {
-        return JSON.parse(await request(options)).results[0];
+        return JSON.parse(await request(options)).results;
     } catch(err) {
-        return new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(err.statusCode, err.error.error);
     }
 }
 
 // labels without colour (tag)
 async function createLabel(labelType, name) {
     if (!labelType | !name) {
-        throw new ModelError(400,'Missing fields');
+        throw new ModelError(500,'Missing fields');
     }
     else if (labelType != 'tag') {
-        throw new ModelError(400,'Invalid labelType');
+        throw new ModelError(500,'Invalid labelType');
     }
     const options = {
         method: 'POST',
@@ -61,25 +61,26 @@ async function createLabel(labelType, name) {
         json: true,
         body: {
             name,
+            labelType,
         }
     };
     try {
         return await request(options);
     } catch(err) {
-        return new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(err.statusCode, err.error.error);
     }
 }
 
 // labels with colour (status, priority)
 async function createLabelc(labelType, name, colour) {
     if (!labelType | !name | !colour) {
-        return new ModelError(400, 'Missing fields');
+        throw new ModelError(500, 'Missing fields');
     }
     else if (labelType != 'status' & labelType != 'priority'){
-        throw new ModelError(400,'Wrong method');
+        throw new ModelError(500,'Invalid labelType');
     }
     else if (colour.length != 6) {
-        throw new ModelError(400, 'Invalid colour');
+        throw new ModelError(500, 'Invalid colour');
     }
     const options = {
         method: 'POST',
@@ -89,24 +90,25 @@ async function createLabelc(labelType, name, colour) {
         body: {
             name,
             colour,
+            labelType,
         },
     };
     try {
         return await request(options);
     } catch(err) {
-        return new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(err.statusCode, err.error.error);
     }
 }
 
 async function modifyLabel(labelType, labelId, name) {
     if (!labelType | !labelId | !name) {
-        throw new ModelError(400, 'Missing fields');
+        throw new ModelError(500, 'Missing fields');
     }
     else if (labelType != 'tag') {
-        throw new ModelError(400, 'Invalid labelType');
+        throw new ModelError(500, 'Invalid labelType');
     }
     else if (labelId.length != 10) {
-        throw new ModelError(400, 'Invalid labelId');
+        throw new ModelError(500, 'Invalid labelId');
     }
     const options = {
         method: 'PUT',
@@ -120,22 +122,22 @@ async function modifyLabel(labelType, labelId, name) {
     try {
         return await request(options);
     } catch(err) {
-        return new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(err.statusCode, err.error.error);
     }
 }
 
 async function modifyLabelc(labelType, labelId, name, colour) {
     if (!labelType | !labelId | !name | !colour) {
-        throw new ModelError(400, 'Missing fields');
+        throw new ModelError(500, 'Missing fields');
     }
     else if (labelType != 'status' & labelType != 'priority') {
-        throw new ModelError(400, 'Invalid labelType');
+        throw new ModelError(500, 'Invalid labelType');
     }
     else if (labelId.length != 10) {
-        throw new ModelError(400, 'Invalid labelId');
+        throw new ModelError(500, 'Invalid labelId');
     }
     else if (colour.length != 6) {
-        throw new ModelError(400, 'Invalid colour');
+        throw new ModelError(500, 'Invalid colour');
     }
     const options = {
         method: 'PUT',
@@ -150,7 +152,7 @@ async function modifyLabelc(labelType, labelId, name, colour) {
     try {
         return await request(options);
     } catch(err) {
-        return new ModelError(err.statusCode, err.error.error);
+        throw new ModelError(err.statusCode, err.error.error);
     }
 }
 
