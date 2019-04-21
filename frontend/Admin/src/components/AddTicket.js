@@ -4,7 +4,7 @@ import { Col, Row, Modal, Form, Button } from 'react-bootstrap';
 import '../css/reusable.css';
 import '../css/AddTicket.css';
 import { AppContext } from './globalContext/AppContext.js';
-import axios, { post } from 'axios';
+import axios from 'axios';
 
 
 class AddTicket extends React.Component {
@@ -82,6 +82,7 @@ class AddTicket extends React.Component {
                 {...this.props}
                 size="lg"
                 aria-labelledby="create-ticket-modal"
+                onExited={this.props.onExited}
                 centered
             >
                 <Modal.Header closeButton>

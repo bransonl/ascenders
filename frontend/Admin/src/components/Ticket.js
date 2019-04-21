@@ -29,6 +29,24 @@ class Ticket extends React.Component {
                 {value: 'Three'}
             ],
         };
+        this.handleRefresh = this.handleRefresh.bind(this);
+    }
+
+    handleRefresh() {
+        const token = 'Bearer ' + sessionStorage.getItem("token");
+        fetch('http://127.0.0.1:3000/tickets/admin', {
+            method: 'GET',
+            headers: {
+                'Authorization': token
+            },
+        })
+        .then(res => res.json())
+        .then(res => {
+            console.log("\nSetting state...");
+            this.setState({tickets: [...res]});
+            console.log("State is successfully set...\nTickets: ", this.state);
+        })
+        .catch(err => console.log(err));
     }
 
     componentDidMount() {
@@ -82,7 +100,8 @@ class Ticket extends React.Component {
                         </Button>
                         <AddLabel
                             show={this.state.labelModalShow}
-                            onHide={labelModalClose}/>
+                            onHide={labelModalClose}
+                            onExit={this.handleRefresh}/>
                     </div>
                     <div className="add-ticket right">
                         <Button
@@ -92,7 +111,8 @@ class Ticket extends React.Component {
                         </Button>
                         <AddTicket
                             show={this.state.ticketModalShow}
-                            onHide={ticketModalClose}/>
+                            onHide={ticketModalClose}
+                            onExited={this.handleRefresh}/>
                     </div>
 
 
@@ -108,7 +128,7 @@ class Ticket extends React.Component {
                 </Container>
                 <div className="body-container">
                     {this.state.tickets.map((ticket, index) => {
-                        const status = this.state.statuses[ticket.status];
+                        const status = this.state.statuses[ticket.status];                        
                         return (
                             <Container bsPrefix="ticket-container">
                                 <Link
