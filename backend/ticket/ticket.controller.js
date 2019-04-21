@@ -8,9 +8,12 @@ class TicketController {
         this.addAttachment = this.addAttachment.bind(this);
         this.closeTicket = this.closeTicket.bind(this);
 
-        this.getUserTickets = this.getUserTickets.bind(this);
+        this.getUserOpenTickets = this.getUserOpenTickets.bind(this);
+        this.getUserClosedTickets = this.getUserClosedTickets.bind(this);
         this.getLabelTickets = this.getLabelTickets.bind(this);
-        this.getAllTickets = this.getAllTickets.bind(this);
+
+        this.getAllOpenTickets = this.getAllOpenTickets.bind(this);
+        this.getAllClosedTickets = this.getAllClosedTickets.bind(this);
         this.getTicket = this.getTicket.bind(this);
 
         this.addAdmin = this.addAdmin.bind(this);
@@ -20,6 +23,7 @@ class TicketController {
 
         this._modifyTicket = this._modifyTicket.bind(this);
         this._getTicket = this._getTicket.bind(this);
+        this._beautifyDate = this._beautifyDate.bind(this);
     }
 
     async createTicket(req, res) {
@@ -79,11 +83,32 @@ class TicketController {
         }
     }
 
-    async getUserTickets(req, res) {
+    async _beautifyDate(getTicketsResult) {
+        var i;
+        for (i=0; i<getTicketsResult.length; i++) {
+            getTicketsResult[i].createdAt = getTicketsResult[i].createdAt.substring(0,10);
+            getTicketsResult[i].updatedAt = getTicketsResult[i].updatedAt.substring(0,10);
+        }
+        return getTicketsResult;
+    }
+
+    async getUserOpenTickets(req, res) {
         const username = req.user.username;
         try {
-            const getTicketsResult = await this._model.getUserTickets(username);
-            return res.status(200).send(getTicketsResult);
+            const getTicketsResult = await this._model.getUserOpenTickets(username);
+            const beautifiedResult = await this._beautifyDate(getTicketsResult);
+            return res.status(200).send(beautifiedResult);
+        } catch (err) {
+            return res.status(err.statusCode).json(err);
+        }
+    }
+
+    async getUserClosedTickets(req, res) {
+        const username = req.user.username;
+        try {
+            const getTicketsResult = await this._model.getUserClosedTickets(username);
+            const beautifiedResult = await this._beautifyDate(getTicketsResult);
+            return res.status(200).send(beautifiedResult);
         } catch (err) {
             return res.status(err.statusCode).json(err);
         }
@@ -110,16 +135,28 @@ class TicketController {
         }
         try {
             const getLabelTicketsResult = await this._model.getLabelTickets(labelType, labelId);
-            return res.status(200).send(getLabelTicketsResult);
+            const beautifiedResult = await this._beautifyDate(getLabelTicketsResult);
+            return res.status(200).send(beautifiedResult);
         } catch (err) {
             return res.status(err.statusCode).json(err);
         }
     }
 
-    async getAllTickets(req, res) {
+    async getAllOpenTickets(req, res) {
         try {
-            const getTicketsResult = await this._model.getAllTickets();
-            return res.status(200).send(getTicketsResult);
+            const getTicketsResult = await this._model.getAllOpenTickets();
+            const beautifiedResult = await this._beautifyDate(getTicketsResult);
+            return res.status(200).send(beautifiedResult);
+        } catch (err) {
+            return res.status(err.statusCode).json(err);
+        }
+    }
+
+    async getAllClosedTickets(req, res) {
+        try {
+            const getTicketsResult = await this._model.getAllClosedTickets();
+            const beautifiedResult = await this._beautifyDate(getTicketsResult);
+            return res.status(200).send(beautifiedResult);
         } catch (err) {
             return res.status(err.statusCode).json(err);
         }
@@ -279,7 +316,7 @@ class TicketController {
             return res.status(err.statusCode).json(err);
         }
         try {
-            const closeTicketResult = await this._modifyTicket(ticketId, {status:'k8nQSGO3BN'});
+            const closeTicketResult = await this._modifyTicket(ticketId, {status:'closed'});
             return res.status(200).send({
                 message: 'Ticket closed',
             });

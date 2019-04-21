@@ -20,7 +20,7 @@ async function createTicket(title,body,creator,attachments) {
             body,
             creator,
             attachments,
-            status: 'e0WoclRcZV', //labelId for open
+            status: 'open', //labelId for open
         },
         json: true,
     }
@@ -31,7 +31,7 @@ async function createTicket(title,body,creator,attachments) {
     }
 }
 
-async function getUserTickets(username) {
+async function getUserOpenTickets(username) {
     if (!username) {
         throw new ModelError(400, 'Missing fields');
     }
@@ -41,6 +41,29 @@ async function getUserTickets(username) {
         qs: {
             where: {
                 creator: username,
+                status: 'open'
+            },
+        },
+        headers: sharedHeaders,
+    };
+    try {
+        return JSON.parse(await request(options)).results;
+    } catch (err) {
+        throw new ModelError(err.statusCode, err.error.error);
+    }
+}
+
+async function getUserClosedTickets(username) {
+    if (!username) {
+        throw new ModelError(400, 'Missing fields');
+    }
+    const options = {
+        method: 'GET',
+        uri: ticketsClassPath,
+        qs: {
+            where: {
+                creator: username,
+                status: 'closed'
             },
         },
         headers: sharedHeaders,
@@ -77,11 +100,34 @@ async function getLabelTickets(labelType, labelId) {
     }
 }
 
-async function getAllTickets() {
+async function getAllOpenTickets() {
     const options = {
         method: 'GET',
         uri: ticketsClassPath,
         headers: sharedHeaders,
+        qs: {
+            where: {
+                status: 'open'
+            },
+        },
+    };
+    try {
+        return JSON.parse(await request(options)).results;
+    } catch (err) {
+        throw new ModelError(err.statusCode, err.error.error);
+    }
+}
+
+async function getAllClosedTickets() {
+    const options = {
+        method: 'GET',
+        uri: ticketsClassPath,
+        headers: sharedHeaders,
+        qs: {
+            where: {
+                status: 'closed'
+            },
+        },
     };
     try {
         return JSON.parse(await request(options)).results;
@@ -139,9 +185,12 @@ async function modifyTicket(ticketId, data) {
 
 module.exports = {
     createTicket,
-    getUserTickets,
+    getUserOpenTickets,
+    getUserClosedTickets,
     getLabelTickets,
-    getAllTickets,
+    
+    getAllOpenTickets,
+    getAllClosedTickets,
     getTicket,
     modifyTicket,
 }

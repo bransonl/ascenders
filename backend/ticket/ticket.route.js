@@ -19,20 +19,25 @@ function routes(app) {
     app.route('/tickets')
     .post(
         auth.validateTokenMiddleware,
-        ticketController.createTicket
+        ticketController.createTicket,
     )
     app.route('/tickets/upload/:ticketId')
     .put(
         auth.validateTokenMiddleware,
         awsController.uploadFile,
-        ticketController.addAttachment
+        ticketController.addAttachment,
     );
 
     //get tickets
     app.route('/tickets/user')
     .get(
         auth.validateTokenMiddleware,
-        ticketController.getUserTickets
+        ticketController.getUserOpenTickets,
+    );
+    app.route('/tickets/user/closed')
+    .get(
+        auth.validateTokenMiddleware,
+        ticketController.getUserClosedTickets,
     );
     app.route('/tickets/label')
     .get(
@@ -44,19 +49,25 @@ function routes(app) {
     .get(
         auth.validateTokenMiddleware,
         auth.createRoleCheck('admin'),
-        ticketController.getAllTickets
+        ticketController.getAllOpenTickets,
+    )
+    app.route('/tickets/admin/closed')
+    .get(
+        auth.validateTokenMiddleware,
+        auth.createRoleCheck('admin'),
+        ticketController.getAllClosedTickets,
     )
     app.route('/tickets/:ticketId')
     .get(
         auth.validateTokenMiddleware,
-        ticketController.getTicket
+        ticketController.getTicket,
     );
 
     //close ticket
     app.route('/tickets/close/:ticketId')
     .put(
         auth.validateTokenMiddleware,
-        ticketController.closeTicket
+        ticketController.closeTicket,
     );
 
     //filtering
@@ -64,7 +75,7 @@ function routes(app) {
     .put(
         auth.validateTokenMiddleware,
         auth.createRoleCheck('admin'),
-        ticketController.addAdmin
+        ticketController.addAdmin,
     );
     app.route('/tickets/addtag/:ticketId')
     .put(
