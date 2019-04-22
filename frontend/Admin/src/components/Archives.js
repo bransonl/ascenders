@@ -65,11 +65,12 @@ class Archives extends React.Component {
             <div className="ticket-wrapper">
                 <Container bsPrefix="header-container">
                     <Row>
-                        <Col>Date Submitted</Col>
-                        <Col>Creator</Col>
+                        <Col md={2}>Date Submitted</Col>
+                        <Col md={2}>Creator</Col>
                         <Col md={4}>Title</Col>
                         <Col>Status</Col>
-                        <Col>Action</Col>
+                        <Col>Tag</Col>
+                        <Col>Priority</Col>
                     </Row>
                 </Container>
                 <div className="body-container">
@@ -84,16 +85,12 @@ class Archives extends React.Component {
                                     }}
                                 >
                                     <Row>
-                                        <Col>{ticket.createdAt}</Col>
-                                        <Col>{ticket.creator}</Col>
-                                        <Col md={4}>
-                                            {ticket.title}
-                                        </Col>
+                                        <Col className="text-center" md={2}>{ticket.createdAt}</Col>
+                                        <Col className="text-center" md={2}>{ticket.creator}</Col>
+                                        <Col md={4}>{ticket.title}</Col>
                                         <Col>{ticket.status}</Col>
-                                        <Col>
-                                            <MdCreate className="options-icon" />
-                                            <MdClose className="options-icon"/>
-                                        </Col>
+                                        <Col>Tag</Col>
+                                        <Col>Priority</Col>
                                     </Row>
                                 </Link>
                             </Container>

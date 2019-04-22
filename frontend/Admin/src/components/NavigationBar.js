@@ -1,11 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Modal, Button, Nav, Navbar, Row, Col } from 'react-bootstrap';
+import { Modal, Button, Nav, Navbar } from 'react-bootstrap';
 import logo from './resources/accenture-purple-logo.png'
 import IosNotifications from 'react-ionicons/lib/IosNotifications'
-import IosListBox from 'react-ionicons/lib/IosListBox'
 import IosContact from 'react-ionicons/lib/IosContact'
-import axios from 'axios';
 
 import '../css/reusable.css';
 import '../css/NavigationBar.css';
@@ -16,6 +14,7 @@ class NavigationBar extends React.Component {
         super(props);
         this.state = {
             showAccount: false,
+            showNotification: false,
         };
     }
 
@@ -33,10 +32,20 @@ class NavigationBar extends React.Component {
                     onSelect={selectedKey => console.log(`${selectedKey} is clicked`)}
                 >
                     <Nav.Item>
-                        <a className="nav-link"><IosNotifications className="nav-icons"/></a>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <a className="nav-link"><IosListBox className="nav-icons"/></a>
+                        <a className="nav-link" onClick={() => {this.setState({showNotification: true})}}><IosNotifications className="nav-icons"/></a>
+                        <Modal
+                            bsPrefix="modal"
+                            show={this.state.showNotification}
+                            onHide={() => {this.setState({showNotification: false})}}
+                            backdrop={false}
+                            size='lg'>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Notification</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                Fill me with list
+                            </Modal.Body>
+                        </Modal>
                     </Nav.Item>
                     <Nav.Item>
                         <a className="nav-link" onClick={() => {this.setState({showAccount: true})}}><IosContact className="nav-icons"/></a>
