@@ -90,11 +90,9 @@ class ArchivesPreview extends React.Component {
                             {this.state.preview.attachments !== "" &&                
                                 <div className="attachment--ticketpreview">
                                     <IosAttach className="icon--ticketpreview" onClick={this.handleShow}/>
-
                                     <Modal show={this.state.showAttachment} onHide={this.handleClose}>
                                         <Modal.Body><Image src={this.state.preview.attachments} className="img--ticketpreview"/></Modal.Body>
                                     </Modal>
-
                                 </div>                      
                             }
                             <div className="tickettitle--ticketpreview">
@@ -113,7 +111,7 @@ class ArchivesPreview extends React.Component {
                             </div>
                         </div>
                     </div>
-                    
+                
                 </div>
                 <div className="body-ticketpreview">
                     <div className="body--ticketpreview">
@@ -121,18 +119,31 @@ class ArchivesPreview extends React.Component {
                     </div>
          
                 </div>
-                <div className="preview-ticketpreview">
+                <div className="preview-labelpreview">
                     
                     {this.state.replies.map((reply, index) => {
-                        return (
-                            <div className="replies-container--ticketpreview" key={index}>
-                                <div className="replies--ticketpreview">
-                                    <p><span className="sender">{reply.sender}</span><br/>
-                                    {reply.message}</p>
-                                    <p className="sender--createdAt">{reply.createdAt}</p>
+                        if (reply.sender === this.state.preview.creator) {
+                            return (
+                                <div className="replies-container-user--ticketpreview" key={index}>
+                                    <div className="replies--ticketpreview">
+                                        <p><span className="creator">{reply.sender}</span><br/>
+                                        {reply.message}</p>
+                                        <p className="sender--createdAt">{reply.createdAt}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        );
+                            );
+                        } else {
+                            return (
+                                <div className="replies-container--ticketpreview" key={index}>
+                                    <div className="replies--ticketpreview">
+                                        <p><span className="sender">{reply.sender}</span><br/>
+                                        {reply.message}</p>
+                                        <p className="sender--createdAt">{reply.createdAt}</p>
+                                    </div>
+                                </div>
+                            );
+                        }
+                        
                     })}
                     
                 </div>

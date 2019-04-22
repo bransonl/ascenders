@@ -22,7 +22,6 @@ class AddLabel extends React.Component {
 
         const labelType = e.target.elements.labelType.value;
         const labelName = e.target.elements.labelName.value;
-        console.log(labelType, labelName);
         const token = 'Bearer ' + sessionStorage.getItem("token");
         const url = `http://127.0.0.1:3000/label/${labelType}`
 
@@ -59,7 +58,6 @@ class AddLabel extends React.Component {
     }
 
     render() {
-        console.log("\nRendering...");
         return (
             <Modal
                 {...this.props}

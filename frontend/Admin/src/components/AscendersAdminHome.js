@@ -7,6 +7,8 @@ import Ticket from './Ticket.js';
 import TicketPreview from './TicketPreview';
 import Archives from './Archives.js';
 import ArchivesPreview from './ArchivesPreview';
+import User from './User';
+import UserPreview from './UserPreview';
 import NotFoundPage from './NotFoundPage';
 import '../css/reusable.css';
 import '../css/AscendersAdminHome.css';
@@ -30,6 +32,8 @@ class AscendersAdminHome extends React.Component {
                                 <Route exact path="/archive" component={Archives}/>
                                 <Route exact path="/tickets/preview/:ticketId" component={TicketPreview}/>
                                 <Route exact path="/archive/preview/:ticketId" component={ArchivesPreview}/>
+                                <Route exact path="/users" component={User}/>
+                                <Route exact path="/users/:userId" component={UserPreview}/>
                                 <Route component={NotFoundPage}/>
                             </Switch>
                         </div>

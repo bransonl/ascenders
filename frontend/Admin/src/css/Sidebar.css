@@ -38,7 +38,8 @@
     fill: var(--text-on-black);
 }
 .sidebar-nav-link-list a:hover,
-.sidebar-nav-link-list a:focus {
+.sidebar-nav-link-list a:focus,
+.sidebar-nav-link-list a:active {
     background-color: var(--primary-color);
     color: var(--secondary-color);
     fill: var(--secondary-color);
