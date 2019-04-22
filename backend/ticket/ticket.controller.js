@@ -88,7 +88,6 @@ class TicketController {
         try {
             const getTicketsResult = await this._model.getUserOpenTickets(username);
             const beautifiedResult = await this._beautifyDate(getTicketsResult);
-            console.log(beautifiedResult);
             return res.status(200).send(beautifiedResult);
         } catch (err) {
             return res.status(err.statusCode).json(err);
