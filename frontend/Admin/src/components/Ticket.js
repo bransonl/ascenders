@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Button, Dropdown } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import MdCreate from 'react-ionicons/lib/MdCreate';
 import MdClose from 'react-ionicons/lib/MdClose';
 
@@ -22,19 +22,13 @@ class Ticket extends React.Component {
             preview: null,
             statuses: {},
 
-            selectedLabel: [],
-            filterLabel: [
-                {value: 'One'},
-                {value: 'Two'},
-                {value: 'Three'}
-            ],
         };
         this.handleRefresh = this.handleRefresh.bind(this);
     }
 
     handleRefresh() {
         const token = 'Bearer ' + sessionStorage.getItem("token");
-        fetch('http://127.0.0.1:3000/tickets/admin', {
+        fetch(`http://${this.context.apiUri}/tickets/admin`, {
             method: 'GET',
             headers: {
                 'Authorization': token
@@ -51,11 +45,9 @@ class Ticket extends React.Component {
 
     componentDidMount() {
         console.log("Ticket component mounted...")
-        console.log("Current context: ", this.context);
-
         // const token = 'Bearer ' + this.context.token
         const token = 'Bearer ' + sessionStorage.getItem("token");
-        fetch('http://127.0.0.1:3000/tickets/admin', {
+        fetch(`http://${this.context.apiUri}/tickets/admin`, {
             method: 'GET',
             headers: {
                 'Authorization': token
@@ -66,22 +58,6 @@ class Ticket extends React.Component {
             console.log("\nSetting state...");
             this.setState({tickets: [...res]});
             console.log("State is successfully set...\nTickets: ", this.state);
-        })
-        .catch(err => console.log(err));
-
-        fetch('http://127.0.0.1:3000/label/status', {
-            method: 'GET',
-            headers: {
-                Authorization: token,
-            },
-        })
-        .then(res => res.json())
-        .then(res => {
-            const statuses = {};
-            res.forEach(status => {
-                statuses[status.objectId] = status;
-            });
-            this.setState({statuses});
         })
         .catch(err => console.log(err));
     }
@@ -101,7 +77,8 @@ class Ticket extends React.Component {
                         <AddLabel
                             show={this.state.labelModalShow}
                             onHide={labelModalClose}
-                            onExit={this.handleRefresh}/>
+                            onExit={this.handleRefresh}
+                            autoFocus/>
                     </div>
                     <div className="add-ticket right">
                         <Button
@@ -112,7 +89,8 @@ class Ticket extends React.Component {
                         <AddTicket
                             show={this.state.ticketModalShow}
                             onHide={ticketModalClose}
-                            onExited={this.handleRefresh}/>
+                            onExited={this.handleRefresh}
+                            autoFocus/>
                     </div>
 
 
@@ -123,12 +101,11 @@ class Ticket extends React.Component {
                         <Col>Creator</Col>
                         <Col md={4}>Title</Col>
                         <Col>Status</Col>
-                        <Col>Action</Col>
+                        <Col>Label</Col>
                     </Row>
                 </Container>
                 <div className="body-container">
                     {this.state.tickets.map((ticket, index) => {
-                        const status = this.state.statuses[ticket.status];                        
                         return (
                             <Container bsPrefix="ticket-container">
                                 <Link
@@ -144,7 +121,7 @@ class Ticket extends React.Component {
                                         <Col md={4}>
                                             {ticket.title}
                                         </Col>
-                                        <Col>{status ? status.name : ""}</Col>
+                                        <Col>{ticket.status}</Col>
                                         <Col>
                                             <MdCreate className="options-icon" />
                                             <MdClose className="options-icon"/>

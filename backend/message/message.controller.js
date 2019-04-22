@@ -6,6 +6,8 @@ class MessageController {
         this.addMessageToTicket = this.addMessageToTicket.bind(this);
         this.getCommentsByTicket = this.getCommentsByTicket.bind(this);
         this.addCommentToTicket = this.addCommentToTicket.bind(this);
+
+        this._beautifyDate = this._beautifyDate.bind(this);
     }
 
     async addMessageToTicket(ticketId, type, messageId) {
@@ -37,7 +39,8 @@ class MessageController {
             if (result === null) {
                 return res.json({messages: []})
             }
-            return res.json(result);
+            const beautifiedResult = await this._beautifyDate(result);
+            return res.json(beautifiedResult);
         } catch (err) {
             console.error(err.error);
             return res.status(500).send();
@@ -77,6 +80,16 @@ class MessageController {
             console.error(err.error);
             return res.status(500).send();
         }
+    }
+
+    async _beautifyDate(getMessagesResult) {
+        var i;
+        for (i=0; i<getMessagesResult.length; i++) {
+            const message = getMessagesResult[i];
+            getMessagesResult[i].createdAt = message.createdAt.substring(0,10) + ' ' + message.createdAt.substring(11,19);
+            getMessagesResult[i].updatedAt = message.updatedAt.substring(0,10) + ' ' + message.updatedAt.substring(11,19);
+        }
+        return getMessagesResult;
     }
 }
 

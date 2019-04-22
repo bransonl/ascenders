@@ -83,15 +83,6 @@ class TicketController {
         }
     }
 
-    async _beautifyDate(getTicketsResult) {
-        var i;
-        for (i=0; i<getTicketsResult.length; i++) {
-            getTicketsResult[i].createdAt = getTicketsResult[i].createdAt.substring(0,10);
-            getTicketsResult[i].updatedAt = getTicketsResult[i].updatedAt.substring(0,10);
-        }
-        return getTicketsResult;
-    }
-
     async getUserOpenTickets(req, res) {
         const username = req.user.username;
         try {
@@ -369,6 +360,16 @@ class TicketController {
             }
             throw new ModelError(err.statusCode, err.error.error);
         }
+    }
+    
+    async _beautifyDate(getTicketsResult) {
+        var i;
+        for (i=0; i<getTicketsResult.length; i++) {
+            const ticket = getTicketsResult[i];
+            getTicketsResult[i].createdAt = ticket.createdAt.substring(0,10) + ' ' + ticket.createdAt.substring(11,19);
+            getTicketsResult[i].updatedAt = ticket.updatedAt.substring(0,10) + ' ' + ticket.updatedAt.substring(11,19);
+        }
+        return getTicketsResult;
     }
 }
 

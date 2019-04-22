@@ -22,6 +22,11 @@ function routes(app) {
         );
 
     app.route('/users')
+        .get( // Get all the users
+            auth.validateTokenMiddleware,
+            auth.createRoleCheck('admin'),
+            controller.getAllUsers,
+        )
         .post( // Register a user
             auth.validateTokenMiddleware,
             auth.createRoleCheck('admin'),

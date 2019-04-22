@@ -21,7 +21,7 @@ class AddLabel extends React.Component {
         e.preventDefault();
         const title = e.target.elements.title.value;
         const body = e.target.elements.description.value;
-        fetch('http://127.0.0.1:3000/tickets', {
+        fetch(`http://${this.context.apiUri}/tickets`, {
             method: 'POST',
             headers: {
                 'Authorization': 'Bearer ' + this.context.token,
@@ -51,16 +51,16 @@ class AddLabel extends React.Component {
                     <Modal.Title id="create-ticket-modal">Create Label</Modal.Title>
                 </Modal.Header>
                 <Form onSubmit={this.submitTicket}>
-                    <Modal.Body>                   
+                    <Modal.Body>
                         <Form.Group as={Row}>
                             <Form.Label column sm="2">Label Name</Form.Label>
                             <Col sm="10">
                                 <Form.Control
-                                    name="title" 
-                                    type="text" 
+                                    name="title"
+                                    type="text"
                                     placeholder="Enter label" />
                             </Col>
-                        </Form.Group>                     
+                        </Form.Group>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.props.onHide}>Cancel</Button>

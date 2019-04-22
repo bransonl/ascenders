@@ -8,7 +8,7 @@ import { Form, Button } from 'react-bootstrap';
 import '../css/reusable.css';
 import '../css/AscendersAdminLogin.css';
 
-import {AppContext} from './globalContext/AppContext.js';
+import { AppContext } from './globalContext/AppContext.js';
 
 class AscendersAdminLogin extends React.Component {
     constructor(props) {
@@ -23,7 +23,7 @@ class AscendersAdminLogin extends React.Component {
         const password = e.target.elements.password.value;
         if (username !== null && password !== null) {
             console.log("Fetching from API...");
-            fetch('http://127.0.0.1:3000/login', {
+            fetch(`http://${this.context.apiUri}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -35,12 +35,10 @@ class AscendersAdminLogin extends React.Component {
                 console.log("Response: ", res);
                 if (res.token !== undefined) {
 
-                    this.context.isAuthenticated = true;
                     this.context.token = res.token;
                     this.context.username = res.username;
                     this.context.role = res.role;
 
-                    sessionStorage.setItem("isAuthenticated", true);
                     sessionStorage.setItem("token", res.token);
                     sessionStorage.setItem("username", res.username);
                     sessionStorage.setItem("role", res.role);
@@ -61,7 +59,7 @@ class AscendersAdminLogin extends React.Component {
 
     render() {
         console.log("\nRendering login page...");
-        if (sessionStorage.getItem("isAuthenticated") === "true") {
+        if (sessionStorage.getItem("token")) {
             console.log("Authenticated...");
             return (<Redirect to="/"/>);
         } else {
@@ -94,7 +92,6 @@ class AscendersAdminLogin extends React.Component {
                                     name="username"
                                     placeholder="Enter username"
                                     autoFocus= {true}
-
                                     required />
                                 </div>
                             </Form.Group>

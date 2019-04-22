@@ -8,6 +8,7 @@
 }
 .action-bar,
 .ticket-container,
+.user-container,
 .header-container {
     display: flex;
     flex-direction: column;
@@ -15,14 +16,22 @@
     padding: 0.5rem 1rem;
 
     font-size: 80%;
-    text-align: left;
     color: var(--text-on-black2);
+}
+.action-bar,
+.ticket-container,
+.header-container {
+    text-align: left
+}
+.user-container {
+    text-align: center;
 }
 .header-container {
     border-bottom: 1px solid var(--primary-color);  
     text-align: center;
     min-height: fit-content;
 }
+.user-container:hover,
 .ticket-container:hover {
     text-decoration: none;
     background-color: #2a2d2e;
@@ -35,6 +44,7 @@
 .link--text:hover {
     color: var(--primary-color);
     text-decoration: none;
+    cursor: pointer;
 }
 
 .options-icon {

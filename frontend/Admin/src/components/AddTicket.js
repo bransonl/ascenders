@@ -33,7 +33,7 @@ class AddTicket extends React.Component {
         if (title === "" || body === "") {
             alert("Please fill the title/body!");
         } else {
-            fetch('http://127.0.0.1:3000/tickets', {
+            fetch(`http://${this.context.apiUri}/tickets`, {
                 method: 'POST',
                 headers: {
                     'Authorization': token,
@@ -45,13 +45,11 @@ class AddTicket extends React.Component {
             .then(res => {
                 this.setState({title, body, ticketId: res.objectId});
                 if (this.state.file !== "") {
-                    console.log("\n Trying to upload file...");
+                    console.log("\nTrying to upload file...");
                     this.handleFileUpload(this.state.file)
-                    .then((res) => {
-                        console.log(res);
-                    }) 
+                    .then((res) => console.log("Response: ", res))
                 }
-                console.log("Ticket submited!\nCurrent state: ", this.state);     
+                console.log("Ticket submited!\nCurrent state: ", this.state);
             })
             .catch(err => console.log(err));
         }
@@ -65,7 +63,7 @@ class AddTicket extends React.Component {
         // const token = 'Bearer ' + this.context.token
         console.log("Handling file upload...");
         const token = 'Bearer ' + sessionStorage.getItem("token");
-        const url = `http://127.0.0.1:3000/tickets/upload/${this.state.ticketId}`;
+        const url = `http://${this.context.apiUri}/tickets/upload/${this.state.ticketId}`;
         let formData = new FormData();
         formData.append('file',file);
         const config = {
@@ -89,38 +87,41 @@ class AddTicket extends React.Component {
                     <Modal.Title id="create-ticket-modal">Create Ticket</Modal.Title>
                 </Modal.Header>
                 <Form onSubmit={this.submitTicket}>
-                    <Modal.Body>                   
+                    <Modal.Body>
                         <Form.Group as={Row}>
                             <Form.Label column sm="2">Title</Form.Label>
                             <Col sm="10">
                                 <Form.Control
-                                    name="title" 
-                                    type="text" 
-                                    placeholder="Enter title" />
+                                    autoFocus
+                                    name="title"
+                                    type="text"
+                                    placeholder="Enter title"
+                                    required/>
                             </Col>
-                        </Form.Group>   
+                        </Form.Group>
                         <Form.Group as={Row}>
                             <Form.Label column sm="2">Description</Form.Label>
                             <Col sm="10">
-                                <Form.Control 
-                                    as="textarea" 
+                                <Form.Control
+                                    as="textarea"
                                     name="description"
                                     type="text"
                                     placeholder="Enter Description"
-                                    bsPrefix="form-control-textarea form-control"/>
-                            </Col>    
+                                    bsPrefix="form-control-textarea form-control"
+                                    required/>
+                            </Col>
                         </Form.Group>
                         <Form.Group as={Row}>
                             <Form.Label column sm="2">Upload</Form.Label>
                             <Col sm="10">
-                                <Form.Control 
+                                <Form.Control
                                     id="formControlsFile"
                                     type="file"
                                     multiple
                                     label="File"
                                     onChange={this.onChange}/>
                             </Col>
-                        </Form.Group>                    
+                        </Form.Group>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.props.onHide}>Cancel</Button>

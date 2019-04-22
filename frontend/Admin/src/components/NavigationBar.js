@@ -1,10 +1,11 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Modal, Button, Nav, OverlayTrigger, Popover, Navbar } from 'react-bootstrap';
+import { Modal, Button, Nav, Navbar, Row, Col } from 'react-bootstrap';
 import logo from './resources/accenture-purple-logo.png'
 import IosNotifications from 'react-ionicons/lib/IosNotifications'
 import IosListBox from 'react-ionicons/lib/IosListBox'
 import IosContact from 'react-ionicons/lib/IosContact'
+import axios from 'axios';
 
 import '../css/reusable.css';
 import '../css/NavigationBar.css';
@@ -13,19 +14,11 @@ import { AppContext } from './globalContext/AppContext';
 class NavigationBar extends React.Component {
     constructor(props) {
         super(props);
-        this.handleAccountOpen = this.handleAccountOpen.bind(this);
-        this.handleAccountClose = this.handleAccountClose.bind(this);
         this.state = {
             showAccount: false,
         };
     }
 
-    handleAccountOpen() {
-        this.setState({showAccount: true});
-    }
-    handleAccountClose() {
-        this.setState({showAccount: false});
-    }
 
     render() {
         return (
@@ -46,18 +39,22 @@ class NavigationBar extends React.Component {
                         <a className="nav-link"><IosListBox className="nav-icons"/></a>
                     </Nav.Item>
                     <Nav.Item>
-                        <a className="nav-link" onClick={this.handleAccountOpen}><IosContact className="nav-icons"/></a>
-                        <Modal 
-                            show={this.state.showAccount} 
-                            onHide={this.handleAccountClose}
+                        <a className="nav-link" onClick={() => {this.setState({showAccount: true})}}><IosContact className="nav-icons"/></a>
+                        <Modal
+                            bsPrefix="modal"
+                            show={this.state.showAccount}
+                            onHide={() => {this.setState({showAccount: false})}}
                             backdrop={false}
-                            size='sm'>
+                            size='lg'>
                             <Modal.Header closeButton>
                                 <Modal.Title>Account</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                <Button onClick={this.context.logout}>Sign out</Button>
+                                I am empty inside
                             </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={this.context.logout}>Sign out</Button>
+                            </Modal.Footer>
                         </Modal>
                     </Nav.Item>
                 </Nav>

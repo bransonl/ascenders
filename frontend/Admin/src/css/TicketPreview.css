@@ -115,21 +115,31 @@
     color: var(--info-blue);
 }
 
+.preview-labelpreview,
 .preview-ticketpreview {
     flex: 1 0 62%;
-    /* max-height: 62%; */
-    max-height: 56%;
     display: flex;
     flex-direction: column;
     padding: 0.5rem 1rem;
 
     overflow: auto;
 }
-
+.preview-labelpreview {
+    max-height: 66%;
+}
+.preview-ticketpreview {
+    /* max-height: 62%; */
+    max-height: 56%;
+}
+.replies-container-user--ticketpreview,
 .replies-container--ticketpreview {
     margin: 0;
     flex: 0 0 auto;
     overflow: hidden;
+}
+.replies-container-user--ticketpreview {
+    display: flex;
+    justify-content: flex-end;
 }
 .replies--ticketpreview {
     flex: 0 1 auto;
@@ -145,6 +155,10 @@
 }
 .sender {
     color: var(--success-green);
+    font-weight: 600;
+}
+.creator {
+    color: var(--danger-red);
     font-weight: 600;
 }
 .sender--createdAt {

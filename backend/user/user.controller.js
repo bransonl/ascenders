@@ -10,6 +10,7 @@ class UserController {
         this.register = this.register.bind(this);
         this.checkToken = this.checkToken.bind(this);
         this.getAdmins = this.getAdmins.bind(this);
+        this.getAllUsers = this.getAllUsers.bind(this);
     }
 
     async checkToken(req, res) {
@@ -48,8 +49,8 @@ class UserController {
     }
 
     async register(req, res) {
-        const {username, password, role} = req.body;
-        if (!username || !password || !role) {
+        const {username, password, role, email} = req.body;
+        if (!username || !password || !role || !email) {
             const fieldsMissing = [];
             if (!username) {
                 fieldsMissing.push('username');
@@ -59,6 +60,9 @@ class UserController {
             }
             if (!role) {
                 fieldsMissing.push('role');
+            }
+            if (!email) {
+                fieldsMissing.push('email');
             }
             return res.status(400).json({
                 message: `Missing ${fieldsMissing.join(', ')}`,
@@ -77,6 +81,16 @@ class UserController {
             const getAdminsResult = await this._model.getAdmins();
             return res.status(200).json(getAdminsResult);
         } catch(err) {
+            throw res.status(err.statusCode).json(err);
+        }
+    }
+
+    async getAllUsers(req, res) {
+        try {
+            const result = await this._model.getAllUsers();
+            return res.status(200).json(result);
+        } catch (err) {
+            console.error(err);
             throw res.status(err.statusCode).json(err);
         }
     }

@@ -54,7 +54,8 @@ async function logout(sessionToken) {
     }
 }
 
-async function register(username, password, role, email) {
+async function register(data) {
+    const {username, password, role, email} = data;
     if (!username || !password || !role || !email) {
         throw new ModelError(400, 'Missing fields');
     }
@@ -141,6 +142,20 @@ async function getAdmins() {
     }
 }
 
+async function getAllUsers() {
+    const options = {
+        method: 'GET',
+        uri: `${apiEndpoint}/users`,
+        headers: sharedHeaders,
+        json: true,
+    };
+    try {
+        return (await request(options)).results.map(createUserObject);
+    } catch (err) {
+        throw new ModelError(500, `Database call failed ${err.error.error}`);
+    }
+}
+
 module.exports = {
     createUserObject,
     login,
@@ -149,4 +164,5 @@ module.exports = {
     getUserById,
     getUserByUsername,
     getAdmins,
+    getAllUsers,
 }
