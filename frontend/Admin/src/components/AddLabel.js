@@ -23,7 +23,7 @@ class AddLabel extends React.Component {
         const labelType = e.target.elements.labelType.value;
         const labelName = e.target.elements.labelName.value;
         const token = 'Bearer ' + sessionStorage.getItem("token");
-        const url = `http://127.0.0.1:3000/label/${labelType}`
+        const url = `http://${this.context.apiUri}/label/${labelType}`
 
         if (labelType === 'tag') {
             fetch(url, {
@@ -54,7 +54,7 @@ class AddLabel extends React.Component {
             .then(res => console.log(res))
             .catch(err => console.log(err));
         }
-        
+
     }
 
     render() {
@@ -69,28 +69,28 @@ class AddLabel extends React.Component {
                     <Modal.Title id="create-ticket-modal">Create Label</Modal.Title>
                 </Modal.Header>
                 <Form onSubmit={this.submitLabel}>
-                    <Modal.Body>   
+                    <Modal.Body>
                         <Form.Group as={Row}>
                             <Form.Label column sm="2">Label Type</Form.Label>
                             <Col sm="10">
-                                <Form.Control as="select" 
+                                <Form.Control as="select"
                                 name="labelType"
                                 onChange={(e) => {
                                     this.state.selectedLabelType= e.target.value;
                                     this.forceUpdate();
                                 }}>
-                                    <option value="status">Status</option>    
-                                    <option value="priority">Priority</option>    
+                                    <option value="status">Status</option>
+                                    <option value="priority">Priority</option>
                                     <option value="tag">Tag</option>
-                                </Form.Control>    
+                                </Form.Control>
                             </Col>
-                        </Form.Group>                 
+                        </Form.Group>
                         <Form.Group as={Row}>
                             <Form.Label column sm="2">Label Name</Form.Label>
                             <Col sm="10">
                                 <Form.Control
-                                    name="labelName" 
-                                    type="text" 
+                                    name="labelName"
+                                    type="text"
                                     placeholder="Enter label name"
                                     required/>
                             </Col>
@@ -103,15 +103,15 @@ class AddLabel extends React.Component {
                                         <InputGroup.Prepend>
                                             <InputGroup.Text id="basic-addon1">#</InputGroup.Text>
                                         </InputGroup.Prepend>
-                                    
+
                                     <Form.Control
                                         name="labelColor"
-                                        type="text" 
+                                        type="text"
                                         placeholder="Enter color in hex" />
                                     </InputGroup>
                                 </Col>
                             </Form.Group>
-                        }  
+                        }
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.props.onHide}>Cancel</Button>

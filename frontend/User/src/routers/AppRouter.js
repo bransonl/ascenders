@@ -15,7 +15,6 @@ class AppRouter extends React.Component {
             username: sessionStorage.getItem("username"),
             role: sessionStorage.getItem("role"),
             token: sessionStorage.getItem("token"),
-            isAuthenticated: sessionStorage.getItem("isAuthenticated"),
             logout: this.logout
         };
     }
@@ -25,7 +24,7 @@ class AppRouter extends React.Component {
         console.log(this.state);
         // const token = 'Bearer ' + this.context.token
         const token = 'Bearer ' + sessionStorage.getItem("token");
-        fetch('http://127.0.0.1:3000/logout', {
+        fetch(`http://${this.context.apiUri}/logout`, {
             method: 'POST',
             headers: {
                 'Authorization': token,
@@ -37,13 +36,14 @@ class AppRouter extends React.Component {
                 username: undefined,
                 role: undefined,
                 token: undefined,
-                isAuthenticated: false
             });
             console.log("\n Logging out...");
         })
         .catch(err => console.log(err));
         sessionStorage.clear();
-        this.context = {};
+        delete this.context.username;
+        delete this.context.role;
+        delete this.context.token;
         this.forceUpdate();
     }
 

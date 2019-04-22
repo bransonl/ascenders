@@ -29,7 +29,7 @@ class TicketPreview extends React.Component {
         e.preventDefault();
         console.log("\nResolving ticket...");
         const token = 'Bearer ' + sessionStorage.getItem("token");
-        const url = `http://127.0.0.1:3000/tickets/close/${this.state.preview.objectId}`
+        const url = `http://${this.context.apiUri}/tickets/close/${this.state.preview.objectId}`
         axios.put(url, null, {
             headers: {
                 Authorization: token
@@ -51,7 +51,7 @@ class TicketPreview extends React.Component {
             console.log("Message submitted.\nFetching from API...");
             // const token = 'Bearer ' + this.context.token
             const token = 'Bearer ' + sessionStorage.getItem("token");
-            const url = `http://127.0.0.1:3000/tickets/${this.state.preview.objectId}/comments`;
+            const url = `http://${this.context.apiUri}/tickets/${this.state.preview.objectId}/comments`;
             axios.post(url, {
                 message: sendMessage
             }, {
@@ -87,7 +87,7 @@ class TicketPreview extends React.Component {
         console.log("\nTicket preview is mounted...")
         const{match: {params}} = this.props;
         const token = 'Bearer ' + sessionStorage.getItem("token");
-        const url = `http://127.0.0.1:3000/tickets/${params.ticketId}`;
+        const url = `http://${this.context.apiUri}/tickets/${params.ticketId}`;
         axios.get(url, {
             headers: {
                 Authorization: token
@@ -101,7 +101,7 @@ class TicketPreview extends React.Component {
         .then(res => {
             console.log("Retrieving ticket comments...");
             const token = 'Bearer ' + sessionStorage.getItem("token");
-            const replyURL = `http://127.0.0.1:3000/tickets/${params.ticketId}/comments`;
+            const replyURL = `http://${this.context.apiUri}/tickets/${params.ticketId}/comments`;
             axios.get(replyURL, {
                 headers: {
                     Authorization: token

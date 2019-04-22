@@ -49,8 +49,8 @@ class UserController {
     }
 
     async register(req, res) {
-        const {username, password, role} = req.body;
-        if (!username || !password || !role) {
+        const {username, password, role, email} = req.body;
+        if (!username || !password || !role || !email) {
             const fieldsMissing = [];
             if (!username) {
                 fieldsMissing.push('username');
@@ -60,6 +60,9 @@ class UserController {
             }
             if (!role) {
                 fieldsMissing.push('role');
+            }
+            if (!email) {
+                fieldsMissing.push('email');
             }
             return res.status(400).json({
                 message: `Missing ${fieldsMissing.join(', ')}`,

@@ -41,8 +41,8 @@ class NavigationBar extends React.Component {
                     <Nav.Item>
                         <a className="nav-link" onClick={() => {this.setState({showAccount: true})}}><IosContact className="nav-icons"/></a>
                         <Modal
-                            bsPrefix="modal" 
-                            show={this.state.showAccount} 
+                            bsPrefix="modal"
+                            show={this.state.showAccount}
                             onHide={() => {this.setState({showAccount: false})}}
                             backdrop={false}
                             size='lg'>

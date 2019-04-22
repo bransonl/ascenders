@@ -28,7 +28,7 @@ class Ticket extends React.Component {
 
         // const token = 'Bearer ' + this.context.token
         const token = 'Bearer ' + sessionStorage.getItem("token");
-        fetch('http://127.0.0.1:3000/tickets/user', {
+        fetch(`http://${this.context.apiUri}/tickets/user`, {
             method: 'GET',
             headers: {
                 'Authorization': token

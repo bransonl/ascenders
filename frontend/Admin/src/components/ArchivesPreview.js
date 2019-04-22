@@ -26,7 +26,7 @@ class ArchivesPreview extends React.Component {
         const{match: {params}} = this.props;
         // const token = 'Bearer ' + this.context.token
         const token = 'Bearer ' + sessionStorage.getItem("token");
-        const url = `http://127.0.0.1:3000/tickets/${params.ticketId}`;
+        const url = `http://${this.context.apiUri}/tickets/${params.ticketId}`;
         axios.get(url, {
             headers: {
                 Authorization: token
@@ -41,7 +41,7 @@ class ArchivesPreview extends React.Component {
             console.log("Retrieving ticket comments...");
             // const token = 'Bearer ' + this.context.token
             const token = 'Bearer ' + sessionStorage.getItem("token");
-            const replyURL = `http://127.0.0.1:3000/tickets/${params.ticketId}/comments`;
+            const replyURL = `http://${this.context.apiUri}/tickets/${params.ticketId}/comments`;
             axios.get(replyURL, {
                 headers: {
                     Authorization: token
@@ -73,7 +73,7 @@ class ArchivesPreview extends React.Component {
 
                 <div className="profile-ticketpreview">
                     <Media>
-                        <Image 
+                        <Image
                             className="avatar--ticketpreview"
                             src={`https://avatars3.githubusercontent.com/u/40631483?s=460&v=4`}
                             roundedCircle/>
@@ -87,7 +87,7 @@ class ArchivesPreview extends React.Component {
                 <div className="header-ticketpreview">
                     <div className="title-header-ticketpreview">
                         <div className="tickethead--ticketpreview">
-                            {this.state.preview.attachments !== "" &&                
+                            {this.state.preview.attachments !== "" &&
                                 <div className="attachment--ticketpreview">
                                     <IosAttach className="icon--ticketpreview" onClick={this.handleShow}/>
                                     <Modal show={this.state.showAttachment} onHide={this.handleClose}>
@@ -117,7 +117,7 @@ class ArchivesPreview extends React.Component {
                     <div className="body--ticketpreview">
                         <p>{this.state.preview.body}</p>
                     </div>
-         
+
                 </div>
                 <div className="preview-labelpreview">
                     
@@ -145,7 +145,7 @@ class ArchivesPreview extends React.Component {
                         }
                         
                     })}
-                    
+
                 </div>
             </div>
         );

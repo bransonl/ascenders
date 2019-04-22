@@ -24,7 +24,7 @@ class Archives extends React.Component {
 
     handleRefresh() {
         const token = 'Bearer ' + sessionStorage.getItem("token");
-        fetch('http://127.0.0.1:3000/tickets/admin/closed', {
+        fetch(`http://${this.context.apiUri}/tickets/admin/closed`, {
             method: 'GET',
             headers: {
                 'Authorization': token
@@ -45,7 +45,7 @@ class Archives extends React.Component {
 
         // const token = 'Bearer ' + this.context.token
         const token = 'Bearer ' + sessionStorage.getItem("token");
-        fetch('http://127.0.0.1:3000/tickets/admin/closed', {
+        fetch(`http://${this.context.apiUri}/tickets/admin/closed`, {
             method: 'GET',
             headers: {
                 'Authorization': token
@@ -73,7 +73,7 @@ class Archives extends React.Component {
                     </Row>
                 </Container>
                 <div className="body-container">
-                    {this.state.tickets.map((ticket, index) => {                    
+                    {this.state.tickets.map((ticket, index) => {
                         return (
                             <Container bsPrefix="ticket-container">
                                 <Link
