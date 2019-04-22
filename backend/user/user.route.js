@@ -1,9 +1,10 @@
 const auth = require('../auth');
 const {jwtSecret} = require('../env');
+const userPreferenceModel = require('../user-preference/user-preference.model');
 const userModel = require('./user.model');
 const {UserController} = require('./user.controller');
 
-const controller = new UserController([userModel], jwtSecret);
+const controller = new UserController([userModel, userPreferenceModel], jwtSecret);
 
 function routes(app) {
     app.route('/checkToken')

@@ -18,6 +18,7 @@ require('./ticket/ticket.route.js').routes(app);
 require('./label/label.route.js').routes(app);
 require('./message/message.route.js').routes(app);
 require('./notification/notification.route').routes(app);
+require('./user-preference/user-preference.route').routes(app);
 
 // Serve frontend
 app.use('/admin', express.static(path.join(__dirname, '../frontend/Admin/public')));

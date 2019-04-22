@@ -97,12 +97,12 @@ class NotificationController {
         });
         usernames.forEach(async (username) => {
             try {
-                const user = await this._model.getUserByUsername(username);
-                if (user.email) {
-                    this._model.sendEmail(user.email, title, body);
+                const userPreference = await this._model.getUserPreferenceForUser(username);
+                if (userPreference.email && userPreference.notifyByEmail) {
+                    this._model.sendEmail(userPreference.email, title, body);
                 }
-                if (user.phone) {
-                    this._model.sendSms(user.phone, body);
+                if (userPreference.phone && userPreference.notifyBySms) {
+                    this._model.sendSms(userPreference.phone, body);
                 }
             } catch (err) {
                 throw err;

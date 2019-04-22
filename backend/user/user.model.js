@@ -54,9 +54,9 @@ async function logout(sessionToken) {
     }
 }
 
-async function register(data) {
-    const {username, password, role, email} = data;
-    if (!username || !password || !role || !email) {
+async function register(username, password, role) {
+    const {username, password, role} = data;
+    if (!username || !password || !role) {
         throw new ModelError(400, 'Missing fields');
     }
     const options = {
