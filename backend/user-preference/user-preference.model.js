@@ -58,6 +58,9 @@ async function getUserPreferenceForUser(username) {
         return serializeUserPreference(results[0]);
     } catch (err) {
         console.error(err);
+        if (err.statusCode === 404) {
+            throw err;
+        }
         throw new ModelError(500, `Database call failed: ${err.error.error}`);
     }
 }

@@ -16,7 +16,7 @@ class UserPreferenceController {
         try {
             return res.json(await this._model.getUserPreferenceForUser(username));
         } catch (err) {
-            return res.status(500).json(err);
+            return res.status(err.statusCode).json(err.toJSON());
         }
     }
 
@@ -30,7 +30,7 @@ class UserPreferenceController {
         try {
             return res.json(await this._model.updateUserPreferenceForUser(username, req.body));
         } catch (err) {
-            return res.status(500).json(err);
+            return res.status(err.statusCode).json(err.toJSON());
         }
     }
 }

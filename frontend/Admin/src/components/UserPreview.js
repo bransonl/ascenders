@@ -45,13 +45,25 @@ class UserPreview extends React.Component {
                 'Authorization': token,
             },
         })
-        .then(res => res.json())
         .then(res => {
+            if (res.ok) {
+                return res.json()
+            } else {
+                throw res;
+            }
+        })
+        .then(res => {
+            console.log(res);
             const {email, phone} = res;
             this.setState({email, phone});
             console.log('state', this.state);
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            console.error(err);
+            if (err.status === 404) {
+                this.props.history.push('/users');
+            }
+        });
     }
 
     render() {
