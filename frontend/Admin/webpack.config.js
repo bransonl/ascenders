@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
     entry: './src/app.js',
@@ -24,5 +25,10 @@ module.exports = {
     devServer: {
         contentBase: path.join(__dirname, 'public'),
         historyApiFallback: true
-    }
+    },
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env.API_URI': JSON.stringify(process.env.API_URI || '127.0.0.1:3000'),
+        }),
+    ],
 };

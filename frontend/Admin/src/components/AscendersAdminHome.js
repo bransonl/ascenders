@@ -14,11 +14,11 @@ import { AppContext } from './globalContext/AppContext.js';
 
 class AscendersAdminHome extends React.Component {
     render() {
-        if (sessionStorage.getItem("isAuthenticated") !== "true") {
+        if (!sessionStorage.getItem("token")) {
             console.log("Not authenticated...");
             return (<Redirect to="/login"/>);
         } else {
-            console.log("Authentication: ", sessionStorage.getItem("isAuthenticated"));
+            console.log("Authentication: ", !!sessionStorage.getItem("token"));
             return (
                 <div>
                     <NavigationBar/>

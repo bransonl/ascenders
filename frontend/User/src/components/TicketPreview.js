@@ -42,7 +42,7 @@ class TicketPreview extends React.Component {
             console.log("Message submitted.\nFetching from API...");
             // const token = 'Bearer ' + this.context.token
             const token = 'Bearer ' + sessionStorage.getItem("token");
-            const url = `http://127.0.0.1:3000/tickets/${this.state.preview.objectId}/comments`;
+            const url = `http://${this.context.apiUri}/tickets/${this.state.preview.objectId}/comments`;
             axios.post(url, {
                 message: sendMessage
             }, {
@@ -83,7 +83,7 @@ class TicketPreview extends React.Component {
 
     //     // const token = 'Bearer ' + this.context.token
     //     const token = 'Bearer ' + sessionStorage.getItem("token");
-    //     const url = `http://127.0.0.1:3000/tickets/upload/${ticketId}`;
+    //     const url = `http://${this.context.apiUri}/tickets/upload/${ticketId}`;
     //     const formData = new FormData();
     //     formData.append('file',file);
     //     const config = {
@@ -99,7 +99,7 @@ class TicketPreview extends React.Component {
         const{match: {params}} = this.props;
         // const token = 'Bearer ' + this.context.token
         const token = 'Bearer ' + sessionStorage.getItem("token");
-        const url = `http://127.0.0.1:3000/tickets/${params.ticketId}`;
+        const url = `http://${this.context.apiUri}/tickets/${params.ticketId}`;
         axios.get(url, {
             headers: {
                 Authorization: token
@@ -114,7 +114,7 @@ class TicketPreview extends React.Component {
             console.log("Retrieving ticket comments...");
             // const token = 'Bearer ' + this.context.token
             const token = 'Bearer ' + sessionStorage.getItem("token");
-            const replyURL = `http://127.0.0.1:3000/tickets/${params.ticketId}/comments`;
+            const replyURL = `http://${this.context.apiUri}/tickets/${params.ticketId}/comments`;
             axios.get(replyURL, {
                 headers: {
                     Authorization: token
@@ -162,7 +162,7 @@ class TicketPreview extends React.Component {
                     </div>
                 </div>
                 <div className="body-ticketpreview">
-                    {this.state.preview.attachments !== "" &&                
+                    {this.state.preview.attachments !== "" &&
                             <div className="attachment--ticketpreview">
                                 <IosAttach className="icon--ticketpreview" onClick={this.handleShow}/>
 
@@ -170,18 +170,18 @@ class TicketPreview extends React.Component {
                                     <Modal.Body><Image src={this.state.preview.attachments} className="img--ticketpreview"/></Modal.Body>
                                 </Modal>
 
-                            </div>                      
+                            </div>
                     }
 
-                    
+
                     <div className="body--ticketpreview">
                         <p>{this.state.preview.body}</p>
                         {/* <span>{this.state.preview.attachments[0]}</span> */}
                     </div>
-                    
+
                 </div>
                 <div className="preview-ticketpreview">
-                    
+
                     {this.state.replies.map((reply, index) => {
                         return (
                             <div className="replies-container--ticketpreview" key={index}>
@@ -191,12 +191,12 @@ class TicketPreview extends React.Component {
                             </div>
                         );
                     })}
-                    
+
                 </div>
                 <div className="footer-ticketpreview">
                     <Form ref={el => this.ref = el} onSubmit={this.reply} className="form sendmessage-preview">
                         <Form.Group bsPrefix="form-group textgroup--preview">
-                            <Form.Control 
+                            <Form.Control
                                 bsPrefix="form-control form-control-textarea-preview"
                                 as="textarea"
                                 type="text"
@@ -214,10 +214,10 @@ class TicketPreview extends React.Component {
                                 bsPrefix="btn-primary btn--preview"
                                 variant="primary"
                                 type="submit"
-                             >Send</Button>                           
+                             >Send</Button>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Control 
+                            <Form.Control
                                 type="file"
                                 name="uploadFile"
                                 onChange={this.onChange}

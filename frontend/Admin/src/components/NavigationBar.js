@@ -30,7 +30,7 @@ class NavigationBar extends React.Component {
         const phone = e.target.elements.adminPhone.value;
         const role = 'admin';
         const token = 'Bearer ' + sessionStorage.getItem("token");
-        const url = `http://127.0.0.1:3000/users`;
+        const url = `http://${this.context.apiUri}/users`;
         axios.post(url, {
             username: username,
             password: password,
@@ -53,7 +53,7 @@ class NavigationBar extends React.Component {
         const phone = e.target.elements.userPhone.value;
         const role = 'user';
         const token = 'Bearer ' + sessionStorage.getItem("token");
-        const url = `http://127.0.0.1:3000/users`;
+        const url = `http://${this.context.apiUri}/users`;
         axios.post(url, {
             username: username,
             password: password,
@@ -90,8 +90,8 @@ class NavigationBar extends React.Component {
                     <Nav.Item>
                         <a className="nav-link" onClick={() => {this.setState({showAccount: true})}}><IosContact className="nav-icons"/></a>
                         <Modal
-                            bsPrefix="modal" 
-                            show={this.state.showAccount} 
+                            bsPrefix="modal"
+                            show={this.state.showAccount}
                             onHide={() => {this.setState({showAccount: false})}}
                             backdrop={false}
                             size='lg'>
@@ -114,8 +114,8 @@ class NavigationBar extends React.Component {
                                                         <Col sm="6">
                                                             <Form.Control
                                                                 autoFocus
-                                                                name="adminUser" 
-                                                                type="text" 
+                                                                name="adminUser"
+                                                                type="text"
                                                                 placeholder="Enter username"
                                                                 required/>
                                                         </Col>
@@ -124,8 +124,8 @@ class NavigationBar extends React.Component {
                                                         <Form.Label column sm="2">Password</Form.Label>
                                                         <Col sm="6">
                                                             <Form.Control
-                                                                name="adminPwd" 
-                                                                type="password" 
+                                                                name="adminPwd"
+                                                                type="password"
                                                                 placeholder="Enter password"
                                                                 required/>
                                                         </Col>
@@ -134,8 +134,8 @@ class NavigationBar extends React.Component {
                                                         <Form.Label column sm="2">E-mail</Form.Label>
                                                         <Col sm="6">
                                                             <Form.Control
-                                                                name="adminEmail" 
-                                                                type="email" 
+                                                                name="adminEmail"
+                                                                type="email"
                                                                 placeholder="name@example.com"
                                                                 required/>
                                                         </Col>
@@ -144,8 +144,8 @@ class NavigationBar extends React.Component {
                                                         <Form.Label column sm="2">Phone Number</Form.Label>
                                                         <Col sm="6">
                                                             <Form.Control
-                                                                name="adminPhone" 
-                                                                type="number" 
+                                                                name="adminPhone"
+                                                                type="number"
                                                                 placeholder="optional: Enter your phone number"
                                                                 />
                                                         </Col>
@@ -174,8 +174,8 @@ class NavigationBar extends React.Component {
                                                         <Col sm="6">
                                                             <Form.Control
                                                                 autoFocus
-                                                                name="userUser" 
-                                                                type="text" 
+                                                                name="userUser"
+                                                                type="text"
                                                                 placeholder="Enter username"
                                                                 required/>
                                                         </Col>
@@ -185,8 +185,8 @@ class NavigationBar extends React.Component {
                                                         <Col sm="6">
                                                             <Form.Control
                                                                 autoFocus
-                                                                name="userPwd" 
-                                                                type="password" 
+                                                                name="userPwd"
+                                                                type="password"
                                                                 placeholder="Enter password"
                                                                 required/>
                                                         </Col>
@@ -195,8 +195,8 @@ class NavigationBar extends React.Component {
                                                         <Form.Label column sm="2">E-mail</Form.Label>
                                                         <Col sm="6">
                                                             <Form.Control
-                                                                name="userEmail" 
-                                                                type="email" 
+                                                                name="userEmail"
+                                                                type="email"
                                                                 placeholder="name@example.com"
                                                                 required/>
                                                         </Col>
@@ -205,8 +205,8 @@ class NavigationBar extends React.Component {
                                                         <Form.Label column sm="2">Phone Number</Form.Label>
                                                         <Col sm="6">
                                                             <Form.Control
-                                                                name="userPhone" 
-                                                                type="number" 
+                                                                name="userPhone"
+                                                                type="number"
                                                                 placeholder="optional: Enter your phone number"
                                                                 />
                                                         </Col>
