@@ -86,4 +86,6 @@ typings/
 # React Dev .output bundle
 bundle.js
 
+public/
+
 # End of https://www.gitignore.io/api/node
