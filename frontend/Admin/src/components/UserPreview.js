@@ -10,14 +10,18 @@ import { AppContext } from '../components/globalContext/AppContext'
 class UserPreview extends React.Component {
     constructor(props) {
         super(props);
+        console.log(props);
         this.state = {
             tickets: [],
             preview: null,
-
-        }
+            username: props.match.params.username,
+            email: '',
+            phone: '',
+        };
     }
 
     componentDidMount() {
+        console.log('props', this.props);
         console.log("Ticket component mounted...")
         // const token = 'Bearer ' + this.context.token
         const token = 'Bearer ' + sessionStorage.getItem("token");
@@ -34,6 +38,20 @@ class UserPreview extends React.Component {
             console.log("State is successfully set...\nTickets: ", this.state);
         })
         .catch(err => console.log(err));
+
+        fetch(`http://${this.context.apiUri}/userPreferences/${this.state.username}`, {
+            methods: 'GET',
+            headers: {
+                'Authorization': token,
+            },
+        })
+        .then(res => res.json())
+        .then(res => {
+            const {email, phone} = res;
+            this.setState({email, phone});
+            console.log('state', this.state);
+        })
+        .catch(err => console.log(err));
     }
 
     render() {
@@ -42,14 +60,15 @@ class UserPreview extends React.Component {
 
                 <div className="profile-ticketpreview">
                     <Media>
-                        <Image 
+                        <Image
                             className="avatar--ticketpreview"
                             src={`https://avatars3.githubusercontent.com/u/40631483?s=460&v=4`}
                             roundedCircle/>
                         <Media.Body>
-                            <p className="profile--creator">Andre Hadianto Lesmana</p>
+                            <p className="profile--creator">{this.state.username}</p>
                             <p className="profile--company">Singapore University of Technology and Design</p>
-                            <p className="profile--email">andrehadianto@gmail.com</p>
+                            <p className="profile--email">{this.state.email}</p>
+                            <p className="profile--email">{this.state.phone}</p>
                         </Media.Body>
                     </Media>
                 </div>
@@ -67,10 +86,9 @@ class UserPreview extends React.Component {
                 <div className="body-container">
                     {this.state.tickets.map((ticket, index) => {
                         return (
-                            <Container bsPrefix="ticket-container">
+                            <Container bsPrefix="ticket-container" key={`ticket-${index}`}>
                                 <Link
                                     className="link--text"
-                                    key={`ticket-${index}`}
                                     to={{
                                         pathname: `/tickets/preview/${ticket.objectId}`,
                                     }}

@@ -79,14 +79,13 @@ class Ticket extends React.Component {
                     </Row>
                 </Container>
                 <div className="body-container">
-                    {this.state.users.map((user, index) => {                    
+                    {this.state.users.map((user, index) => {
                         return (
-                            <Container bsPrefix="user-container">
+                            <Container bsPrefix="user-container" key={`user-${index}`}>
                                 <Link
                                     className="link--text"
-                                    key={`user-${index}`}
                                     to={{
-                                        pathname: `/users/${user.userId}`,
+                                        pathname: `/users/${user.username}`,
                                     }}
                                 >
                                     <Row>
