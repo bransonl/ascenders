@@ -79,7 +79,8 @@ class Ticket extends React.Component {
                         <AddLabel
                             show={this.state.labelModalShow}
                             onHide={labelModalClose}
-                            onExit={this.handleRefresh}/>
+                            onExit={this.handleRefresh}
+                            autoFocus/>
                     </div>
                     <div className="add-ticket right">
                         <Button
@@ -90,7 +91,8 @@ class Ticket extends React.Component {
                         <AddTicket
                             show={this.state.ticketModalShow}
                             onHide={ticketModalClose}
-                            onExited={this.handleRefresh}/>
+                            onExited={this.handleRefresh}
+                            autoFocus/>
                     </div>
 
 
@@ -101,7 +103,7 @@ class Ticket extends React.Component {
                         <Col>Creator</Col>
                         <Col md={4}>Title</Col>
                         <Col>Status</Col>
-                        <Col>Action</Col>
+                        <Col>Label</Col>
                     </Row>
                 </Container>
                 <div className="body-container">

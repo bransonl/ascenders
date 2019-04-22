@@ -47,7 +47,8 @@ class NavigationBar extends React.Component {
                     </Nav.Item>
                     <Nav.Item>
                         <a className="nav-link" onClick={this.handleAccountOpen}><IosContact className="nav-icons"/></a>
-                        <Modal 
+                        <Modal
+                            bsPrefix="modal" 
                             show={this.state.showAccount} 
                             onHide={this.handleAccountClose}
                             backdrop={false}

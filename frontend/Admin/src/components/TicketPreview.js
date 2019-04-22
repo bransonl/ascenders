@@ -177,11 +177,9 @@ class TicketPreview extends React.Component {
                             {this.state.preview.attachments !== "" &&                
                                 <div className="attachment--ticketpreview">
                                     <IosAttach className="icon--ticketpreview" onClick={this.handleShow}/>
-
                                     <Modal show={this.state.showAttachment} onHide={this.handleClose}>
                                         <Modal.Body><Image src={this.state.preview.attachments} className="img--ticketpreview"/></Modal.Body>
                                     </Modal>
-
                                 </div>                      
                             }
                             <div className="tickettitle--ticketpreview">

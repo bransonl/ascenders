@@ -94,6 +94,7 @@ class AddTicket extends React.Component {
                             <Form.Label column sm="2">Title</Form.Label>
                             <Col sm="10">
                                 <Form.Control
+                                    autoFocus
                                     name="title" 
                                     type="text" 
                                     placeholder="Enter title" />
