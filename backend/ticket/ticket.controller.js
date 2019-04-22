@@ -86,8 +86,11 @@ class TicketController {
     async _beautifyDate(getTicketsResult) {
         var i;
         for (i=0; i<getTicketsResult.length; i++) {
-            getTicketsResult[i].createdAt = getTicketsResult[i].createdAt.substring(0,10);
-            getTicketsResult[i].updatedAt = getTicketsResult[i].updatedAt.substring(0,10);
+            const ticket = getTicketsResult[i];
+            getTicketsResult[i].createdAtD = ticket.createdAt.substring(0,10);
+            getTicketsResult[i].createdAtT = ticket.createdAt.substring(11,16);
+            getTicketsResult[i].updatedAtD = ticket.updatedAt.substring(0,10);
+            getTicketsResult[i].updatedAtT = ticket.updatedAt.substring(11,16);
         }
         return getTicketsResult;
     }
@@ -97,6 +100,7 @@ class TicketController {
         try {
             const getTicketsResult = await this._model.getUserOpenTickets(username);
             const beautifiedResult = await this._beautifyDate(getTicketsResult);
+            console.log(beautifiedResult);
             return res.status(200).send(beautifiedResult);
         } catch (err) {
             return res.status(err.statusCode).json(err);
