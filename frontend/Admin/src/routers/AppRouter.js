@@ -15,12 +15,9 @@ class AppRouter extends React.Component {
             username: sessionStorage.getItem("username"),
             role: sessionStorage.getItem("role"),
             token: sessionStorage.getItem("token"),
-            logout: this.logout
-        };
-        this.context = {
+            logout: this.logout,
             apiUri: process.env.API_URI,
         };
-        console.log(this.context);
     }
 
     logout() {
