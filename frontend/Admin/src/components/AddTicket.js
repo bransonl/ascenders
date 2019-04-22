@@ -45,11 +45,9 @@ class AddTicket extends React.Component {
             .then(res => {
                 this.setState({title, body, ticketId: res.objectId});
                 if (this.state.file !== "") {
-                    console.log("\n Trying to upload file...");
+                    console.log("\nTrying to upload file...");
                     this.handleFileUpload(this.state.file)
-                    .then((res) => {
-                        console.log(res);
-                    }) 
+                    .then((res) => console.log("Response: ", res)) 
                 }
                 console.log("Ticket submited!\nCurrent state: ", this.state);     
             })
@@ -97,7 +95,8 @@ class AddTicket extends React.Component {
                                     autoFocus
                                     name="title" 
                                     type="text" 
-                                    placeholder="Enter title" />
+                                    placeholder="Enter title"
+                                    required/>
                             </Col>
                         </Form.Group>   
                         <Form.Group as={Row}>
@@ -108,7 +107,8 @@ class AddTicket extends React.Component {
                                     name="description"
                                     type="text"
                                     placeholder="Enter Description"
-                                    bsPrefix="form-control-textarea form-control"/>
+                                    bsPrefix="form-control-textarea form-control"
+                                    required/>
                             </Col>    
                         </Form.Group>
                         <Form.Group as={Row}>

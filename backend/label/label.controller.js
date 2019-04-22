@@ -20,7 +20,6 @@ class LabelController {
     async createLabel(req, res) {
         const {labelType} = req.params;
         const labelName = req.body.name;
-        console.log(labelName, labelType, "from backend");
         let checkLabelExistResult
         try {
             checkLabelExistResult = await this._checkLabelExist(labelType, labelName);

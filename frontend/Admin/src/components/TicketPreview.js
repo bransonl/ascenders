@@ -217,14 +217,14 @@ class TicketPreview extends React.Component {
                             <Button
                                 bsPrefix="content-btn"
                                 onClick={() => this.setState({assignModalShow: true})}>
-                                    Add Label
+                                    Add Priority
                             </Button>
                         </div>
                         <div className="assign--ticketpreview right">
                             <Button
                                 bsPrefix="content-btn"
                                 onClick={() => this.setState({assignModalShow: true})}>
-                                    Assign
+                                    Assign Admin
                             </Button>
                         </div>
                         <div className="resolve--ticketpreview right">

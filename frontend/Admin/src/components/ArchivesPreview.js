@@ -17,66 +17,8 @@ class ArchivesPreview extends React.Component {
 
             showAttachment: false
         }
-        this.reply = this.reply.bind(this);
-        this.resolve = this.resolve.bind(this);
-
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
-    }
-
-    resolve(e) {
-        e.preventDefault();
-        console.log("\nResolving ticket...");
-        const token = 'Bearer ' + sessionStorage.getItem("token");
-        const url = `http://127.0.0.1:3000/tickets/close/${this.state.preview.objectId}`
-        axios.put(url, null, {
-            headers: {
-                Authorization: token
-            },
-        })
-        .then(res => console.log(res))
-    }
-
-    reply(e) {
-        e.preventDefault();
-        console.log("Sending reply...");
-        const sendMessage = e.target.elements.sendmessages.value;
-
-        console.log(this.state.preview);
-        if (sendMessage != null) {
-            console.log("Message submitted.\nFetching from API...");
-            // const token = 'Bearer ' + this.context.token
-            const token = 'Bearer ' + sessionStorage.getItem("token");
-            const url = `http://127.0.0.1:3000/tickets/${this.state.preview.objectId}/comments`;
-            axios.post(url, {
-                message: sendMessage
-            }, {
-                headers: {
-                    Authorization: token
-                },
-            })
-            .then(res => {
-                console.log("response: ", res)
-                axios.get(url, {
-                    headers: {
-                        Authorization: token
-                    }
-                })
-                .then(res => {
-                    console.log("Uploading replies...");
-                    this.setState({replies: [...res.data.messages]});
-
-                    console.log("\nScrolling to latest reply...");
-                    const messagePreview = document.querySelector(".preview-ticketpreview");
-                    messagePreview.scrollTop = messagePreview.scrollHeight;
-
-                    console.log("State is successfully set...\nCurrent replies: ", this.state.replies);
-                })
-            });
-            e.target.elements.sendmessages.value = "";
-        } else {
-            console.log("No message to send...");
-        }
     }
 
     componentDidMount() {
@@ -193,38 +135,6 @@ class ArchivesPreview extends React.Component {
                         );
                     })}
                     
-                </div>
-                <div className="footer-ticketpreview">
-                    <Form ref={el => this.ref = el} onSubmit={this.reply} className="form sendmessage-preview">
-                        <Form.Group bsPrefix="form-group textgroup--preview">
-                            <Form.Control 
-                                bsPrefix="form-control form-control-textarea-preview"
-                                as="textarea"
-                                type="text"
-                                name="sendmessages"
-                                placeholder="Enter your messages"
-                                onKeyPress={(e) => {
-                                    if (e.key === 'Enter' && e.shiftKey) {
-                                        console.log("Shift + Enter...");
-                                    } else if (e.key === 'Enter' && !e.shiftKey) {
-                                        console.log("Enter is pressed");
-                                    }
-                                }}
-                            />
-                            <Button
-                                bsPrefix="btn-primary btn--preview"
-                                variant="primary"
-                                type="submit"
-                             >Send</Button>                           
-                        </Form.Group>
-                        {/* <Form.Group>
-                            <Form.Control 
-                                type="file"
-                                name="uploadFile"
-                                onChange={this.onChange}
-                            />
-                        </Form.Group> */}
-                    </Form>
                 </div>
             </div>
         );

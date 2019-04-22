@@ -94,7 +94,6 @@ class AscendersAdminLogin extends React.Component {
                                     name="username"
                                     placeholder="Enter username"
                                     autoFocus= {true}
-
                                     required />
                                 </div>
                             </Form.Group>

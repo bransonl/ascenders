@@ -93,7 +93,8 @@ class AddLabel extends React.Component {
                                 <Form.Control
                                     name="labelName" 
                                     type="text" 
-                                    placeholder="Enter label name" />
+                                    placeholder="Enter label name"
+                                    required/>
                             </Col>
                         </Form.Group>
                         {this.state.selectedLabelType !== "tag" &&
