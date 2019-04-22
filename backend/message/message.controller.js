@@ -86,8 +86,8 @@ class MessageController {
         var i;
         for (i=0; i<getMessagesResult.length; i++) {
             const message = getMessagesResult[i];
-            getMessagesResult[i].createdAtT = message.createdAt.substring(11,16);
-            getMessagesResult[i].updatedAtT = message.updatedAt.substring(11,16);
+            getMessagesResult[i].createdAt = message.createdAt.substring(0,10) + ' ' + message.createdAt.substring(11,19);
+            getMessagesResult[i].updatedAt = message.updatedAt.substring(0,10) + ' ' + message.updatedAt.substring(11,19);
         }
         return getMessagesResult;
     }

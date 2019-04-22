@@ -79,8 +79,8 @@ async function createLabelc(labelType, name, colour) {
     else if (labelType != 'status' & labelType != 'priority'){
         throw new ModelError(500,'Invalid labelType');
     }
-    else if (colour.length != 6) {
-        throw new ModelError(500, 'Invalid colour');
+    else if (colour.length != 7 | colour[0] != '#') {
+        throw new ModelError(500, 'Invalid colour, should be in the format #XXXXXX');
     }
     const options = {
         method: 'POST',
@@ -136,8 +136,8 @@ async function modifyLabelc(labelType, labelId, name, colour) {
     else if (labelId.length != 10) {
         throw new ModelError(500, 'Invalid labelId');
     }
-    else if (colour.length != 6) {
-        throw new ModelError(500, 'Invalid colour');
+    else if (colour.length != 7 | colour[0] != '#') {
+        throw new ModelError(500, 'Invalid colour, should be in the format #XXXXXX');
     }
     const options = {
         method: 'PUT',

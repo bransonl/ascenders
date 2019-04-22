@@ -69,6 +69,28 @@ const uploadFile = multer({
     })
 });
 
+const uploadProfile = multer({
+    storage: multerS3({
+        acl: 'public-read',
+        s3,
+        bucket: 'ascenders-accenture',
+        metadata: function (req, file, next) {
+            next(null, {originalName: file.originalname});
+        },
+        key: function (req, file, next) {
+            console.log(file);
+            try {
+                const suffix = fileFilter(file);
+                const fileName = Date.now().toString() + suffix;
+                next(null, fileName);
+            } catch (err) {
+                next(err, false);
+            }
+        }
+    })
+});
+
 module.exports = {
     uploadFile,
+    uploadProfile,
 }
