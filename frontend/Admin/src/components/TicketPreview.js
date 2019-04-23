@@ -2,6 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { Media, Button, Form, Image, Modal } from 'react-bootstrap';
 import IosAttach from 'react-ionicons/lib/IosAttach';
+import AssignAdmin from './AssignAdmin';
 
 import '../css/reusable.css';
 import '../css/TicketPreview.css';
@@ -14,15 +15,15 @@ class TicketPreview extends React.Component {
         this.state = {
             preview: [],
             replies: [],
+            admins: [],
 
             showAttachment: false,
+            assignModalShow: false,
 
             resolved: false
         }
         this.reply = this.reply.bind(this);
         this.resolve = this.resolve.bind(this);
-        this.handleShow = this.handleShow.bind(this);
-        this.handleClose = this.handleClose.bind(this);
     }
 
     resolve(e) {
@@ -118,13 +119,15 @@ class TicketPreview extends React.Component {
                 console.log("\nState is successfully set...\nCurrent replies: ", this.state.replies);
             });
         });
-    }
-
-    handleShow() {
-        this.setState({showAttachment: true});
-    }
-    handleClose() {
-        this.setState({showAttachment: false});
+        const urlAdmin = `http://${this.context.apiUri}/users/admin`;
+        axios.get(urlAdmin, {
+            headers: {
+                Authorization: token
+            }
+        })
+        .then(res => {
+            this.setState({admins: res.data});
+        });
     }
 
     render() {
@@ -152,8 +155,8 @@ class TicketPreview extends React.Component {
                             <div className="tickethead--ticketpreview">
                                 {this.state.preview.attachments !== "" &&                
                                     <div className="attachment--ticketpreview">
-                                        <IosAttach className="icon--ticketpreview" onClick={this.handleShow}/>
-                                        <Modal show={this.state.showAttachment} onHide={this.handleClose}>
+                                        <IosAttach className="icon--ticketpreview" onClick={() => {this.setState({showAttachment: true})}}/>
+                                        <Modal show={this.state.showAttachment} onHide={() => {this.setState({showAttachment: false})}}>
                                             <Modal.Body><Image src={this.state.preview.attachments} className="img--ticketpreview"/></Modal.Body>
                                         </Modal>
                                     </div>                      
@@ -182,13 +185,6 @@ class TicketPreview extends React.Component {
                                         Add Tags
                                 </Button>
                             </div>
-                            <div className="status--ticketpreview right">
-                                <Button
-                                    bsPrefix="content-btn"
-                                    onClick={() => this.setState({assignModalShow: true})}>
-                                        Add Status
-                                </Button>
-                            </div>
                             <div className="label--ticketpreview right">
                                 <Button
                                     bsPrefix="content-btn"
@@ -202,6 +198,10 @@ class TicketPreview extends React.Component {
                                     onClick={() => this.setState({assignModalShow: true})}>
                                         Assign Admin
                                 </Button>
+                                <AssignAdmin
+                                    show={this.state.assignModalShow}
+                                    onHide={() => this.setState({assignModalShow: false})}
+                                />
                             </div>
                             <div className="resolve--ticketpreview right">
                                 <Form onSubmit={this.resolve}>
@@ -226,7 +226,7 @@ class TicketPreview extends React.Component {
                     <div className="preview-ticketpreview">
                         
                         {this.state.replies.map((reply, index) => {
-                            if (reply.sender === this.state.preview.creator) {
+                            if (reply.sender === sessionStorage.getItem("username")) {
                                 return (
                                     <div className="replies-container-user--ticketpreview" key={index}>
                                         <div className="replies--ticketpreview">

@@ -61,8 +61,6 @@ class Ticket extends React.Component {
     }
 
     render() {
-        let ticketModalClose = () => this.setState({ticketModalShow: false})
-        let labelModalClose = () => this.setState({labelModalShow: false})
         return (
             <div className="ticket-wrapper">
                 <Container bsPrefix="action-bar">
@@ -74,7 +72,7 @@ class Ticket extends React.Component {
                         </Button>
                         <AddLabel
                             show={this.state.labelModalShow}
-                            onHide={labelModalClose}
+                            onHide={() => this.setState({labelModalShow: false})}
                             onExit={this.handleRefresh}
                             autoFocus/>
                     </div>
@@ -86,7 +84,7 @@ class Ticket extends React.Component {
                         </Button>
                         <AddTicket
                             show={this.state.ticketModalShow}
-                            onHide={ticketModalClose}
+                            onHide={() => this.setState({ticketModalShow: false})}
                             onExited={this.handleRefresh}
                             autoFocus/>
                     </div>
@@ -117,8 +115,8 @@ class Ticket extends React.Component {
                                         <Col className="text-center" md={2}>{ticket.creator}</Col>
                                         <Col md={4}>{ticket.title}</Col>
                                         <Col>{ticket.status}</Col>
-                                        <Col>Tag</Col>
-                                        <Col>Priority</Col>
+                                        <Col>{ticket.tag}</Col>
+                                        <Col>{ticket.priority}</Col>
                                     </Row>
                                 </Link>
                             </Container>

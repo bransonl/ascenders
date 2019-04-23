@@ -80,23 +80,25 @@ class Ticket extends React.Component {
                 </Container>
                 <div className="body-container">
                     {this.state.users.map((user, index) => {
-                        return (
-                            <Container bsPrefix="user-container" key={`user-${index}`}>
-                                <Link
-                                    className="link--text"
-                                    to={{
-                                        pathname: `/users/${user.username}`,
-                                    }}
-                                >
-                                    <Row>
-                                        <Col>{user.username}</Col>
-                                        <Col>{user.role}</Col>
-                                        <Col md={6}>{user.email}</Col>
-                                        <Col>{user.phone}</Col>
-                                    </Row>
-                                </Link>
-                            </Container>
-                        );
+                        if (user.disabled === false) {
+                            return (
+                                <Container bsPrefix="user-container" key={`user-${index}`}>
+                                    <Link
+                                        className="link--text"
+                                        to={{
+                                            pathname: `/users/${user.username}`,
+                                        }}
+                                    >
+                                        <Row>
+                                            <Col>{user.username}</Col>
+                                            <Col>{user.role}</Col>
+                                            <Col md={6}>{user.email}</Col>
+                                            <Col>{user.phone}</Col>
+                                        </Row>
+                                    </Link>
+                                </Container>
+                            );
+                        }
                     })}
                 </div>
             </div>
