@@ -56,7 +56,6 @@ async function logout(sessionToken) {
 }
 
 async function register(username, password, role) {
-    const {username, password, role} = data;
     if (!username || !password || !role) {
         throw new ModelError(400, 'Missing fields');
     }
@@ -64,7 +63,7 @@ async function register(username, password, role) {
         method: 'POST',
         uri: `${apiEndpoint}/users`,
         headers: sharedHeaders,
-        body: data,
+        body: {username, password, role},
         json: true,
     };
     try {

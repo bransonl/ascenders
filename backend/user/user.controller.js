@@ -74,6 +74,7 @@ class UserController {
             await this._model.createUserPreferenceForUser(username, {email});
             return res;
         } catch (err) {
+            console.error(err);
             return res.status(err.statusCode).json(err.toJSON());
         }
     }
