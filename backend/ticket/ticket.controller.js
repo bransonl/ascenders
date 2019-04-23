@@ -7,6 +7,7 @@ class TicketController {
         this.createTicket = this.createTicket.bind(this);
         this.addAttachment = this.addAttachment.bind(this);
         this.closeTicket = this.closeTicket.bind(this);
+        this.deleteAllTickets = this.deleteAllTickets.bind(this);
 
         this.getUserOpenTickets = this.getUserOpenTickets.bind(this);
         this.getUserClosedTickets = this.getUserClosedTickets.bind(this);
@@ -316,6 +317,15 @@ class TicketController {
             });
         } catch (err) {
             return res.status(err.statusCode).json(err);
+        }
+    }
+
+    async deleteAllTickets(req, res) {
+        try {
+            await this._model.deleteAllTickets();
+            return res.status(200).send();
+        } catch (err) {
+            return res.status(500).send();
         }
     }
 

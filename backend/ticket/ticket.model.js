@@ -105,6 +105,7 @@ async function getAllOpenTickets() {
         method: 'GET',
         uri: ticketsClassPath,
         headers: sharedHeaders,
+        json: true,
         qs: {
             where: {
                 status: 'open'
@@ -112,7 +113,7 @@ async function getAllOpenTickets() {
         },
     };
     try {
-        return JSON.parse(await request(options)).results;
+        return (await request(options)).results;
     } catch (err) {
         throw new ModelError(err.statusCode, err.error.error);
     }
@@ -123,6 +124,7 @@ async function getAllClosedTickets() {
         method: 'GET',
         uri: ticketsClassPath,
         headers: sharedHeaders,
+        json: true,
         qs: {
             where: {
                 status: 'closed'
@@ -130,7 +132,7 @@ async function getAllClosedTickets() {
         },
     };
     try {
-        return JSON.parse(await request(options)).results;
+        return (await request(options)).results;
     } catch (err) {
         throw new ModelError(err.statusCode, err.error.error);
     }
@@ -147,9 +149,10 @@ async function getTicket(ticketId) {
         method: 'GET',
         uri: `${ticketsClassPath}/${ticketId}`,
         headers: sharedHeaders,
+        json: true,
     }
     try {
-        return JSON.parse(await request(options));
+        return await request(options);
     } catch(err) {
         throw new ModelError(err.statusCode, err.error.error);
     }
@@ -183,14 +186,31 @@ async function modifyTicket(ticketId, data) {
     }
 }
 
+async function deleteAllTickets() {
+    const openTickets = await getAllOpenTickets();
+    const closedTickets = await getAllClosedTickets();
+    const tickets = openTickets.concat(closedTickets);
+    tickets.map(ticket => {
+        const options = {
+            method: 'DELETE',
+            uri: `${ticketsClassPath}/${ticket.objectId}`,
+            headers: sharedHeaders,
+            json: true,
+        };
+        return request(options);
+    });
+    await Promise.all(tickets);
+    return;
+}
+
 module.exports = {
     createTicket,
     getUserOpenTickets,
     getUserClosedTickets,
     getLabelTickets,
-    
     getAllOpenTickets,
     getAllClosedTickets,
     getTicket,
     modifyTicket,
+    deleteAllTickets,
 }
