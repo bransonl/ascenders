@@ -34,9 +34,6 @@ class NavigationBar extends React.Component {
                         <a className="nav-link"><IosNotifications className="nav-icons"/></a>
                     </Nav.Item>
                     <Nav.Item>
-                        <a className="nav-link"><IosListBox className="nav-icons"/></a>
-                    </Nav.Item>
-                    <Nav.Item>
                     <a className="nav-link" onClick={() => {this.setState({showAccount: true})}}><IosContact className="nav-icons"/></a>
                         <Modal
                             bsPrefix="modal"
@@ -48,7 +45,7 @@ class NavigationBar extends React.Component {
                                 <Modal.Title>Account</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                I am empty inside
+                                'Quote of the Day: Do now, think later'
                             </Modal.Body>
                             <Modal.Footer>
                                 <Button variant="secondary" onClick={this.context.logout}>Sign out</Button>

@@ -51,7 +51,7 @@ class Archive extends React.Component {
                         <Col>Creator</Col>
                         <Col md={4}>Title</Col>
                         <Col>Status</Col>
-                        <Col>Action</Col>
+                        <Col>Tag</Col>
                     </Row>
                 </Container>
                 <div className="body-container">
@@ -69,10 +69,7 @@ class Archive extends React.Component {
                                         <Col>{ticket.creator}</Col>
                                         <Col md={4}>{ticket.title}</Col>
                                         <Col>{ticket.status}</Col>
-                                        <Col>
-                                            <MdCreate className="options-icon" />
-                                            <MdClose className="options-icon"/>
-                                        </Col>
+                                        <Col>Tag</Col>
                                     </Row>
                                 </Container>
                             </Link>

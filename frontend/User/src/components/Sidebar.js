@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import IosApps from 'react-ionicons/lib/IosApps';
 import IosPaper from 'react-ionicons/lib/IosPaper';
-import IosText from 'react-ionicons/lib/IosText';
+import IosArchive from 'react-ionicons/lib/IosArchive';
 
 import '../css/reusable.css';
 import '../css/Sidebar.css';
@@ -13,7 +13,7 @@ export default class Sidebar extends React.Component {
         let links = [
             {label: 'Dashboard', icon: <IosApps className="sidebar-icon"/>, link: '/'},
             {label: 'Tickets', icon: <IosPaper className="sidebar-icon" />, link: '/tickets'},
-            {label: 'Archive', icon: <IosText className="sidebar-icon" />, link: '/archive'},
+            {label: 'Archive', icon: <IosArchive className="sidebar-icon" />, link: '/archive'},
         ];
 
         return (
