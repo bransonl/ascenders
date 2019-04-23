@@ -21,6 +21,12 @@ function routes(app) {
         auth.validateTokenMiddleware,
         ticketController.createTicket,
     )
+    .delete(
+        auth.validateTokenMiddleware,
+        auth.createRoleCheck('admin'),
+        ticketController.deleteAllTickets,
+    );
+
     app.route('/tickets/upload/:ticketId')
     .put(
         auth.validateTokenMiddleware,
