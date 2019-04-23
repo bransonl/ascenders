@@ -39,6 +39,7 @@ class NavigationBar extends React.Component {
         });
 
         socket.on('new', (notification) => {
+            console.log('New notification', notification);
             const existing = this.state.notifications;
             this.setState({
                 notifications: [notification, ...existing],
