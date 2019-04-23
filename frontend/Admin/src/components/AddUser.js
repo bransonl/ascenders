@@ -72,7 +72,7 @@ class AddUser extends React.Component {
                 <Modal.Header closeButton>
                     <Modal.Title>User Registration</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                
                     <Accordion>
                         <Card>
                             <Card.Header>
@@ -197,7 +197,6 @@ class AddUser extends React.Component {
                         </Card>
                     </Accordion>
 
-                </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => {this.setState({showAccount: false})}}>Close</Button>
                 </Modal.Footer>

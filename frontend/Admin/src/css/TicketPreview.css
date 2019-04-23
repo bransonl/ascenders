@@ -6,7 +6,7 @@
 }
 .profile-ticketpreview {
     flex: 0 1 auto;
-    height: 15%;
+    height: 17%;
     display: flex;
     background-color: var(--foreground-color);
 }
@@ -125,11 +125,11 @@
     overflow: auto;
 }
 .preview-labelpreview {
-    max-height: 66%;
+    max-height: 64%;
 }
 .preview-ticketpreview {
     /* max-height: 62%; */
-    max-height: 56%;
+    max-height: 54%;
 }
 .replies-container-user--ticketpreview,
 .replies-container--ticketpreview {

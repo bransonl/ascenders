@@ -84,7 +84,6 @@ class UserPreview extends React.Component {
                         </Media.Body>
                     </Media>
                 </div>
-
                 <Container bsPrefix="header-container">
                     <Row>
                         <Col md={2}>Date Submitted</Col>
@@ -97,27 +96,31 @@ class UserPreview extends React.Component {
                 </Container>
                 <div className="body-container">
                     {this.state.tickets.map((ticket, index) => {
-                        return (
-                            <Container bsPrefix="ticket-container" key={`ticket-${index}`}>
-                                <Link
-                                    className="link--text"
-                                    to={{
-                                        pathname: `/tickets/preview/${ticket.objectId}`,
-                                    }}
-                                >
-                                    <Row>
-                                        <Col className="text-center" md={2}>{ticket.createdAt}</Col>
-                                        <Col className="text-center" md={2}>{ticket.creator}</Col>
-                                        <Col md={4}>{ticket.title}</Col>
-                                        <Col>{ticket.status}</Col>
-                                        <Col>Tag</Col>
-                                        <Col>Priority</Col>
-                                    </Row>
-                                </Link>
-                            </Container>
-                        );
+                        if (ticket.creator === this.state.username) {
+                            return (
+                                <Container bsPrefix="ticket-container" key={`ticket-${index}`}>
+                                    <Link
+                                        className="link--text"
+                                        to={{
+                                            pathname: `/tickets/preview/${ticket.objectId}`,
+                                        }}
+                                    >
+                                        <Row>
+                                            <Col className="text-center" md={2}>{ticket.createdAt}</Col>
+                                            <Col className="text-center" md={2}>{ticket.creator}</Col>
+                                            <Col md={4}>{ticket.title}</Col>
+                                            <Col>{ticket.status}</Col>
+                                            <Col>Tag</Col>
+                                            <Col>Priority</Col>
+                                        </Row>
+                                    </Link>
+                                </Container>
+                            );
+                        }
+                        
                     })}
                 </div>
+                
             </div>
         );
     }
