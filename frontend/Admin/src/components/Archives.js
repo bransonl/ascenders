@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Button } from 'react-bootstrap';
-import MdCreate from 'react-ionicons/lib/MdCreate';
-import MdClose from 'react-ionicons/lib/MdClose';
+import { Container, Row, Col } from 'react-bootstrap';
 
 import { AppContext } from './globalContext/AppContext';
 
@@ -89,8 +87,8 @@ class Archives extends React.Component {
                                         <Col className="text-center" md={2}>{ticket.creator}</Col>
                                         <Col md={4}>{ticket.title}</Col>
                                         <Col>{ticket.status}</Col>
-                                        <Col>Tag</Col>
-                                        <Col>Priority</Col>
+                                        <Col>{ticket.tag}</Col>
+                                        <Col>{ticket.priority}</Col>
                                     </Row>
                                 </Link>
                             </Container>
