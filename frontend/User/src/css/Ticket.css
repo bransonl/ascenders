@@ -9,6 +9,7 @@
 }
 .action-bar,
 .ticket-container,
+.user-container,
 .header-container {
     display: flex;
     flex-direction: column;
@@ -17,8 +18,15 @@
     background-color: var(--foreground-color2);
 
     font-size: 80%;
-    text-align: left;
     color: var(--text-on-white);
+}
+.action-bar,
+.ticket-container,
+.header-container {
+    text-align: left
+}
+.user-container {
+    text-align: center;
 }
 .header-container {
     border-bottom: 1px solid var(--primary-color);  
@@ -26,10 +34,22 @@
     min-height: fit-content;
 }
 
+.user-container:hover,
 .ticket-container:hover {
     text-decoration: none;
     background-color: var(--midground-color);
 }
+
+.link--text {
+    text-decoration: none;
+    color: var(--text-on-black2);
+}
+.link--text:hover {
+    color: var(--primary-color);
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .options-icon {
     fill: var(--text-on-white)
 }

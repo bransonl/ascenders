@@ -15,28 +15,38 @@ class TicketPreview extends React.Component {
             preview: [],
             replies: [],
 
-            showAttachment: false
+            showAttachment: false,
+            resolved: false
+
         }
         this.reply = this.reply.bind(this);
-        // this.onChange = this.onChange.bind(this);
-        // this.handleFileUpload = this.handleFileUpload.bind(this);
-
+        this.resolve = this.resolve.bind(this);
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
     }
+
+    resolve(e) {
+        e.preventDefault();
+        console.log("\nResolving ticket...");
+        const token = 'Bearer ' + sessionStorage.getItem("token");
+        const url = `http://${this.context.apiUri}/tickets/close/${this.state.preview.objectId}`
+        axios.put(url, null, {
+            headers: {
+                Authorization: token
+            },
+        })
+        .then(res => {
+            console.log(res);
+            this.setState({resolved: true});
+        });
+    }
+
 
     reply(e) {
         e.preventDefault();
         console.log("Sending reply...");
         const sendMessage = e.target.elements.sendmessages.value;
 
-        // // File upload
-        // if (this.state.file !== null) {
-        //     console.log("\n Trying to upload file...");
-        //     this.handleFileUpload(this.state.file).then((res) => {
-        //         console.log(res.data);
-        //     })
-        // }
         console.log(this.state.preview);
         if (sendMessage != null) {
             console.log("Message submitted.\nFetching from API...");
@@ -74,30 +84,9 @@ class TicketPreview extends React.Component {
         }
     }
 
-    // onChange(e) {
-    //     this.setState({file: e.target.files[0]});
-    // }
-
-    // handleFileUpload(file) {
-    //     const ticketId = this.state.preview.objectId;
-
-    //     // const token = 'Bearer ' + this.context.token
-    //     const token = 'Bearer ' + sessionStorage.getItem("token");
-    //     const url = `http://${this.context.apiUri}/tickets/upload/${ticketId}`;
-    //     const formData = new FormData();
-    //     formData.append('file',file);
-    //     const config = {
-    //         headers: {
-    //             Authorization: token
-    //         }
-    //     }
-    //     return axios.put(url, formData, config);
-    // }
-
     componentDidMount() {
         console.log("\nTicket preview is mounted...")
         const{match: {params}} = this.props;
-        // const token = 'Bearer ' + this.context.token
         const token = 'Bearer ' + sessionStorage.getItem("token");
         const url = `http://${this.context.apiUri}/tickets/${params.ticketId}`;
         axios.get(url, {
@@ -112,7 +101,6 @@ class TicketPreview extends React.Component {
         })
         .then(res => {
             console.log("Retrieving ticket comments...");
-            // const token = 'Bearer ' + this.context.token
             const token = 'Bearer ' + sessionStorage.getItem("token");
             const replyURL = `http://${this.context.apiUri}/tickets/${params.ticketId}/comments`;
             axios.get(replyURL, {
@@ -141,92 +129,157 @@ class TicketPreview extends React.Component {
     }
 
     render() {
-        return (
-            <div className="preview-app">
-                <div className="header-ticketpreview">
-                    <div className="title-header-ticketpreview">
-                        <div className="tickettitle--ticketpreview">
-                            <h5>{this.state.preview.title}</h5>
-                        </div>
-                        <div className="username--ticketpreview">
-                            <p>{this.state.preview.creator}</p>
-                        </div>
+        if (this.state.resolved) {
+            return (<Redirect to="/tickets"/>);
+        } else {
+            return (
+                <div className="preview-app">
+
+                    <div className="profile-ticketpreview">
+                        <Media>
+                            <Image 
+                                className="avatar--ticketpreview"
+                                src={`https://avatars3.githubusercontent.com/u/40631483?s=460&v=4`}
+                                roundedCircle/>
+                            <Media.Body>
+                                <p className="profile--creator">{this.state.preview.creator}</p>
+                                <p className="profile--company">Singapore University of Technology and Design</p>
+                                <p className="profile--email">andrehadianto@gmail.com</p>
+                            </Media.Body>
+                        </Media>
                     </div>
-                    <div className="date-header-ticketpreview">
-                        <div className="datecreated--ticketpreview">
-                            <p>Date created: {this.state.preview.createdAt}</p>
-                        </div>
-                        <div className="lastupdated--ticketpreview">
-                            <p>Last updated: {this.state.preview.updatedAt}</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="body-ticketpreview">
-                    {this.state.preview.attachments !== "" &&
-                            <div className="attachment--ticketpreview">
-                                <IosAttach className="icon--ticketpreview" onClick={this.handleShow}/>
-
-                                <Modal show={this.state.showAttachment} onHide={this.handleClose}>
-                                    <Modal.Body><Image src={this.state.preview.attachments} className="img--ticketpreview"/></Modal.Body>
-                                </Modal>
-
-                            </div>
-                    }
-
-
-                    <div className="body--ticketpreview">
-                        <p>{this.state.preview.body}</p>
-                        {/* <span>{this.state.preview.attachments[0]}</span> */}
-                    </div>
-
-                </div>
-                <div className="preview-ticketpreview">
-
-                    {this.state.replies.map((reply, index) => {
-                        return (
-                            <div className="replies-container--ticketpreview" key={index}>
-                                <div className="replies--ticketpreview">
-                                    <p><span className="sender">{reply.sender}</span><br/>{reply.message}</p>
+                    <div className="header-ticketpreview">
+                        <div className="title-header-ticketpreview">
+                            <div className="tickethead--ticketpreview">
+                                {this.state.preview.attachments !== "" &&                
+                                    <div className="attachment--ticketpreview">
+                                        <IosAttach className="icon--ticketpreview" onClick={this.handleShow}/>
+                                        <Modal show={this.state.showAttachment} onHide={this.handleClose}>
+                                            <Modal.Body><Image src={this.state.preview.attachments} className="img--ticketpreview"/></Modal.Body>
+                                        </Modal>
+                                    </div>                      
+                                }
+                                <div className="tickettitle--ticketpreview">
+                                    <h5>{this.state.preview.title}</h5>
                                 </div>
                             </div>
-                        );
-                    })}
-
+                            <div className="username--ticketpreview">
+                                <p>{this.state.preview.creator}</p>
+                            </div>
+                            <div className="date-header-ticketpreview">
+                                <div className="datecreated--ticketpreview">
+                                    <p>Date created: {this.state.preview.createdAt}</p>
+                                </div>
+                                <div className="lastupdated--ticketpreview">
+                                    <p>Last updated: {this.state.preview.updatedAt}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="actionbar-ticketpreview">
+                            <div className="tags--ticketpreview right">
+                                <Button
+                                    bsPrefix="content-btn"
+                                    onClick={() => this.setState({assignModalShow: true})}>
+                                        Add Tags
+                                </Button>
+                            </div>
+                            <div className="status--ticketpreview right">
+                                <Button
+                                    bsPrefix="content-btn"
+                                    onClick={() => this.setState({assignModalShow: true})}>
+                                        Add Status
+                                </Button>
+                            </div>
+                            <div className="label--ticketpreview right">
+                                <Button
+                                    bsPrefix="content-btn"
+                                    onClick={() => this.setState({assignModalShow: true})}>
+                                        Add Priority
+                                </Button>
+                            </div>
+                            <div className="assign--ticketpreview right">
+                                <Button
+                                    bsPrefix="content-btn"
+                                    onClick={() => this.setState({assignModalShow: true})}>
+                                        Assign Admin
+                                </Button>
+                            </div>
+                            <div className="resolve--ticketpreview right">
+                                <Form onSubmit={this.resolve}>
+                                    <Form.Group>
+                                        <Button
+                                            bsPrefix="content-btn"
+                                            type="submit">
+                                                Resolve Ticket
+                                        </Button>
+                                    </Form.Group>
+                                </Form>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div className="body-ticketpreview">
+                        <div className="body--ticketpreview">
+                            <p>{this.state.preview.body}</p>
+                        </div>
+            
+                    </div>
+                    <div className="preview-ticketpreview">
+                        
+                        {this.state.replies.map((reply, index) => {
+                            if (reply.sender === this.state.preview.creator) {
+                                return (
+                                    <div className="replies-container-user--ticketpreview" key={index}>
+                                        <div className="replies--ticketpreview">
+                                            <p><span className="creator">{reply.sender}</span><br/>
+                                            {reply.message}</p>
+                                            <p className="sender--createdAt">{reply.createdAt}</p>
+                                        </div>
+                                    </div>
+                                );
+                            } else {
+                                return (
+                                    <div className="replies-container--ticketpreview" key={index}>
+                                        <div className="replies--ticketpreview">
+                                            <p><span className="sender">{reply.sender}</span><br/>
+                                            {reply.message}</p>
+                                            <p className="sender--createdAt">{reply.createdAt}</p>
+                                        </div>
+                                    </div>
+                                );
+                            }
+                            
+                        })}
+                        
+                    </div>
+                    <div className="footer-ticketpreview">
+                        <Form ref={el => this.ref = el} onSubmit={this.reply} className="form sendmessage-preview">
+                            <Form.Group bsPrefix="form-group textgroup--preview">
+                                <Form.Control 
+                                    bsPrefix="form-control form-control-textarea-preview"
+                                    as="textarea"
+                                    type="text"
+                                    name="sendmessages"
+                                    placeholder="Enter your messages"
+                                    onKeyPress={(e) => {
+                                        if (e.key === 'Enter' && e.shiftKey) {
+                                            console.log("Shift + Enter...");
+                                        } else if (e.key === 'Enter' && !e.shiftKey) {
+                                            console.log("Enter is pressed");
+                                        }
+                                    }}
+                                />
+                                <Button
+                                    bsPrefix="btn-primary btn--preview"
+                                    variant="primary"
+                                    type="submit"
+                                >Send</Button>                           
+                            </Form.Group>
+                        </Form>
+                    </div>
                 </div>
-                <div className="footer-ticketpreview">
-                    <Form ref={el => this.ref = el} onSubmit={this.reply} className="form sendmessage-preview">
-                        <Form.Group bsPrefix="form-group textgroup--preview">
-                            <Form.Control
-                                bsPrefix="form-control form-control-textarea-preview"
-                                as="textarea"
-                                type="text"
-                                name="sendmessages"
-                                placeholder="Enter your messages"
-                                onKeyPress={(e) => {
-                                    if (e.key === 'Enter' && e.shiftKey) {
-                                        console.log("Shift + Enter...");
-                                    } else if (e.key === 'Enter' && !e.shiftKey) {
-                                        console.log("Enter is pressed");
-                                    }
-                                }}
-                            />
-                            <Button
-                                bsPrefix="btn-primary btn--preview"
-                                variant="primary"
-                                type="submit"
-                             >Send</Button>
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Control
-                                type="file"
-                                name="uploadFile"
-                                onChange={this.onChange}
-                            />
-                        </Form.Group>
-                    </Form>
-                </div>
-            </div>
-        );
+            );
+        }
     }
 }
 
