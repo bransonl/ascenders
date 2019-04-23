@@ -61,7 +61,7 @@ class AssignAdmin extends React.Component {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" type="submit" onClick={this.props.onHide}>Close</Button>
+                    <Button variant="secondary" type="submit" onClick={this.props.onHide}>Assign</Button>
                 </Modal.Footer>
             </Modal>
             

@@ -230,8 +230,14 @@ class TicketPreview extends React.Component {
                                 return (
                                     <div className="replies-container-user--ticketpreview" key={index}>
                                         <div className="replies--ticketpreview">
-                                            <p><span className="creator">{reply.sender}</span><br/>
-                                            {reply.message}</p>
+                                            <p><span className="creator">{reply.sender}</span>
+                                            {this.state.admins.map((admin, index) => {
+                                                console.log(reply.sender, admin.username)
+                                                if (reply.sender === admin.username) {
+                                                    return (<span key={index} className="creator"> (admin)</span>);
+                                                }
+                                            })}
+                                            <br/>{reply.message}</p>
                                             <p className="sender--createdAt">{reply.createdAt}</p>
                                         </div>
                                     </div>
@@ -240,7 +246,14 @@ class TicketPreview extends React.Component {
                                 return (
                                     <div className="replies-container--ticketpreview" key={index}>
                                         <div className="replies--ticketpreview">
-                                            <p><span className="sender">{reply.sender}</span><br/>
+                                            <p><span className="sender">{reply.sender}</span>
+                                            {this.state.admins.map((admin, index) => {
+                                                console.log(reply.sender, admin.username)
+                                                if (reply.sender === admin.username) {
+                                                    return (<span key={index} className="sender"> (admin)</span>);
+                                                }
+                                            })}
+                                            <br/>
                                             {reply.message}</p>
                                             <p className="sender--createdAt">{reply.createdAt}</p>
                                         </div>
