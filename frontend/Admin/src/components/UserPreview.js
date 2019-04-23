@@ -25,19 +25,6 @@ class UserPreview extends React.Component {
         console.log("Ticket component mounted...")
         // const token = 'Bearer ' + this.context.token
         const token = 'Bearer ' + sessionStorage.getItem("token");
-        fetch(`http://${this.context.apiUri}/tickets/admin`, {
-            method: 'GET',
-            headers: {
-                'Authorization': token
-            },
-        })
-        .then(res => res.json())
-        .then(res => {
-            console.log("\nSetting state...");
-            this.setState({tickets: [...res]});
-            console.log("State is successfully set...\nTickets: ", this.state);
-        })
-        .catch(err => console.log(err));
 
         fetch(`http://${this.context.apiUri}/userPreferences/${this.state.username}`, {
             methods: 'GET',
@@ -57,6 +44,21 @@ class UserPreview extends React.Component {
             const {email, phone} = res;
             this.setState({email, phone});
             console.log('state', this.state);
+        })
+        .then(() => {
+            fetch(`http://${this.context.apiUri}/tickets/admin`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': token
+                },
+            })
+            .then(res => res.json())
+            .then(res => {
+                console.log("\nSetting state...");
+                this.setState({tickets: [...res]});
+                console.log("State is successfully set...\nTickets: ", this.state);
+            })
+            .catch(err => console.log(err));
         })
         .catch(err => {
             console.error(err);
