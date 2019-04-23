@@ -13,10 +13,10 @@ app.use(bodyParser.json());
 new (require('./socket'))(http);
 
 // Set up routes
-require('./user/user.route.js').routes(app);
-require('./ticket/ticket.route.js').routes(app);
-require('./label/label.route.js').routes(app);
-require('./message/message.route.js').routes(app);
+require('./user/user.route').routes(app);
+require('./ticket/ticket.route').routes(app);
+require('./label/label.route').routes(app);
+require('./message/message.route').routes(app);
 require('./notification/notification.route').routes(app);
 require('./user-preference/user-preference.route').routes(app);
 

@@ -11,26 +11,26 @@ function routes(app) {
         labelController.getLabels,
         )
     .post( // post new label of type
-        // auth.validateTokenMiddlware,
+        // auth.validateTokenMiddleware,
         // auth.createRoleCheck('admin'),
         labelController.createLabel,
         );
         
     app.route('/label/:labelType/:labelName')
     .get( // get label of type and name
-        // auth.validateToken,
+        // auth.validateTokenMiddleware,
         labelController.getLabel,
         )
 
     app.route('/label/:labelType/:labelName')
     .put(
-        // auth.validateToken,
+        // auth.validateTokenMiddleware,
         // auth.createRoleCheck('admin'),
         labelController.modifyLabel,
         );
     app.route('/labelc/:labelType/:labelName')
     .put(
-        // auth.validateToken,
+        // auth.validateTokenMiddleware,
         // auth.createRoleCheck('admin'),
         labelController.modifyLabelc,
         );

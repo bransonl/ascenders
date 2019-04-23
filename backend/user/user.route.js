@@ -36,7 +36,7 @@ function routes(app) {
 
     app.route('/users/admin')
         .get(
-            auth.validateToken,
+            auth.validateTokenMiddleware,
             auth.createRoleCheck('admin'),
             controller.getAdmins,
         )
