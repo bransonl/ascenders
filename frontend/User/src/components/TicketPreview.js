@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, Form, Image, Modal } from 'react-bootstrap';
+import { Button, Form, Image, Modal, Media } from 'react-bootstrap';
 import IosAttach from 'react-ionicons/lib/IosAttach';
 
 import '../css/reusable.css';
@@ -176,45 +176,7 @@ class TicketPreview extends React.Component {
                             </div>
                         </div>
                         <div className="actionbar-ticketpreview">
-                            <div className="tags--ticketpreview right">
-                                <Button
-                                    bsPrefix="content-btn"
-                                    onClick={() => this.setState({assignModalShow: true})}>
-                                        Add Tags
-                                </Button>
-                            </div>
-                            <div className="status--ticketpreview right">
-                                <Button
-                                    bsPrefix="content-btn"
-                                    onClick={() => this.setState({assignModalShow: true})}>
-                                        Add Status
-                                </Button>
-                            </div>
-                            <div className="label--ticketpreview right">
-                                <Button
-                                    bsPrefix="content-btn"
-                                    onClick={() => this.setState({assignModalShow: true})}>
-                                        Add Priority
-                                </Button>
-                            </div>
-                            <div className="assign--ticketpreview right">
-                                <Button
-                                    bsPrefix="content-btn"
-                                    onClick={() => this.setState({assignModalShow: true})}>
-                                        Assign Admin
-                                </Button>
-                            </div>
-                            <div className="resolve--ticketpreview right">
-                                <Form onSubmit={this.resolve}>
-                                    <Form.Group>
-                                        <Button
-                                            bsPrefix="content-btn"
-                                            type="submit">
-                                                Resolve Ticket
-                                        </Button>
-                                    </Form.Group>
-                                </Form>
-                            </div>
+                        
                         </div>
                         
                     </div>
