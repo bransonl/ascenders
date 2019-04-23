@@ -108,8 +108,8 @@
 }
 .body--ticketpreview {
     align-content: flex-start;
-    width: 40%;
-    font-size: 1.2rem;
+    width: 60%;
+    font-size: 1.1rem;
     padding: 0.25rem;
     margin-bottom: 0.5rem;
     color: var(--info-blue);

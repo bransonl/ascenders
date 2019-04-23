@@ -28,7 +28,7 @@ app.get('/admin/*', (req, res) => {
 });
 app.use('/user', express.static(path.join(__dirname, '../frontend/User/public')));
 app.get('/user/*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/USer/public/index.html'));
+    res.sendFile(path.join(__dirname, '../frontend/User/public/index.html'));
 });
 
 //app.get('*', (req, res) => res.redirect('/user'));

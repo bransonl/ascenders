@@ -23,7 +23,7 @@ class Ticket extends React.Component {
 
     handleRefresh() {
         const token = 'Bearer ' + sessionStorage.getItem("token");
-        const url =`http://127.0.0.1:3000/users`;
+        const url =`http://${this.context.apiUri}/users`;
         Axios.get(url, {
             headers: {
                 Authorization: token
@@ -39,7 +39,7 @@ class Ticket extends React.Component {
     componentDidMount() {
         console.log("User component mounted...")
         const token = 'Bearer ' + sessionStorage.getItem("token");
-        const url =`http://127.0.0.1:3000/users`;
+        const url =`http://${this.context.apiUri}/users`;
         Axios.get(url, {
             headers: {
                 Authorization: token
@@ -80,23 +80,25 @@ class Ticket extends React.Component {
                 </Container>
                 <div className="body-container">
                     {this.state.users.map((user, index) => {
-                        return (
-                            <Container bsPrefix="user-container" key={`user-${index}`}>
-                                <Link
-                                    className="link--text"
-                                    to={{
-                                        pathname: `/users/${user.username}`,
-                                    }}
-                                >
-                                    <Row>
-                                        <Col>{user.username}</Col>
-                                        <Col>{user.role}</Col>
-                                        <Col md={6}>{user.email}</Col>
-                                        <Col>{user.phone}</Col>
-                                    </Row>
-                                </Link>
-                            </Container>
-                        );
+                        if (user.disabled === false) {
+                            return (
+                                <Container bsPrefix="user-container" key={`user-${index}`}>
+                                    <Link
+                                        className="link--text"
+                                        to={{
+                                            pathname: `/users/${user.username}`,
+                                        }}
+                                    >
+                                        <Row>
+                                            <Col>{user.username}</Col>
+                                            <Col>{user.role}</Col>
+                                            <Col md={6}>{user.email}</Col>
+                                            <Col>{user.phone}</Col>
+                                        </Row>
+                                    </Link>
+                                </Container>
+                            );
+                        }
                     })}
                 </div>
             </div>

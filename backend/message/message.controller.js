@@ -39,8 +39,10 @@ class MessageController {
             if (result === null) {
                 return res.json({messages: []})
             }
-            const beautifiedResult = await this._beautifyDate(result);
-            return res.json(beautifiedResult);
+            const beautifiedResult = await this._beautifyDate(result.messages);
+            // result.messages = beautifiedResult;
+            console.log(result);
+            return res.json(result);
         } catch (err) {
             console.error(err.error);
             return res.status(500).send();

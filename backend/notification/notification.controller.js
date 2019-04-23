@@ -90,12 +90,11 @@ class NotificationController {
     async createNotificationForUsers(usernames, title, body, navigateTo) {
         await this._model.createNotificationForUsers(usernames, title, body, navigateTo);
         usernames.forEach((username) => {
-            if (!this._userSockets[username]) {
-                return;
+            if (this._userSockets[username]) {
+                this._userSockets[username].emit('new', {
+                    title, body, navigateTo,
+                });
             }
-            this._userSockets[username].emit('new', {
-                title, body, navigateTo,
-            });
         });
         usernames.forEach(async (username) => {
             try {

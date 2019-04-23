@@ -12,6 +12,7 @@ class ArchivesPreview extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            admins: [],
             preview: [],
             replies: [],
 
@@ -57,6 +58,15 @@ class ArchivesPreview extends React.Component {
 
                 console.log("\nState is successfully set...\nCurrent replies: ", this.state.replies);
             });
+        });
+        const urlAdmin = `http://${this.context.apiUri}/users/admin`;
+        axios.get(urlAdmin, {
+            headers: {
+                Authorization: token
+            }
+        })
+        .then(res => {
+            this.setState({admins: res.data});
         });
     }
 
@@ -121,30 +131,43 @@ class ArchivesPreview extends React.Component {
                 </div>
                 <div className="preview-labelpreview">
                     
-                    {this.state.replies.map((reply, index) => {
-                        if (reply.sender === this.state.preview.creator) {
-                            return (
-                                <div className="replies-container-user--ticketpreview" key={index}>
-                                    <div className="replies--ticketpreview">
-                                        <p><span className="creator">{reply.sender}</span><br/>
-                                        {reply.message}</p>
-                                        <p className="sender--createdAt">{reply.createdAt}</p>
+                {this.state.replies.map((reply, index) => {
+                            if (reply.sender === sessionStorage.getItem("username")) {
+                                return (
+                                    <div className="replies-container-user--ticketpreview" key={index}>
+                                        <div className="replies--ticketpreview">
+                                            <p><span className="creator">{reply.sender}</span>
+                                            {this.state.admins.map((admin, index) => {
+                                                console.log(reply.sender, admin.username)
+                                                if (reply.sender === admin.username) {
+                                                    return (<span key={index} className="creator"> (admin)</span>);
+                                                }
+                                            })}
+                                            <br/>{reply.message}</p>
+                                            <p className="sender--createdAt">{reply.createdAt}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            );
-                        } else {
-                            return (
-                                <div className="replies-container--ticketpreview" key={index}>
-                                    <div className="replies--ticketpreview">
-                                        <p><span className="sender">{reply.sender}</span><br/>
-                                        {reply.message}</p>
-                                        <p className="sender--createdAt">{reply.createdAt}</p>
+                                );
+                            } else {
+                                return (
+                                    <div className="replies-container--ticketpreview" key={index}>
+                                        <div className="replies--ticketpreview">
+                                            <p><span className="sender">{reply.sender}</span>
+                                            {this.state.admins.map((admin, index) => {
+                                                console.log(reply.sender, admin.username)
+                                                if (reply.sender === admin.username) {
+                                                    return (<span key={index} className="sender"> (admin)</span>);
+                                                }
+                                            })}
+                                            <br/>
+                                            {reply.message}</p>
+                                            <p className="sender--createdAt">{reply.createdAt}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            );
-                        }
-                        
-                    })}
+                                );
+                            }
+                            
+                        })}
 
                 </div>
             </div>

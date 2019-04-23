@@ -1,9 +1,10 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Modal, Button, Nav, Navbar, Accordion, Card, Form } from 'react-bootstrap';
+import { Row, Col, Modal, Button, Nav, Navbar, Accordion, Card, Form } from 'react-bootstrap';
 import logo from './resources/accenture-purple-logo.png'
 import IosNotifications from 'react-ionicons/lib/IosNotifications'
 import IosContact from 'react-ionicons/lib/IosContact'
+import IosClose from 'react-ionicons/lib/IosClose';
 import axios from 'axios';
 import socketIo from 'socket.io-client';
 
@@ -38,6 +39,7 @@ class NavigationBar extends React.Component {
         });
 
         socket.on('new', (notification) => {
+            console.log('New notification', notification);
             const existing = this.state.notifications;
             this.setState({
                 notifications: [notification, ...existing],
@@ -75,8 +77,10 @@ class NavigationBar extends React.Component {
             notifyByEmail: notifyByEmail,
             notifyBySms: notifyBySms
         }, {
-            Authorization: token,
-            'Content-Type': 'application/json'
+            headers: {
+                Authorization: token,
+            }
+
         })
         .then(res => {
             console.log("hei")
@@ -88,8 +92,11 @@ class NavigationBar extends React.Component {
         const notifications = [];
         this.state.notifications.forEach((notification, index) => {
             notifications.unshift(
-                <li key={`notification-${index}`}>
-                    <span className={notification.read ? "" : "unread-notification"}><b>{notification.title}:</b> {notification.body}</span>
+                <li className={notification.read ? "notif" : "notif unread-notification"} key={`notification-${index}`}>
+                    <Row>
+                        <Col sm={10}><span><b>{notification.title}:</b> {notification.body}</span></Col>
+                        <Col sm={2}><Button variant="link"><IosClose color="#1d1d1d" className="IosClose"/></Button></Col>
+                    </Row>
                 </li>
             );
         });
@@ -115,7 +122,7 @@ class NavigationBar extends React.Component {
                             <Modal.Header closeButton>
                                 <Modal.Title>Notification</Modal.Title>
                             </Modal.Header>
-                            <Modal.Body>
+                            <Modal.Body className="notif--modalbody">
                                 <ul>{notifications}</ul>
                             </Modal.Body>
                         </Modal>

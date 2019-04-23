@@ -158,6 +158,9 @@ class TicketController {
         const {ticketId} = req.params;
         try {
             const getTicketResult = await this._getTicket(ticketId);
+            const ticket = getTicketResult;
+            getTicketResult.createdAt = ticket.createdAt.substring(0,10) + ' ' + ticket.createdAt.substring(11,19);
+            getTicketResult.updatedAt = ticket.updatedAt.substring(0,10) + ' ' + ticket.updatedAt.substring(11,19);
             return res.status(200).send(getTicketResult);
         } catch (err) {
             return res.status(err.statusCode).json(err);

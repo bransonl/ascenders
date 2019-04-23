@@ -13,6 +13,8 @@ class UserPreview extends React.Component {
         console.log(props);
         this.state = {
             tickets: [],
+            closedTickets: [],
+
             preview: null,
             username: props.match.params.username,
             email: '',
@@ -23,10 +25,11 @@ class UserPreview extends React.Component {
     componentDidMount() {
         console.log('props', this.props);
         console.log("Ticket component mounted...")
-        // const token = 'Bearer ' + this.context.token
         const token = 'Bearer ' + sessionStorage.getItem("token");
-
-        fetch(`http://${this.context.apiUri}/userPreferences/${this.state.username}`, {
+        const urlPref = `http://${this.context.apiUri}/userPreferences/${this.state.username}`;
+        const urlOpen = `http://${this.context.apiUri}/tickets/admin`
+        const urlClosed = `http://${this.context.apiUri}/tickets/admin/closed`
+        fetch(urlPref, {
             methods: 'GET',
             headers: {
                 'Authorization': token,
@@ -46,7 +49,7 @@ class UserPreview extends React.Component {
             console.log('state', this.state);
         })
         .then(() => {
-            fetch(`http://${this.context.apiUri}/tickets/admin`, {
+            fetch(urlOpen, {
                 method: 'GET',
                 headers: {
                     'Authorization': token
@@ -57,6 +60,19 @@ class UserPreview extends React.Component {
                 console.log("\nSetting state...");
                 this.setState({tickets: [...res]});
                 console.log("State is successfully set...\nTickets: ", this.state);
+            })
+            .then(() => {
+                fetch(urlClosed, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': token
+                    },
+                })
+                .then(res => res.json())
+                .then(res => {
+                    this.setState({closedTickets: [...res]});
+                })
+                .catch(err => console.log(err));
             })
             .catch(err => console.log(err));
         })
@@ -112,8 +128,32 @@ class UserPreview extends React.Component {
                                             <Col className="text-center" md={2}>{ticket.creator}</Col>
                                             <Col md={4}>{ticket.title}</Col>
                                             <Col>{ticket.status}</Col>
-                                            <Col>Tag</Col>
-                                            <Col>Priority</Col>
+                                            <Col>{ticket.tag}</Col>
+                                            <Col>{ticket.priority}</Col>
+                                        </Row>
+                                    </Link>
+                                </Container>
+                            );
+                        }
+                        
+                    })}
+                    {this.state.closedTickets.map((ticket, index) => {
+                        if (ticket.creator === this.state.username) {
+                            return (
+                                <Container bsPrefix="ticket-container" key={`ticket-${index}`}>
+                                    <Link
+                                        className="link--text"
+                                        to={{
+                                            pathname: `/tickets/preview/${ticket.objectId}`,
+                                        }}
+                                    >
+                                        <Row>
+                                            <Col className="text-center" md={2}>{ticket.createdAt}</Col>
+                                            <Col className="text-center" md={2}>{ticket.creator}</Col>
+                                            <Col md={4}>{ticket.title}</Col>
+                                            <Col>{ticket.status}</Col>
+                                            <Col>{ticket.tag}</Col>
+                                            <Col>{ticket.priority}</Col>
                                         </Row>
                                     </Link>
                                 </Container>

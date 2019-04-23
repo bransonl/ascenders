@@ -24,7 +24,13 @@
     width: 28px;
     height: 28px;
 }
-
+.notif--modalbody {
+    max-height: 400px;
+}
+.notif {
+    font-size: 0.8rem;
+}
 .unread-notification {
     background-color: yellow;
 }
+

@@ -127,7 +127,7 @@ class AddUser extends React.Component {
                                         <Form.Group as={Row}>
                                             <Col sm="6"/>
                                             <Col sm="2">
-                                                <Button onClick={() => {this.setState({showAccount: false})}} variant="primary" type="submit">Register!</Button>
+                                                <Button onClick={this.props.onHide} variant="primary" type="submit">Register!</Button>
                                             </Col>
                                         </Form.Group>
                                     </Form>
@@ -188,7 +188,7 @@ class AddUser extends React.Component {
                                         <Form.Group as={Row}>
                                             <Col sm="6"/>
                                             <Col sm="2">
-                                                <Button onClick={() => {this.setState({showAccount: false})}} variant="primary" type="submit">Register!</Button>
+                                                <Button onClick={this.props.onHide} variant="primary" type="submit">Register!</Button>
                                             </Col>
                                         </Form.Group>
                                     </Form>
@@ -198,7 +198,7 @@ class AddUser extends React.Component {
                     </Accordion>
 
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => {this.setState({showAccount: false})}}>Close</Button>
+                    <Button variant="secondary" onClick={this.props.onHide}>Close</Button>
                 </Modal.Footer>
             </Modal>
             
