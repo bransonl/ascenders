@@ -15,7 +15,8 @@ class AppRouter extends React.Component {
             username: sessionStorage.getItem("username"),
             role: sessionStorage.getItem("role"),
             token: sessionStorage.getItem("token"),
-            logout: this.logout
+            logout: this.logout,
+            apiUri: process.env.API_URI,
         };
     }
 
@@ -23,23 +24,22 @@ class AppRouter extends React.Component {
         console.log("\nContext logout is called...");
         console.log(this.state);
         // const token = 'Bearer ' + this.context.token
-        const token = 'Bearer ' + sessionStorage.getItem("token");
-        fetch(`http://${this.context.apiUri}/logout`, {
-            method: 'POST',
-            headers: {
-                'Authorization': token,
-            },
-        })
-        .then(res => {
-            console.log(res)
-            this.setState({
-                username: undefined,
-                role: undefined,
-                token: undefined,
-            });
-            console.log("\n Logging out...");
-        })
-        .catch(err => console.log(err));
+        // const token = 'Bearer ' + sessionStorage.getItem("token");
+        // fetch(`http://${this.context.apiUri}/logout` |, {
+        //     method: 'POST',
+        //     headers: {
+        //         'Authorization': token,
+        //     },
+        // })
+        // .then(res => {
+        //     console.log(res)
+        //     this.setState({
+        //         username: undefined,
+        //         role: undefined,
+        //         token: undefined,
+        //     });
+        //     console.log("\n Logging out...");
+        // })
         sessionStorage.clear();
         delete this.context.username;
         delete this.context.role;

@@ -20,6 +20,41 @@ class Ticket extends React.Component {
             preview: null,
             statuses: {},
         };
+        this.handleRefresh = this.handleRefresh.bind(this);
+    }
+
+    handleRefresh() {
+        const token = 'Bearer ' + sessionStorage.getItem("token");
+        fetch('http://127.0.0.1:3000/tickets/admin', {
+            method: 'GET',
+            headers: {
+                'Authorization': token
+            },
+        })
+        .then(res => res.json())
+        .then(res => {
+            console.log("\nSetting state...");
+            this.setState({tickets: [...res]});
+            console.log("State is successfully set...\nTickets: ", this.state);
+        })
+        .catch(err => console.log(err));
+    }
+
+    handleRefresh() {
+        const token = 'Bearer ' + sessionStorage.getItem("token");
+        fetch(`http://${this.context.apiUri}/tickets/user`, {
+            method: 'GET',
+            headers: {
+                'Authorization': token
+            },
+        })
+        .then(res => res.json())
+        .then(res => {
+            console.log("\nSetting state...");
+            this.setState({tickets: [...res]});
+            console.log("State is successfully set...\nTickets: ", this.state);
+        })
+        .catch(err => console.log(err));
     }
 
     componentDidMount() {
@@ -52,12 +87,12 @@ class Ticket extends React.Component {
                         <Button
                             bsPrefix="content-btn"
                             onClick={() => this.setState({ticketModalShow: true})}>
-                                {/* <IosAdd className="IosAdd"/> */}
                                 Add Ticket
                         </Button>
                         <AddTicket
                             show={this.state.ticketModalShow}
-                            onHide={ticketModalClose}/>
+                            onHide={ticketModalClose}
+                            onExited={this.handleRefresh}/>
                     </div>
 
                 </Container>
@@ -67,31 +102,34 @@ class Ticket extends React.Component {
                         <Col>Creator</Col>
                         <Col md={4}>Title</Col>
                         <Col>Status</Col>
-                        <Col>Action</Col>
+                        <Col>Label</Col>
                     </Row>
                 </Container>
                 <div className="body-container">
                     {this.state.tickets.map((ticket, index) => {
                         return (
-                            <Link
-                                key={`ticket-${index}`}
-                                to={{
-                                    pathname: `/tickets/preview/${ticket.objectId}`,
-                                }}
-                            >
-                                <Container bsPrefix="ticket-container">
+                            <Container bsPrefix="ticket-container">
+                                <Link
+                                    className="link--text"
+                                    key={`ticket-${index}`}
+                                    to={{
+                                        pathname: `/tickets/preview/${ticket.objectId}`,
+                                    }}
+                                >
                                     <Row>
                                         <Col>{ticket.createdAt}</Col>
                                         <Col>{ticket.creator}</Col>
-                                        <Col md={4}>{ticket.title}</Col>
+                                        <Col md={4}>
+                                            {ticket.title}
+                                        </Col>
                                         <Col>{ticket.status}</Col>
                                         <Col>
                                             <MdCreate className="options-icon" />
                                             <MdClose className="options-icon"/>
                                         </Col>
                                     </Row>
-                                </Container>
-                            </Link>
+                                </Link>
+                            </Container>
                         );
                     })}
                 </div>

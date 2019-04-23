@@ -1,9 +1,9 @@
 {
-  "name": "ascenders-admin",
+  "name": "ascenders-user",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Andre Hadianto",
-  "description": "Ascenders Admin WebApp",
+  "description": "Ascenders User WebApp",
   "license": "MIT",
   "scripts": {
     "login": "live-server public",

@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Button, Nav, OverlayTrigger, Popover, Navbar } from 'react-bootstrap';
+import { Modal, Button, Nav, OverlayTrigger, Popover, Navbar } from 'react-bootstrap';
 import logo from './resources/accenture-purple-logo.png'
 import IosNotifications from 'react-ionicons/lib/IosNotifications'
 import IosListBox from 'react-ionicons/lib/IosListBox'
@@ -13,14 +13,9 @@ import { AppContext } from './globalContext/AppContext';
 class NavigationBar extends React.Component {
     constructor(props) {
         super(props);
-        this.logout = this.logout.bind(this);
-        this.state = {};
-    }
-
-    logout() {
-        console.log("\nLogging out...");
-        console.log("Current context: ", this.context);
-        this.context.logout();
+        this.state = {
+            showAccount: false,
+        };
     }
 
     render() {
@@ -42,17 +37,23 @@ class NavigationBar extends React.Component {
                         <a className="nav-link"><IosListBox className="nav-icons"/></a>
                     </Nav.Item>
                     <Nav.Item>
-                        <OverlayTrigger
-                            trigger="click"
-                            rootClose={true}
-                            overlay={
-                                <Popover id="my-account-popover" title="My Account">
-                                    <Button onClick={this.props.logout}>Sign Out</Button>
-                                </Popover>
-                            }
-                        >
-                            <a className="nav-link"><IosContact className="nav-icons"/></a>
-                        </OverlayTrigger>
+                    <a className="nav-link" onClick={() => {this.setState({showAccount: true})}}><IosContact className="nav-icons"/></a>
+                        <Modal
+                            bsPrefix="modal"
+                            show={this.state.showAccount}
+                            onHide={() => {this.setState({showAccount: false})}}
+                            backdrop={false}
+                            size='lg'>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Account</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                I am empty inside
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={this.context.logout}>Sign out</Button>
+                            </Modal.Footer>
+                        </Modal>
                     </Nav.Item>
                 </Nav>
             </Navbar>

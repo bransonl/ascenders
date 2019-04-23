@@ -5,6 +5,36 @@
     flex-flow: column;
 }
 
+
+
+.profile-ticketpreview {
+    flex: 0 1 auto;
+    height: 15%;
+    display: flex;
+    background-color: var(--foreground-color);
+}
+.media {
+    padding: 1rem;
+    overflow: hidden;
+}
+.avatar--ticketpreview {
+    width: 96px;
+    margin-right: 20px;
+}
+.profile--creator,
+.profile--company,
+.profile--email {
+    color: var(--text-on-black);
+    line-height: 1.75;
+}
+.profile--creator {
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+
+
+
 .header-ticketpreview {
     flex: 0 1 auto;
     height: 13%;
@@ -15,10 +45,35 @@
 .title-header-ticketpreview {
     display: flex;
     flex-direction: column;
-    
     padding: 0.5rem 1rem;
     overflow: hidden;
+    width: 50%;
+    color: var(--text-on-black);
 }
+
+
+
+.tickethead--ticketpreview {
+    display: flex;
+    flex-direction: row;
+}
+.attachment--ticketpreview {
+    display: flex;
+    align-content: center;
+}
+.icon--ticketpreview {
+    width: 24px;
+    height: 24px;
+    fill: var(--primary-color);
+    cursor: pointer;
+    align-content: flex-start;
+}
+.img--ticketpreview {
+    width: 100%;
+}
+
+
+
 .tickettitle--ticketpreview,
 .username--ticketpreview {
     font-size: 0.8rem;
@@ -30,8 +85,6 @@
     display: flex;
     flex-direction: row;
 
-    padding: 0.5rem 1rem;
-
     color: var(--text-on-black);
 }
 .datecreated--ticketpreview,
@@ -39,6 +92,26 @@
     margin: auto 1rem auto 0;
     font-size: 0.8rem;
 }
+
+
+
+
+.actionbar-ticketpreview{
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+}
+.tags--ticketpreview,
+.status--ticketpreview,
+.label--ticketpreview,
+.assign--ticketpreview,
+.resolve--ticketpreview {
+    margin-right: 10px;
+}
+
+
 
 .body-ticketpreview {
     flex: 0 1 auto;
@@ -55,7 +128,7 @@
     font-size: 1.2rem;
     padding: 0.25rem;
     margin-bottom: 0.5rem;
-    color: var(--text-on-white2);
+    color: var(--info-blue);
 }
 .attachment--ticketpreview {
     margin-bottom: 0.5rem;
@@ -69,6 +142,7 @@
     width: 100%;
 }
 
+.preview-labelpreview,
 .preview-ticketpreview {
     flex: 1 0 62%;
     max-height: 62%;
@@ -79,10 +153,24 @@
     overflow: auto;
 }
 
+.preview-labelpreview {
+    max-height: 66%;
+}
+.preview-ticketpreview {
+    /* max-height: 62%; */
+    max-height: 56%;
+}
+.replies-container-user--ticketpreview,
 .replies-container--ticketpreview {
     margin: 0;
     flex: 0 0 auto;
     overflow: hidden;
+}
+
+
+.replies-container-user--ticketpreview {
+    display: flex;
+    justify-content: flex-end;
 }
 .replies--ticketpreview {
     flex: 0 1 auto;
@@ -99,6 +187,16 @@
 .sender {
     color: var(--success-green);
     font-weight: 600;
+}
+
+.creator {
+    color: var(--danger-red);
+    font-weight: 600;
+}
+.sender--createdAt {
+    color: #797979;
+    font-size: 0.6rem;
+    text-align: right;
 }
 
 .footer-ticketpreview {
@@ -122,7 +220,7 @@
     width: 150px;
     height: 3rem;
     border-radius: 0.3rem; 
-}
+}       
 .btn--preview:active {
     background-color: var(--secondary-color);
 

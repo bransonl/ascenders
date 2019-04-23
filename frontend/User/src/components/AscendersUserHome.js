@@ -9,7 +9,7 @@ import Archive from './Archive.js';
 import ArchiveTicketPreview from './ArchiveTicketPreview.js';
 import NotFoundPage from './NotFoundPage.js';
 import '../css/reusable.css';
-import '../css/AscendersAdminHome.css';
+import '../css/AscendersUserHome.css';
 import {AppContext} from './globalContext/AppContext.js';
 
 class AscendersUserHome extends React.Component {
