@@ -14,7 +14,7 @@
   "scripts": {
     "login": "live-server public",
     "build": "webpack-dev-server --watch",
-    "build-prod": "webpack --watch --env.PUBLIC_PATH=/admin/ --env.API_URI=andrehadianto.com",
+    "build-prod": "webpack --watch --env.PUBLIC_PATH=/admin/",
     "start": "node app.js",
     "test": "jest"
   },

@@ -8,7 +8,7 @@
   "scripts": {
     "login": "live-server public",
     "build": "webpack-dev-server --watch",
-    "build-prod": "webpack --watch --env.PUBLIC_PATH=/user/ --env.API_URI=andrehadianto.com",
+    "build-prod": "webpack --watch --env.PUBLIC_PATH=/user/",
     "start": "node app.js",
     "test": "jest"
   },
