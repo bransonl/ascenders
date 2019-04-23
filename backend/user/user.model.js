@@ -3,13 +3,14 @@ const request = require('request-promise-native');
 const {apiEndpoint, sharedHeaders} = require('../env.js');
 const {ModelError} = require('../error');
 
-function createUserObject({objectId, username, role, notificationEmail, phone}) {
+function createUserObject({objectId, username, role, notificationEmail, phone, disabled = false}) {
     return {
         userId: objectId,
         username,
         role,
         email: notificationEmail,
         phone,
+        disabled,
     };
 }
 
