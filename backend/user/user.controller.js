@@ -8,6 +8,7 @@ class UserController {
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
         this.register = this.register.bind(this);
+
         this.checkToken = this.checkToken.bind(this);
         this.getAdmins = this.getAdmins.bind(this);
         this.getAllUsers = this.getAllUsers.bind(this);

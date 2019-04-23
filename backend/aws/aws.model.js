@@ -45,7 +45,7 @@ const uploadFile = multer({
                 const fileName = Date.now().toString() + suffix;
                 next(null, fileName);
             } catch (err) {
-                next(err, false);
+                next(err.statusCode, err.error.error);
             }
         /*
         if filecheck is done non-unit ly
@@ -73,7 +73,7 @@ const uploadProfile = multer({
     storage: multerS3({
         acl: 'public-read',
         s3,
-        bucket: 'ascenders-accenture',
+        bucket: 'ascenders-user-profiles',
         metadata: function (req, file, next) {
             next(null, {originalName: file.originalname});
         },
@@ -84,7 +84,7 @@ const uploadProfile = multer({
                 const fileName = Date.now().toString() + suffix;
                 next(null, fileName);
             } catch (err) {
-                next(err, false);
+                next(err.statusCode, err.error.error);
             }
         }
     })
