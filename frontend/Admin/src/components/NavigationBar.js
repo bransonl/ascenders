@@ -5,6 +5,7 @@ import logo from './resources/accenture-purple-logo.png'
 import IosNotifications from 'react-ionicons/lib/IosNotifications'
 import IosContact from 'react-ionicons/lib/IosContact'
 import axios from 'axios';
+import socketIo from 'socket.io-client';
 
 import '../css/reusable.css';
 import '../css/NavigationBar.css';
@@ -16,8 +17,42 @@ class NavigationBar extends React.Component {
         this.state = {
             showAccount: false,
             showNotification: false,
+            notifications: [],
         };
         this.submitPreferences = this.submitPreferences.bind(this);
+        this.triggerNotifications = this.triggerNotifications.bind(this);
+    }
+
+    componentDidMount() {
+        const socket = socketIo("/notifications");
+        this.setState({socket});
+        socket.on('auth', (ack) => {
+            ack('Bearer ' + this.context.token);
+        });
+
+        socket.emit('get', this.context.username, (res) => {
+            const notifications = res.data;
+            this.setState({
+                notifications,
+            });
+        });
+    }
+
+    componentWillUnmount() {
+        this.state.socket.close();
+    }
+
+    triggerNotifications() {
+        this.setState({showNotification: true});
+        this.state.notifications.forEach((notification, index) => {
+            if (!notification.read) {
+                this.state.socket.emit('read', notification.objectId, (res) => {
+                    if (res.success) {
+                        this.state.notifications[index].read = true;
+                    }
+                });
+            }
+        });
     }
 
     submitPreferences(e) {
@@ -43,6 +78,14 @@ class NavigationBar extends React.Component {
     }
 
     render() {
+        const notifications = [];
+        this.state.notifications.forEach((notification, index) => {
+            notifications.unshift(
+                <li key={`notification-${index}`}>
+                    <span className={notification.read ? "" : "unread-notification"}><b>{notification.title}:</b> {notification.body}</span>
+                </li>
+            );
+        });
         return (
             <Navbar className="nav">
                 <Navbar.Brand>
@@ -55,7 +98,7 @@ class NavigationBar extends React.Component {
                     onSelect={selectedKey => console.log(`${selectedKey} is clicked`)}
                 >
                     <Nav.Item>
-                        <a className="nav-link" onClick={() => {this.setState({showNotification: true})}}><IosNotifications className="nav-icons"/></a>
+                        <a className="nav-link" onClick={this.triggerNotifications}><IosNotifications className="nav-icons"/></a>
                         <Modal
                             bsPrefix="modal"
                             show={this.state.showNotification}
@@ -66,7 +109,7 @@ class NavigationBar extends React.Component {
                                 <Modal.Title>Notification</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                Fill me with list
+                                <ul>{notifications}</ul>
                             </Modal.Body>
                         </Modal>
                     </Nav.Item>

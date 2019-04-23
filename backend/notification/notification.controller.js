@@ -21,14 +21,15 @@ class NotificationController {
             this._socket
                 .of('/notifications')
                 .on('connect', (socket) => {
+                    console.log('notification socket connect');
                     // request and handle authentication and identification of user
-                    socket.emit('auth', (token, ack) => {
+                    socket.emit('auth', (token) => {
                         try {
                             const user = validateToken(token);
-                            this._userSockets[user.objectId] = socket;
-                            ack({success: true});
+                            this._userSockets[user.username] = socket;
+                            console.log('notification socket auth', user.username);
                         } catch (err) {
-                            ack({success: false});
+                            console.log(err);
                             socket.disconnect(true);
                         }
                     });
@@ -65,6 +66,7 @@ class NotificationController {
                 });
 
             this._ready = true;
+            console.log('init notification socket');
         } catch (err) {}
     }
 

@@ -10,7 +10,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Set up socket
-new (require('./socket'))(http);
+const Socket = require('./socket');
+new Socket(http);
 
 // Set up routes
 require('./user/user.route.js').routes(app);
@@ -30,7 +31,7 @@ app.get('/user/*', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/USer/public/index.html'));
 });
 
-app.get('*', (req, res) => res.redirect('/user'));
+//app.get('*', (req, res) => res.redirect('/user'));
 
-app.listen(port);
+http.listen(port);
 console.log('hello branson');
