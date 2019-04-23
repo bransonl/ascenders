@@ -75,7 +75,7 @@ class MessageController {
                     `Comment: ${message}`,
                 );
             }
-            return;
+            return res;
         } catch (err) {
             console.error(err.error);
             return res.status(500).send();

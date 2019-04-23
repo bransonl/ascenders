@@ -2,10 +2,10 @@ const auth = require('../auth');
 const socket = require('../socket').socket;
 const {NotificationController} = require('./notification.controller');
 const notificationModel = require('./notification.model');
-const userModel = require('../user/user.model');
+const userPreferenceModel = require('../user-preference/user-preference.model');
 
 notificationModel.init();
-const controller = new NotificationController([notificationModel, userModel], socket);
+const controller = new NotificationController([notificationModel, userPreferenceModel], socket);
 
 function routes(app) {
     app.route('/notifications')

@@ -69,8 +69,10 @@ class UserController {
             });
         }
         try {
-            const registerResult = await this._model.register(req.body);
-            return res.json(registerResult);
+            const registerResult = await this._model.register(username, password, role);
+            res.json(registerResult);
+            await this._model.createUserPreferenceForUser(username, {email});
+            return res;
         } catch (err) {
             return res.status(err.statusCode).json(err.toJSON());
         }

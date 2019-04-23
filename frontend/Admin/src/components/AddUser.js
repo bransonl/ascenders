@@ -1,5 +1,6 @@
 import React from 'react';
 import { Col, Row, Modal, Form, Button, Accordion, Card } from 'react-bootstrap';
+import axios from 'axios';
 
 import '../css/reusable.css';
 import '../css/AddTicket.css';
@@ -38,6 +39,7 @@ class AddUser extends React.Component {
     }
 
     submitNewUser(e) {
+        console.log("\nCreating new user...");
         e.preventDefault();
         const username = e.target.elements.userUser.value;
         const password = e.target.elements.userPwd.value;
@@ -70,7 +72,7 @@ class AddUser extends React.Component {
                 <Modal.Header closeButton>
                     <Modal.Title>User Registration</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                
                     <Accordion>
                         <Card>
                             <Card.Header>
@@ -195,7 +197,6 @@ class AddUser extends React.Component {
                         </Card>
                     </Accordion>
 
-                </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => {this.setState({showAccount: false})}}>Close</Button>
                 </Modal.Footer>

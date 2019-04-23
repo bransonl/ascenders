@@ -134,6 +134,16 @@ h5 {
     margin-left: 0;
 }
 
+
+.text-center {
+    text-align: center;
+}
+.text-left {
+    text-align: left;
+}
+.text-right {
+    text-align: right;
+}
 /* react-bootstrap */
 .form-label {
     font-size: 0.8rem;
@@ -161,6 +171,9 @@ h5 {
 .btn-primary:focus {
     background-color: #f8ca57;
 }
+.btn-link:hover {
+    text-decoration: none;
+}
 
 /* Modal */
 .close {
@@ -169,4 +182,8 @@ h5 {
 }
 .close:hover {
     color: rgb(105, 105, 105);
+}
+
+.form-check {
+    font-size: 0.8rem;
 }

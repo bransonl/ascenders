@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import MdCreate from 'react-ionicons/lib/MdCreate';
-import MdClose from 'react-ionicons/lib/MdClose';
 
 import '../css/reusable.css';
 import '../css/Ticket.css';
@@ -92,16 +90,15 @@ class Ticket extends React.Component {
                             onExited={this.handleRefresh}
                             autoFocus/>
                     </div>
-
-
                 </Container>
                 <Container bsPrefix="header-container">
                     <Row>
-                        <Col>Date Submitted</Col>
-                        <Col>Creator</Col>
+                        <Col md={2}>Date Submitted</Col>
+                        <Col md={2}>Creator</Col>
                         <Col md={4}>Title</Col>
                         <Col>Status</Col>
-                        <Col>Label</Col>
+                        <Col>Tag</Col>
+                        <Col>Priority</Col>
                     </Row>
                 </Container>
                 <div className="body-container">
@@ -116,16 +113,12 @@ class Ticket extends React.Component {
                                     }}
                                 >
                                     <Row>
-                                        <Col>{ticket.createdAt}</Col>
-                                        <Col>{ticket.creator}</Col>
-                                        <Col md={4}>
-                                            {ticket.title}
-                                        </Col>
+                                        <Col className="text-center" md={2}>{ticket.createdAt}</Col>
+                                        <Col className="text-center" md={2}>{ticket.creator}</Col>
+                                        <Col md={4}>{ticket.title}</Col>
                                         <Col>{ticket.status}</Col>
-                                        <Col>
-                                            <MdCreate className="options-icon" />
-                                            <MdClose className="options-icon"/>
-                                        </Col>
+                                        <Col>Tag</Col>
+                                        <Col>Priority</Col>
                                     </Row>
                                 </Link>
                             </Container>

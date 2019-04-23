@@ -46,7 +46,7 @@ class TicketController {
                 `Title: ${title},
                 Body: ${body}`
             );
-            return;
+            return res;
         } catch (err) {
             console.error(err);
             return res.status(500).send();
@@ -361,7 +361,7 @@ class TicketController {
             throw new ModelError(err.statusCode, err.error.error);
         }
     }
-    
+
     async _beautifyDate(getTicketsResult) {
         var i;
         for (i=0; i<getTicketsResult.length; i++) {

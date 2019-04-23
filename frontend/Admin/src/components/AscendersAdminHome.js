@@ -33,7 +33,7 @@ class AscendersAdminHome extends React.Component {
                                 <Route exact path="/tickets/preview/:ticketId" component={TicketPreview}/>
                                 <Route exact path="/archive/preview/:ticketId" component={ArchivesPreview}/>
                                 <Route exact path="/users" component={User}/>
-                                <Route exact path="/users/:userId" component={UserPreview}/>
+                                <Route exact path="/users/:username" component={UserPreview}/>
                                 <Route component={NotFoundPage}/>
                             </Switch>
                         </div>
