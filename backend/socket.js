@@ -3,10 +3,8 @@ const Server = require('socket.io');
 class Socket {
     constructor(http) {
         if (!Socket._socket) {
+            Socket._socket = Server(http);
             console.log('init socket');
-            Socket._socket = new Server(http, {
-                serverClient: false,
-            });
         }
     }
 

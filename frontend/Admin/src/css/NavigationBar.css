@@ -24,3 +24,7 @@
     width: 28px;
     height: 28px;
 }
+
+.unread-notification {
+    background-color: yellow;
+}
