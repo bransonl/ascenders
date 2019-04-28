@@ -7,14 +7,21 @@ const messageController = new MessageController([messageModel]);
 const mockedMessageController = new MessageController([messageModelMock]);
 
 describe('TEST BEAUTIFY DATE', () => {
-    test('test beautify date', () => {
+    test('test beautify dates', () => {
         const messages = [{
             createdAt: messageModelMock.sampleTimestamp,
             updatedAt: messageModelMock.sampleTimestamp,
         }];
         const beautified = messageController._beautifyDate(messages);
+        expect(beautified.length).toBe(messages.length);
         expect(beautified[0].createdAt).toBe(messageModelMock.sampleBeautifiedTimestamp);
         expect(beautified[0].updatedAt).toBe(messageModelMock.sampleBeautifiedTimestamp);
+    });
+
+    test('test beautify no dates', () => {
+        const messages = [];
+        const beautified = messageController._beautifyDate(messages);
+        expect(beautified.length).toBe(0);
     })
 })
 
