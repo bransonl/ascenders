@@ -39,10 +39,9 @@ class MessageController {
             if (result === null) {
                 return res.json({messages: []})
             }
-            const beautifiedResult = await this._beautifyDate(result.messages);
-            // result.messages = beautifiedResult;
-            console.log(result);
-            return res.json(result);
+            const beautifiedMessages = this._beautifyDate(result.messages);
+            const data = {messages: beautifiedMessages};
+            return res.json(data);
         } catch (err) {
             console.error(err.error);
             return res.status(500).send();
@@ -84,14 +83,15 @@ class MessageController {
         }
     }
 
-    async _beautifyDate(getMessagesResult) {
-        var i;
-        for (i=0; i<getMessagesResult.length; i++) {
-            const message = getMessagesResult[i];
-            getMessagesResult[i].createdAt = message.createdAt.substring(0,10) + ' ' + message.createdAt.substring(11,19);
-            getMessagesResult[i].updatedAt = message.updatedAt.substring(0,10) + ' ' + message.updatedAt.substring(11,19);
-        }
-        return getMessagesResult;
+    _beautifyDate(getMessagesResult) {
+        const beautifiedMessages = [];
+        getMessagesResult.forEach(message => {
+            const newMessage = Object.assign({}, message);
+            newMessage.createdAt = message.createdAt.substring(0,10) + ' ' + message.createdAt.substring(11,19);
+            newMessage.updatedAt = message.updatedAt.substring(0,10) + ' ' + message.updatedAt.substring(11,19);
+            beautifiedMessages.push(newMessage);
+        });
+        return beautifiedMessages;
     }
 }
 
