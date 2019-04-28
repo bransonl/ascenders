@@ -8,9 +8,6 @@ async function createTicket(title,body,creator,attachments) {
     if (!title | !body | !creator) {
         throw new ModelError(500, 'Missing fields');
     }
-    if (!attachments) {
-        attachments = '';
-    }
     const options = { // header of API request to ACNAPI
         method: 'POST',
         uri: ticketsClassPath,
@@ -20,7 +17,7 @@ async function createTicket(title,body,creator,attachments) {
             body,
             creator,
             attachments,
-            status: 'open', //labelId for open
+            status: 'open',
         },
         json: true,
     }
@@ -75,21 +72,18 @@ async function getUserClosedTickets(username) {
     }
 }
 
-async function getLabelTickets(labelType, labelId) {
-    if (!labelType | !labelId) {
+async function getLabelTickets(labelType, labelName) {
+    if (!labelType | !labelName) {
         throw new ModelError(500, 'Missing fields');
     }
     else if (labelType!='tag' & labelType!='status' & labelType!='priority') {
         throw new ModelError(500, 'Invalid labelType');
     }
-    else if (labelId.length != 10) {
-        throw new ModelError(500, 'Invalid labelId');
-    }
     const options = {
         method: 'GET',
         uri: ticketsClassPath,
         qs: {
-            where: `{"${labelType}":"${labelId}"}`,
+            where: `{"${labelType}":"${labelName}"}`,
         },
         headers: sharedHeaders,
     };
@@ -225,5 +219,4 @@ module.exports = {
     getAllClosedTickets,
     getTicket,
     modifyTicket,
-    deleteAllTickets,
 }

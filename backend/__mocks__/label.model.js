@@ -1,12 +1,12 @@
 const {ModelError} = require('../error');
 
 async function getLabels(labelType) {
-    if (!labelType) {
-        throw new ModelError(400, 'Missing fields');
-    }
     let response;
-    if (labelType!='tag' & labelType!='status' & labelType!='priority') {
-        throw new ModelError(400, 'Invalid labelType');
+    if (!labelType) {
+        throw new ModelError(500, 'Missing fields');
+    }
+    else if (labelType!='tag' & labelType!='status' & labelType!='priority') {
+        throw new ModelError(500, 'Invalid labelType');
     }
     else if (labelType == 'tag') {
         response = `{
@@ -32,21 +32,21 @@ async function getLabels(labelType) {
                 {
                     "objectId": "e0WoclRcZV",
                     "name": "open",
-                    "colour": "40E0D0",
+                    "colour": "#40E0D0",
                     "createdAt": "2019-04-01T12:51:31.438Z",
                     "updatedAt": "2019-04-01T12:51:31.438Z"
                 },
                 {
                     "objectId": "k8nQSGO3BN",
                     "name": "closed",
-                    "colour": "D3D3D3",
+                    "colour": "#D3D3D3",
                     "createdAt": "2019-04-01T13:06:03.412Z",
                     "updatedAt": "2019-04-01T13:06:03.412Z"
                 },
                 {
                     "objectId": "mxOX02JJCH",
                     "name": "in-progress",
-                    "colour": "C7EA46",
+                    "colour": "#C7EA46",
                     "createdAt": "2019-04-01T13:25:44.186Z",
                     "updatedAt": "2019-04-01T13:53:11.778Z"
                 }
@@ -59,7 +59,7 @@ async function getLabels(labelType) {
                 {
                     "objectId": "72H9e0c19v",
                     "name": "urgent",
-                    "colour": "ED4337",
+                    "colour": "#ED4337",
                     "createdAt": "2019-04-05T02:18:39.401Z",
                     "updatedAt": "2019-04-05T02:18:39.401Z"
                 }
@@ -71,10 +71,10 @@ async function getLabels(labelType) {
 
 async function getLabel(labelType, name) {
     if (!labelType | !name) {
-        throw new ModelError(400, 'Missing fields');
+        throw new ModelError(500, 'Missing fields');
     }
     else if (labelType!='tag' & labelType!='status' & labelType!='priority') {
-        throw new ModelError(400, 'Invalid labelType');
+        throw new ModelError(500, 'Invalid labelType');
     }
     let response;
     if (labelType=='tag' & name=='bug report') {
@@ -94,16 +94,16 @@ async function getLabel(labelType, name) {
             "results": []
         }`
     }
-    return Promise.resolve(JSON.parse(response).results[0]);
+    return Promise.resolve(JSON.parse(response).results);
 }
 
 // labels without colour (tag)
 async function createLabel(labelType, name) {
     if (!labelType | !name) {
-        throw new ModelError(400,'Missing fields');
+        throw new ModelError(500,'Missing fields');
     }
     else if (labelType != 'tag') {
-        throw new ModelError(400, 'Invalid labelType');
+        throw new ModelError(500,'Invalid labelType');
     }
     const response = `{
         "objectId": "S9Zo7fsQfI",
@@ -120,7 +120,7 @@ async function createLabelc(labelType, name, colour) {
     else if (labelType != 'status' & labelType != 'priority') {
         throw new ModelError(400, 'Invalid labelType');
     }
-    else if (colour.length != 6) {
+    else if (colour.length != 7 | colour[0] != '#') {
         throw new ModelError(400, 'Invalid colour');
     }
     const response = `{
@@ -130,43 +130,40 @@ async function createLabelc(labelType, name, colour) {
     return Promise.resolve(JSON.parse(response));
 }
 
+
 async function modifyLabel(labelType, labelId, name) {
     if (!labelType | !labelId | !name) {
-        throw new ModelError(400, 'Missing fields');
+        throw new ModelError(500, 'Missing fields');
     }
     else if (labelType != 'tag') {
-        throw new ModelError(400, 'Invalid labelType');
+        throw new ModelError(500, 'Invalid labelType');
     }
-    if (labelId.length == 10) {
-        const response =  `{    
-            "updatedAt": "2019-04-07T06:58:50.730Z"
-        }`    
-        return Promise.resolve(JSON.parse(response));
+    if (labelId == 'fakedId') {
+        throw new ModelError(404, 'Object not found');
     }
-    else {
-        return new ModelError(101, 'Object not found');
-    }
+    const response = `{
+        "updatedAt": "2019-04-07T04:49:07.323Z"
+    }`
+    return Promise.resolve(JSON.parse(response));
 }
 
 async function modifyLabelc(labelType, labelId, name, colour) {
     if (!labelType | !labelId | !name | !colour) {
-        throw new ModelError(400, 'Missing fields');
+        throw new ModelError(500, 'Missing fields');
     }
     else if (labelType != 'status' & labelType != 'priority') {
-        throw new ModelError(400, 'Invalid labelType');
+        throw new ModelError(500, 'Invalid labelType');
     }
-    else if (colour.length != 6) {
-        throw new ModelError(400, 'Invalid colour');
+    else if (colour.length != 7 | colour[0] != '#') {
+        throw new ModelError(500, 'Invalid colour');
     }
-    if (labelId.length == 10) {
-        const response =  `{    
-            "updatedAt": "2019-04-07T06:58:50.730Z"
-        }` 
-        return Promise.resolve(JSON.parse(response));
+    if (labelId.length == 'fakeId') {
+        throw new ModelError(404, 'Object not found');
     }
-    else {
-        return new ModelError(101, 'Object not found');
-    }
+    const response = `{
+        "updatedAt": "2019-04-07T04:49:07.323Z"
+    }`
+    return Promise.resolve(JSON.parse(response));
 }
 
 module.exports = {

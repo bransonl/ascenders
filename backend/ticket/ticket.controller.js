@@ -1,8 +1,10 @@
 const {controller: notificationController} = require('../notification/notification.route');
 
 class TicketController {
-    constructor(models = []) {
-        this._model = Object.assign({}, ...models);
+    //constructor(models = []) {
+        // this._model = Object.assign({}, ...models);
+    construction(model) {
+        this._model = model;
 
         this.createTicket = this.createTicket.bind(this);
         this.addAttachment = this.addAttachment.bind(this);
@@ -28,7 +30,6 @@ class TicketController {
     }
 
     async createTicket(req, res) {
-        console.log('createTicket called');
         req.body.creator = req.user.username;
         const {title, body, creator} = req.body;
         let attachments = req.body.attachments;
@@ -55,7 +56,6 @@ class TicketController {
     }
 
     async addAttachment(req, res) {
-        console.log('addAttachment called');
         const ticketId = req.params.ticketId;
         const newAttachment = req.fileURL;
         if (!newAttachment) {
@@ -107,10 +107,9 @@ class TicketController {
     }
 
     async getLabelTickets(req, res) {
-        console.log("getLabelTickets");
         const {labelType} = req.body;
-        const labelId = req.label.objectId;
-        if (!labelType | !req.label | !labelId) {
+        const labelName = req.label.name;
+        if (!labelType | !req.label | !labelName) {
             return res.status(400).json({
                 message:'Missing fields',
             })
@@ -120,13 +119,8 @@ class TicketController {
                 message: 'Invalid labelType',
             })
         }
-        else if (labelId.length !=10) {
-            return res.status(400).json({
-                message: 'Invalid labelId',
-            })
-        }
         try {
-            const getLabelTicketsResult = await this._model.getLabelTickets(labelType, labelId);
+            const getLabelTicketsResult = await this._model.getLabelTickets(labelType, labelName);
             const beautifiedResult = await this._beautifyDate(getLabelTicketsResult);
             return res.status(200).send(beautifiedResult);
         } catch (err) {
@@ -254,14 +248,14 @@ class TicketController {
         } catch(err) {
             return res.status(err.statusCode).json(err);
         }
-        const labelId = label.objectId;
-        if (!labelId) {
+        const labelName = label.name;
+        if (!labelName) {
             return res.status(400).json({
                 message: 'Missing fields',
             })
         }
         try {
-            const modifyTicketResult = await this._modifyTicket(ticketId, {status:labelId});
+            const modifyTicketResult = await this._modifyTicket(ticketId, {status:labelName});
             return res.status(200).send(modifyTicketResult);
         } catch (err) {
             return res.status(err.statusCode).json(err);
@@ -282,14 +276,14 @@ class TicketController {
         } catch(err) {
             return res.status(err.statusCode).json(err);
         }
-        const labelId = label.objectId;
-        if (!labelId) {
+        const labelName = label.name;
+        if (!labelName) {
             return res.status(400).json({
                 message: 'Missing fields',
             })
         }
         try {
-            const modifyTicketResult = await this._modifyTicket(ticketId, {priority:labelId});
+            const modifyTicketResult = await this._modifyTicket(ticketId, {priority:labelName});
             return res.status(200).send(modifyTicketResult);
         } catch (err) {
             return res.status(err.statusCode).json(err);
