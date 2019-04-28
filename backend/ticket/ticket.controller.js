@@ -1,10 +1,8 @@
 const {controller: notificationController} = require('../notification/notification.route');
 
 class TicketController {
-    //constructor(models = []) {
-        // this._model = Object.assign({}, ...models);
-    construction(model) {
-        this._model = model;
+    constructor(models = []) {
+        this._model = Object.assign({}, ...models);
 
         this.createTicket = this.createTicket.bind(this);
         this.addAttachment = this.addAttachment.bind(this);

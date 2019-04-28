@@ -1,8 +1,9 @@
 const ticketModel = require('../__mocks__/ticket.model');
+const userModel = require('../__mocks__/user.model');
 const {TicketController} = require('../ticket/ticket.controller');
 const {mockRequest, mockResponse} = require('mock-req-res');
 
-const ticketController = new TicketController(ticketModel);
+const ticketController = new TicketController([ticketModel,userModel]);
 
 describe('CREATE TICKET TESTS', () => {
     //createTicket(title,body,creator,attachments)
@@ -238,13 +239,13 @@ describe('MODIFY TICKET TESTS', () => {
         });
         test('error message if non existent user', async() => {
             const req = _mockRequest('a4fkG6138D', 'fakeId');
-            ticketController.addAmin(req, async() => {
+            ticketController.addAdmin(req, async() => {
                 expect().toThrow('Object not found');
             });
         });
         test('error message if non existent ticket', async() => {
             const req = _mockRequest('fakeId');
-            ticketController.addAmin(req, async() => {
+            ticketController.addAdmin(req, async() => {
                 expect().toThrow('Object not found');
             });
         });

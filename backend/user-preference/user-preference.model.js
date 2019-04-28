@@ -32,6 +32,9 @@ function serializeUserPreference({
 }
 
 async function getUserPreferenceForUser(username) {
+    if (!username) {
+        throw new ModelError(400, 'Missing username');
+    }
     const options = {
         method: 'GET',
         uri: `${userPreferenceClassPath}`,

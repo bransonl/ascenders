@@ -23,7 +23,6 @@ class UserController {
     }
 
     async login(req, res) {
-        console.log('login');
         const {username, password} = req.body;
         try {
             const loginResult = await this._model.login(username, password);
@@ -74,7 +73,6 @@ class UserController {
             await this._model.createUserPreferenceForUser(username, {email});
             return res;
         } catch (err) {
-            console.error(err);
             return res.status(err.statusCode).json(err.toJSON());
         }
     }
@@ -91,7 +89,7 @@ class UserController {
     async getAllUsers(req, res) {
         try {
             const result = await this._model.getAllUsers();
-            return res.status(200).json(result);
+            return res.status(200).result;
         } catch (err) {
             console.error(err);
             throw res.status(err.statusCode).json(err);
