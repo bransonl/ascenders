@@ -8,6 +8,8 @@ import '../css/reusable.css';
 import '../css/TicketPreview.css';
 import axios from 'axios'
 import { AppContext } from '../components/globalContext/AppContext'
+import AddPriority from './AddPriority';
+import AddTags from './AddTags';
 
 class TicketPreview extends React.Component {
     constructor(props) {
@@ -19,6 +21,8 @@ class TicketPreview extends React.Component {
 
             showAttachment: false,
             assignModalShow: false,
+            priorityModalShow: false,
+            tagsModalShow: false,
 
             resolved: false
         }
@@ -181,16 +185,24 @@ class TicketPreview extends React.Component {
                             <div className="tags--ticketpreview right">
                                 <Button
                                     bsPrefix="content-btn"
-                                    onClick={() => this.setState({assignModalShow: true})}>
+                                    onClick={() => this.setState({tagsModalShow: true})}>
                                         Add Tags
                                 </Button>
+                                <AddTags
+                                    show={this.state.tagsModalShow}
+                                    onHide={() => this.setState({tagsModalShow: false})}
+                                    ticketId={this.state.preview.ticketId}/>
                             </div>
                             <div className="label--ticketpreview right">
                                 <Button
                                     bsPrefix="content-btn"
-                                    onClick={() => this.setState({assignModalShow: true})}>
+                                    onClick={() => this.setState({priorityModalShow: true})}>
                                         Add Priority
                                 </Button>
+                                <AddPriority
+                                    show={this.state.priorityModalShow}
+                                    onHide={() => this.setState({priorityModalShow: false})}
+                                    ticketId={this.state.preview.ticketId}/>
                             </div>
                             <div className="assign--ticketpreview right">
                                 <Button
