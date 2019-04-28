@@ -101,7 +101,7 @@ async function getLabelTickets(labelType, labelId) {
 }
 
 async function getAllOpenTickets() {
-    const options = {
+    const options1 = {
         method: 'GET',
         uri: ticketsClassPath,
         headers: sharedHeaders,
@@ -112,8 +112,21 @@ async function getAllOpenTickets() {
             },
         },
     };
+    const options2 = {
+        method: 'GET',
+        uri: ticketsClassPath,
+        headers: sharedHeaders,
+        json: true,
+        qs: {
+            where: {
+                status: 'in-progress'
+            },
+        },
+    };
     try {
-        return (await request(options)).results;
+        const open = (await request(options1)).results;
+        const prog = (await request(options2)).results;
+        return open + prog;
     } catch (err) {
         throw new ModelError(err.statusCode, err.error.error);
     }

@@ -69,7 +69,7 @@ class Archive extends React.Component {
                                         <Col>{ticket.creator}</Col>
                                         <Col md={4}>{ticket.title}</Col>
                                         <Col>{ticket.status}</Col>
-                                        <Col>Tag</Col>
+                                        <Col>{ticket.tag}</Col>
                                     </Row>
                                 </Container>
                             </Link>

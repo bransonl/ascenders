@@ -119,7 +119,7 @@ class Ticket extends React.Component {
                                         <Col className="text-center" md={2}>{ticket.creator}</Col>
                                         <Col className="text-left" md={5}>{ticket.title}</Col>
                                         <Col>{ticket.status}</Col>
-                                        <Col>Tag</Col>
+                                        <Col>{ticket.tag}</Col>
                                     </Row>
                                 </Link>
                             </Container>

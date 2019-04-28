@@ -23,7 +23,7 @@ class Ticket extends React.Component {
 
     handleRefresh() {
         const token = 'Bearer ' + sessionStorage.getItem("token");
-        const url =`http://127.0.0.1:3000/users`;
+        const url =`http://${this.context.apiUri}/users`;
         Axios.get(url, {
             headers: {
                 Authorization: token
@@ -39,7 +39,7 @@ class Ticket extends React.Component {
     componentDidMount() {
         console.log("User component mounted...")
         const token = 'Bearer ' + sessionStorage.getItem("token");
-        const url =`http://127.0.0.1:3000/users`;
+        const url =`http://${this.context.apiUri}/users`;
         Axios.get(url, {
             headers: {
                 Authorization: token
