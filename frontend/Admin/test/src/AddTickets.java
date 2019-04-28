@@ -11,8 +11,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Login {
 
-    static String myUserName = "cmetramexs";
-    static String myPassword = "helphalp";
+    static String myUserName = "andrehadianto";
+    static String myPassword = "iloveanime";
 
     public static void main(String[] args) throws InterruptedException {
 
