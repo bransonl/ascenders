@@ -8,8 +8,6 @@ function createUserObject({objectId, username, role, notificationEmail, phone, d
         userId: objectId,
         username,
         role,
-        email: notificationEmail,
-        phone,
         disabled,
     };
 }

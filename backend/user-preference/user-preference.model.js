@@ -6,11 +6,6 @@ const userModel = require('../user/user.model');
 
 const userPreferenceClassPath = `${apiEndpoint}/classes/userPreferences`;
 
-const defaultNotificationPreferences = {
-    notifyByEmail: true,
-    notifyBySms: true,
-}
-
 function serializeUserPreference({
     objectId,
     username,
