@@ -1,8 +1,4 @@
-const request = require('request-promise-native');
-
-const {apiEndpoint, sharedHeaders} = require('../env.js');
 const {ModelError} = require('../error');
-const labelsClassPath = `${apiEndpoint}/classes`;
 
 async function createTicket(title,body,creator,attachments) {
     if (!title | !body | !creator) {
